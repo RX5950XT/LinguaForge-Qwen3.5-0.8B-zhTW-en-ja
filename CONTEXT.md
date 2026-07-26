@@ -33,8 +33,8 @@ v3 訓完 0.8B(sft-v3) + 2B QLoRA(sft-2b-qlora)，五模型全 panel(FLORES/NTRE
 **決策定案**：資料集只放 recipe（不 re-host 語料，法律風險）／研究報告 Markdown 進 repo／權重＝LoRA+GGUF+合併bf16。
 GitHub 留核心程式碼可複現；HF 放大檔（`release/` 已 gitignored）。
 
-**產物（`release/`，皆 gitignored）**：
-- `lora-v3/`：v3 adapter（173MB）+ tokenizer + `MODEL_CARD.md`（FLORES scoreboard、量化稅2×3、推論範例、授權）
+**產物（`release/`，皆 gitignored；2026-07-26 已改成 HF repo 正確版型 → 見文末「release 版型修正」）**：
+- 根目錄：v3 adapter（173MB）+ tokenizer + `README.md`（模型卡：FLORES scoreboard、量化稅2×3、譯例、推論範例、授權）
 - `merged-bf16/`：合併全模型 1.7GB（`export_model.py --adapter outputs/sft-v3`，三方向抽測乾淨）
 - `gguf/`：**Q8_0 775M / Q4_K_M 505M / f16 1.5G / mtp-f16 496M**
 - `assets/loss_curve.png`：train(119)+eval(5) 雙曲線（eval 1.988 破 v2 地板）
@@ -60,7 +60,24 @@ GitHub 留核心程式碼可複現；HF 放大檔（`release/` 已 gitignored）
 - `results/v3/trainer_state.json`、`results/v3-2b/trainer_state.json`（各 ~38KB）——loss 歷史唯一來源，`outputs/` 一刪就永久消失。`plot_loss.py` 預設路徑已改指這裡（原本指 `outputs/`，clone 後跑不動）。
 - `docs/assets/loss_curve.png`——GitHub 側曲線（HF 側仍在 `release/assets/`，兩邊都留）。
 - `logs/bench/*` 的 8GB 選型數據 + 訓練 wall-clock → 已提煉成 REPORT「訓練成本」表（0.8B 4.01GB/8.0h、2B NF4 5.10GB/17.3h；2B bs2×768=9.11GB 靜默 fallback 270 t/s vs bs1×768=6.12GB 840 t/s）。
-- `results/hyp/`（34.8MB）不進版控，但已抽 3 組 base vs v3 譯例寫進 REPORT + MODEL_CARD（全簡體／照抄日文詞 → 修好）。
+- `results/hyp/`（34.8MB）不進版控，但已抽 3 組 base vs v3 譯例寫進 REPORT + 模型卡（全簡體／照抄日文詞 → 修好）。
+
+**logs/ 已榨乾**：逐檔查過，內容只剩進度條與框架雜訊——COMET 分數 `score.py` 已寫回 `results/*.json`、清洗統計在 `data_stats.json`、loss 在 trainer_state、VRAM/wall-clock 已入 REPORT。logs 可刪不影響任何結論。
+
+## release/ 改成 HF repo 正確版型（2026-07-26）
+
+原本 `release/lora-v3/MODEL_CARD.md` 上傳後**不會被 HF 渲染**——HF 只認 repo 根目錄的 `README.md`（含 YAML frontmatter），且 `library_name: peft` 需要 `adapter_config.json` 也在根。已修：
+
+```
+release/  README.md(原 MODEL_CARD) + adapter_*.{safetensors,json} + tokenizer* 全部上移到根
+          assets/loss_curve.png（模型卡內嵌，路徑 ../assets → assets）
+          merged-bf16/ · gguf/ 維持子資料夾（模型卡表格已補上路徑前綴）
+          .gitattributes：*.safetensors / *.gguf 走 LFS
+```
+
+上傳：`hf upload <repo-id> release/ .`（目錄結構即上傳後的樣子，不需再搬檔）。
+
+**outputs/ 對照**：`release/` 的 adapter 與 `outputs/sft-v3/adapter_model.safetensors` **hash 完全相同**，v3 的東西 HF 上有；v1/v2/2b-qlora 的 adapter 只在本機，但其分數全在 `results/`，除非要重評否則用不到。
 
 ## 專案目標
 
@@ -244,7 +261,7 @@ Liger Kernel 可解 logits 記憶體問題，但只有 Linux wheel，Windows 不
 
 ## 下一步（等使用者拍板）
 
-1. **上傳 HF**：`release/` 已備妥（lora-v3 / merged-bf16 / gguf / MODEL_CARD / loss 曲線）；需 repo id + `hf login`。
+1. **上傳 HF**：`release/` 已是 HF repo 的正確鏡像（`hf upload <repo-id> release/ .` 即可）；需 repo id + `hf login`。
 2. **打包「官方 Qwen3.5-2B + s2twp」**出貨腳本（零訓練、品質最高，COMET 88.21）——是否也要一起發？
 3. **全精度 2B 微調**：租雲端 >8GB GPU 用 bf16 訓一次，才能乾淨判定「2B 微調有無價值」
    （目前 8GB 只能 4-bit QLoRA，量化稅汙染結論）。
@@ -263,5 +280,5 @@ results/   評測 json 依版本分類：baseline/ v1/ v2/ v3/ v3-2b/（檔名�
 logs/      執行 log 依類型分：data/ bench/ train/ eval/ comet/ export/（新 log 請寫進對應子目錄）
 tasks/     todo.md（進度）、lessons.md（踩坑教訓）
 docs/      REPORT.md（研究報告：實驗結果全紀錄）
-release/   (gitignored) HF 上傳暫存：lora-v3/ merged-bf16/ gguf/ assets/ + MODEL_CARD.md、.gitattributes
+release/   (gitignored) HF model repo 完整鏡像：README.md(模型卡) + adapter 在根 + merged-bf16/ gguf/ assets/ + .gitattributes
 ```
