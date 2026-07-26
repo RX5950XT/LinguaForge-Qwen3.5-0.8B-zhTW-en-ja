@@ -1,4 +1,4 @@
-"""畫 v3 訓練的 Training / Eval loss 雙曲線 → release/assets/loss_curve.png。
+"""畫 v3 訓練的 Training / Eval loss 雙曲線 → docs/assets/loss_curve.png。
 
 matplotlib 不在主環境（保持訓練環境乾淨），用 --with 臨時掛載：
   uv run --with matplotlib python scripts/plot_loss.py
@@ -12,8 +12,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).parent.parent
-DEFAULT_STATE = ROOT / "outputs" / "sft-v3" / "checkpoint-2390" / "trainer_state.json"
-DEFAULT_OUT = ROOT / "release" / "assets" / "loss_curve.png"
+DEFAULT_STATE = ROOT / "results" / "v3" / "trainer_state.json"  # 進版控，outputs/ 不在
+DEFAULT_OUT = ROOT / "docs" / "assets" / "loss_curve.png"
 V2_FLOOR = 2.1634  # v2 eval_loss 地板（同基準比較見 CONTEXT）
 
 

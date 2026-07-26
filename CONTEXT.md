@@ -56,6 +56,12 @@ GitHub 留核心程式碼可複現；HF 放大檔（`release/` 已 gitignored）
 - **gitignore**：`data/ outputs/ release/ logs/ .venv/ results/hyp/`（579 檔 34.8MB 譯文）、`*.gguf`、`.hf_cache/`、`scratchpad/`
 - 推送前先建 GitHub repo，再 `git remote add origin <url> && git push -u origin main`
 
+**排除物搶救（2026-07-26）**：gitignore 掉的目錄裡有三樣不可重生／未記錄的證據，已撈進版控＋寫進文件：
+- `results/v3/trainer_state.json`、`results/v3-2b/trainer_state.json`（各 ~38KB）——loss 歷史唯一來源，`outputs/` 一刪就永久消失。`plot_loss.py` 預設路徑已改指這裡（原本指 `outputs/`，clone 後跑不動）。
+- `docs/assets/loss_curve.png`——GitHub 側曲線（HF 側仍在 `release/assets/`，兩邊都留）。
+- `logs/bench/*` 的 8GB 選型數據 + 訓練 wall-clock → 已提煉成 REPORT「訓練成本」表（0.8B 4.01GB/8.0h、2B NF4 5.10GB/17.3h；2B bs2×768=9.11GB 靜默 fallback 270 t/s vs bs1×768=6.12GB 840 t/s）。
+- `results/hyp/`（34.8MB）不進版控，但已抽 3 組 base vs v3 譯例寫進 REPORT + MODEL_CARD（全簡體／照抄日文詞 → 修好）。
+
 ## 專案目標
 
 把 `Qwen/Qwen3.5-0.8B`（873M，Apache-2.0）LoRA SFT 成 zh-TW↔en↔ja 六方向翻譯特化模型。
