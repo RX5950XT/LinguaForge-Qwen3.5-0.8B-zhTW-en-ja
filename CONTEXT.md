@@ -49,6 +49,13 @@ GitHub 留核心程式碼可複現；HF 放大檔（`release/` 已 gitignored）
 
 **待使用者**：實際上傳 HF（需 repo id / hf login）；官方2B+s2twp 出貨組合是否也要打包；雲端 bf16 訓 2B。
 
+## Git 存放庫已初始化（2026-07-26）
+
+`git init -b main` + 首個 commit（74 檔 / 0.45MB，尚未加 remote、未推送）。
+- **進版控**：`scripts/ configs/ tools/comet/ docs/ tasks/` + `results/` 的評分 JSON 與 scoreboard.md + 四份 .md + `pyproject.toml`/`uv.lock` + `LICENSE`（Apache-2.0，官方原文下載）
+- **gitignore**：`data/ outputs/ release/ logs/ .venv/ results/hyp/`（579 檔 34.8MB 譯文）、`*.gguf`、`.hf_cache/`、`scratchpad/`
+- 推送前先建 GitHub repo，再 `git remote add origin <url> && git push -u origin main`
+
 ## 專案目標
 
 把 `Qwen/Qwen3.5-0.8B`（873M，Apache-2.0）LoRA SFT 成 zh-TW↔en↔ja 六方向翻譯特化模型。
@@ -182,7 +189,7 @@ Q8_0/Q4_K_M。模型已驗證可用，品質為三版最佳。
 - configs/sft_qlora_2b.yaml：Qwen3.5-2B NF4 QLoRA，r32/alpha64 沿 v2（診斷可比）→ outputs/sft-2b-qlora
 - train_sft.py 加 `quant: nf4` 分支（BitsAndBytesConfig + device_map）與 neftune 接線；
   bench_step.py 加 --model/--r/--nf4。bitsandbytes 0.49.2 已在主環境（Windows wheel OK）
-- v2 config（sft_lora.yaml）保留不動當紀錄（專案無 git）
+- v2 config（sft_lora.yaml）保留不動當紀錄
 - **C0 bench 實測**：0.8B r64 bs2×768 = 7.18GB ✅（r64 只 +0.25GB）；
   2B NF4 bs2×768 = **9.11GB 超標**（靜默 fallback 實錘，270 tok/s）→ 改 **bs1×768 = 6.12GB / 840 tok/s** ✅
   （bs2×512=7.12GB/460 棄）。2B config 已定案 bs1+ga32（有效 batch 32 不變）。
