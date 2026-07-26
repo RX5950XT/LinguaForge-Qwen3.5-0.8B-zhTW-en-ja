@@ -1,0 +1,17 @@
+[project]
+name = "comet-scoring"
+version = "0.1.0"
+description = "COMET 評分隔離環境（unbabel-comet 會鎖舊版 transformers）"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch>=2.7",
+    "unbabel-comet>=2.2",
+]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

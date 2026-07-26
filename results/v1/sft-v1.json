@@ -1,0 +1,44 @@
+{
+  "tag": "sft-v1",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft",
+  "n": 500,
+  "results": {
+    "en->zhtw": {
+      "chrf++": 18.31,
+      "bleu": 23.92,
+      "simplified_leak_pct": 8.2,
+      "comet": 83.81
+    },
+    "zhtw->en": {
+      "chrf++": 47.49,
+      "bleu": 20.31,
+      "simplified_leak_pct": null,
+      "comet": 84.24
+    },
+    "en->ja": {
+      "chrf++": 16.05,
+      "bleu": 13.56,
+      "simplified_leak_pct": null,
+      "comet": 81.16
+    },
+    "ja->en": {
+      "chrf++": 45.64,
+      "bleu": 18.2,
+      "simplified_leak_pct": null,
+      "comet": 84.05
+    },
+    "ja->zhtw": {
+      "chrf++": 16.0,
+      "bleu": 20.63,
+      "simplified_leak_pct": 5.8,
+      "comet": 83.88
+    },
+    "zhtw->ja": {
+      "chrf++": 14.36,
+      "bleu": 11.93,
+      "simplified_leak_pct": null,
+      "comet": 81.23
+    }
+  }
+}

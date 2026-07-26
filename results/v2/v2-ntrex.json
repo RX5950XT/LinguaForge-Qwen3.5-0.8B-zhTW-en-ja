@@ -1,0 +1,46 @@
+{
+  "tag": "v2-ntrex",
+  "benchmark": "ntrex",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v2",
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 14.92,
+      "bleu": 17.51,
+      "simplified_leak_pct": 4.6,
+      "comet": 80.39
+    },
+    "zhtw->en": {
+      "chrf++": 46.37,
+      "bleu": 19.02,
+      "simplified_leak_pct": null,
+      "comet": 83.03
+    },
+    "en->ja": {
+      "chrf++": 19.57,
+      "bleu": 16.73,
+      "simplified_leak_pct": null,
+      "comet": 83.3
+    },
+    "ja->en": {
+      "chrf++": 45.0,
+      "bleu": 18.84,
+      "simplified_leak_pct": null,
+      "comet": 81.54
+    },
+    "ja->zhtw": {
+      "chrf++": 12.8,
+      "bleu": 14.23,
+      "simplified_leak_pct": 4.2,
+      "comet": 78.76
+    },
+    "zhtw->ja": {
+      "chrf++": 15.35,
+      "bleu": 10.45,
+      "simplified_leak_pct": null,
+      "comet": 81.65
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "tag": "baseline",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "n": 500,
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.89,
+      "bleu": 24.84,
+      "simplified_leak_pct": 20.2,
+      "comet": 85.95
+    },
+    "zhtw->en": {
+      "chrf++": 47.96,
+      "bleu": 19.38,
+      "simplified_leak_pct": null,
+      "comet": 84.43
+    },
+    "en->ja": {
+      "chrf++": 18.85,
+      "bleu": 16.94,
+      "simplified_leak_pct": null,
+      "comet": 82.93
+    },
+    "ja->en": {
+      "chrf++": 45.21,
+      "bleu": 15.89,
+      "simplified_leak_pct": null,
+      "comet": 83.75
+    },
+    "ja->zhtw": {
+      "chrf++": 11.62,
+      "bleu": 10.33,
+      "simplified_leak_pct": 47.0,
+      "comet": 82.56
+    },
+    "zhtw->ja": {
+      "chrf++": 14.85,
+      "bleu": 11.76,
+      "simplified_leak_pct": null,
+      "comet": 83.24
+    }
+  }
+}

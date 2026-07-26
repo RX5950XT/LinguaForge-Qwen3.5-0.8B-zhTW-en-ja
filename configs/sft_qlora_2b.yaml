@@ -1,0 +1,46 @@
+# v3 並行診斷：Qwen3.5-2B QLoRA（NF4）——釐清 zhtw→ja 弱是「資料」還是「0.8B 能力天花板」
+# LoRA r/alpha 沿用 v2 的 32/64（診斷要可比，不同時動兩個變因）；同資料、同 targets
+# VRAM 實測（bench_step --nf4）：bs2×768=9.11GB 超標（靜默 fallback，270 tok/s）；
+# bs1×768=6.12GB/840 tok/s ✅ 採用（bs2×512=7.12GB 只有 460 tok/s，棄）。
+# ga 16→32 維持有效 batch 32 與 0.8B 主線可比
+model_id: Qwen/Qwen3.5-2B
+train_file: data/sft/train.jsonl
+dev_file: data/sft/dev.jsonl
+output_dir: outputs/sft-2b-qlora
+quant: nf4
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+
+train:
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  max_length: 768
+  packing: true
+  gradient_checkpointing: true
+  optim: adamw_torch_fused
+  logging_steps: 20
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+  seed: 42

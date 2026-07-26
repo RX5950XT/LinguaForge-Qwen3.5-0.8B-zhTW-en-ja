@@ -1,0 +1,46 @@
+{
+  "tag": "base-2b-ntrex",
+  "benchmark": "ntrex",
+  "model": "Qwen/Qwen3.5-2B",
+  "adapter": null,
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.69,
+      "bleu": 22.06,
+      "simplified_leak_pct": 12.2,
+      "comet": 85.16
+    },
+    "zhtw->en": {
+      "chrf++": 48.95,
+      "bleu": 19.84,
+      "simplified_leak_pct": null,
+      "comet": 84.37
+    },
+    "en->ja": {
+      "chrf++": 20.11,
+      "bleu": 15.46,
+      "simplified_leak_pct": null,
+      "comet": 86.0
+    },
+    "ja->en": {
+      "chrf++": 46.4,
+      "bleu": 17.56,
+      "simplified_leak_pct": null,
+      "comet": 83.38
+    },
+    "ja->zhtw": {
+      "chrf++": 12.74,
+      "bleu": 12.46,
+      "simplified_leak_pct": 18.4,
+      "comet": 81.32
+    },
+    "zhtw->ja": {
+      "chrf++": 16.1,
+      "bleu": 10.05,
+      "simplified_leak_pct": null,
+      "comet": 84.38
+    }
+  }
+}

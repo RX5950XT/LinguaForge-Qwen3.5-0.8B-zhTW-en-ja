@@ -1,0 +1,46 @@
+{
+  "tag": "v3-alt",
+  "benchmark": "alt",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v3",
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.71,
+      "bleu": 28.44,
+      "simplified_leak_pct": 4.4,
+      "comet": 85.48
+    },
+    "zhtw->en": {
+      "chrf++": 51.65,
+      "bleu": 24.21,
+      "simplified_leak_pct": null,
+      "comet": 84.67
+    },
+    "en->ja": {
+      "chrf++": 24.33,
+      "bleu": 20.34,
+      "simplified_leak_pct": null,
+      "comet": 86.32
+    },
+    "ja->en": {
+      "chrf++": 49.58,
+      "bleu": 22.65,
+      "simplified_leak_pct": null,
+      "comet": 84.64
+    },
+    "ja->zhtw": {
+      "chrf++": 16.71,
+      "bleu": 23.63,
+      "simplified_leak_pct": 2.6,
+      "comet": 84.24
+    },
+    "zhtw->ja": {
+      "chrf++": 19.08,
+      "bleu": 14.44,
+      "simplified_leak_pct": null,
+      "comet": 84.29
+    }
+  }
+}

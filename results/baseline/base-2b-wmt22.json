@@ -1,0 +1,34 @@
+{
+  "tag": "base-2b-wmt22",
+  "benchmark": "wmt22",
+  "model": "Qwen/Qwen3.5-2B",
+  "adapter": null,
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 25.0,
+      "bleu": 28.72,
+      "simplified_leak_pct": 7.6,
+      "comet": 86.67
+    },
+    "zhtw->en": {
+      "chrf++": 45.05,
+      "bleu": 16.15,
+      "simplified_leak_pct": null,
+      "comet": 81.27
+    },
+    "en->ja": {
+      "chrf++": 20.91,
+      "bleu": 16.82,
+      "simplified_leak_pct": null,
+      "comet": 86.82
+    },
+    "ja->en": {
+      "chrf++": 40.45,
+      "bleu": 14.98,
+      "simplified_leak_pct": null,
+      "comet": 81.09
+    }
+  }
+}

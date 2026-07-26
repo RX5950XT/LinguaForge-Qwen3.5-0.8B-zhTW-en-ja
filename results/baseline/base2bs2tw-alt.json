@@ -1,0 +1,19 @@
+{
+ "tag": "base2bs2tw-alt",
+ "benchmark": "alt",
+ "results": {
+  "en->zhtw": {
+   "chrf++": 21.9,
+   "bleu": 31.81,
+   "simplified_leak_pct": 3.2,
+   "comet": 88.22
+  },
+  "ja->zhtw": {
+   "chrf++": 13.85,
+   "bleu": 18.54,
+   "simplified_leak_pct": 1.0,
+   "comet": 84.6
+  }
+ },
+ "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
+}

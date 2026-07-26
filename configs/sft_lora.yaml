@@ -1,0 +1,44 @@
+# LoRA SFT 超參（train_sft.py 讀取；CLI 可覆寫部分）
+model_id: Qwen/Qwen3.5-0.8B
+train_file: data/sft/train.jsonl
+dev_file: data/sft/dev.jsonl
+output_dir: outputs/sft
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+
+# 3070 Ti 8GB 實測（scripts/bench_step.py）：記憶體隨 batch×seq 總 token 數暴增
+# （vocab 248K 的 logits 是主因）。bs2×seq768+checkpointing = 6.93GB / 1405 tok/s 為最佳點；
+# bs4×seq1024 會到 15GB，Windows 驅動靜默 fallback 到系統記憶體，速度掉到 1/5。
+train:
+  num_train_epochs: 2
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 16
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  max_length: 768
+  packing: true
+  gradient_checkpointing: true
+  optim: adamw_torch_fused
+  logging_steps: 20
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+  seed: 42

@@ -1,0 +1,26 @@
+[project]
+name = "linguaforge"
+version = "0.1.0"
+description = "Qwen3.5-0.8B zh-TW/en/ja translation fine-tuning"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch>=2.7",
+    "transformers>=4.58",
+    "trl>=0.19",
+    "peft>=0.15",
+    "datasets>=3.2",
+    "accelerate>=1.2",
+    "bitsandbytes>=0.45",
+    "opencc-python-reimplemented>=0.1.7",
+    "sacrebleu[ja]>=2.4",
+    "huggingface-hub>=0.27",
+    "hf-xet",
+]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

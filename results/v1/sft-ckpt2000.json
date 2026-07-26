@@ -1,0 +1,44 @@
+{
+  "tag": "sft-ckpt2000",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft/checkpoint-2000",
+  "n": 500,
+  "results": {
+    "en->zhtw": {
+      "chrf++": 18.42,
+      "bleu": 23.96,
+      "simplified_leak_pct": 8.2,
+      "comet": 83.91
+    },
+    "zhtw->en": {
+      "chrf++": 47.44,
+      "bleu": 20.4,
+      "simplified_leak_pct": null,
+      "comet": 84.11
+    },
+    "en->ja": {
+      "chrf++": 15.81,
+      "bleu": 13.35,
+      "simplified_leak_pct": null,
+      "comet": 80.38
+    },
+    "ja->en": {
+      "chrf++": 45.53,
+      "bleu": 18.46,
+      "simplified_leak_pct": null,
+      "comet": 84.18
+    },
+    "ja->zhtw": {
+      "chrf++": 14.97,
+      "bleu": 19.88,
+      "simplified_leak_pct": 6.2,
+      "comet": 83.19
+    },
+    "zhtw->ja": {
+      "chrf++": 14.08,
+      "bleu": 11.58,
+      "simplified_leak_pct": null,
+      "comet": 80.93
+    }
+  }
+}

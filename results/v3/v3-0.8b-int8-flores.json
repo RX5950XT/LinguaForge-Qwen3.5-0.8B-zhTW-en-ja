@@ -1,0 +1,46 @@
+{
+  "tag": "v3-0.8b-int8-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v3",
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 18.69,
+      "bleu": 25.5,
+      "simplified_leak_pct": 5.0,
+      "comet": 84.3
+    },
+    "zhtw->en": {
+      "chrf++": 48.49,
+      "bleu": 20.97,
+      "simplified_leak_pct": null,
+      "comet": 84.34
+    },
+    "en->ja": {
+      "chrf++": 21.15,
+      "bleu": 19.79,
+      "simplified_leak_pct": null,
+      "comet": 85.76
+    },
+    "ja->en": {
+      "chrf++": 48.0,
+      "bleu": 19.75,
+      "simplified_leak_pct": null,
+      "comet": 85.04
+    },
+    "ja->zhtw": {
+      "chrf++": 15.28,
+      "bleu": 20.82,
+      "simplified_leak_pct": 5.8,
+      "comet": 85.03
+    },
+    "zhtw->ja": {
+      "chrf++": 16.9,
+      "bleu": 14.81,
+      "simplified_leak_pct": null,
+      "comet": 84.03
+    }
+  }
+}

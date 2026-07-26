@@ -1,0 +1,13 @@
+{
+ "tag": "base2bs2tw-wmt22",
+ "benchmark": "wmt22",
+ "results": {
+  "en->zhtw": {
+   "chrf++": 25.49,
+   "bleu": 28.72,
+   "simplified_leak_pct": 2.0,
+   "comet": 86.75
+  }
+ },
+ "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
+}

@@ -1,0 +1,18 @@
+# 環境
+.venv/
+__pycache__/
+*.pyc
+
+# 大檔案：語料與權重（用 scripts/download_data.py 重建、或上 Hugging Face）
+data/
+outputs/
+release/
+*.gguf
+.hf_cache/
+
+# 執行產物（可重跑產生；results/ 的評分 JSON 有進版控）
+logs/
+wandb/
+results/hyp/
+results/*.tmp
+scratchpad/

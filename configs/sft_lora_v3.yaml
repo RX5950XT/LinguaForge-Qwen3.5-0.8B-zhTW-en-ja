@@ -1,0 +1,44 @@
+# v3 主線：0.8B LoRA（r64 + NEFTune + 單一較廣 epoch；資料 773k 多領域）
+# 相對 v2（sft_lora.yaml）：r 32→64、alpha 64→128、epochs 2→1、+neftune_noise_alpha 5
+# 理由見計畫：第 2 epoch 是 v2 過擬合起點；r64 對 8GB 幾乎免費（相對 248K vocab logits 是零頭）
+model_id: Qwen/Qwen3.5-0.8B
+train_file: data/sft/train.jsonl
+dev_file: data/sft/dev.jsonl
+output_dir: outputs/sft-v3
+
+lora:
+  r: 64
+  alpha: 128
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+
+train:
+  num_train_epochs: 1
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 16
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  max_length: 768
+  packing: true
+  gradient_checkpointing: true
+  optim: adamw_torch_fused
+  neftune_noise_alpha: 5
+  logging_steps: 20
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+  seed: 42

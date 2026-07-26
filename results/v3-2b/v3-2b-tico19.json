@@ -1,0 +1,22 @@
+{
+  "tag": "v3-2b-tico19",
+  "benchmark": "tico19",
+  "model": "Qwen/Qwen3.5-2B",
+  "adapter": "outputs/sft-2b-qlora",
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 34.02,
+      "bleu": 40.67,
+      "simplified_leak_pct": 7.2,
+      "comet": 86.96
+    },
+    "zhtw->en": {
+      "chrf++": 59.81,
+      "bleu": 35.57,
+      "simplified_leak_pct": null,
+      "comet": 86.72
+    }
+  }
+}

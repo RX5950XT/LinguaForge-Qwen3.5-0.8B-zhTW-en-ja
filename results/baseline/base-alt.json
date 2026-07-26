@@ -1,0 +1,46 @@
+{
+  "tag": "base-alt",
+  "benchmark": "alt",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "n": 500,
+  "gen": {},
+  "results": {
+    "en->zhtw": {
+      "chrf++": 17.74,
+      "bleu": 25.81,
+      "simplified_leak_pct": 19.8,
+      "comet": 85.52
+    },
+    "zhtw->en": {
+      "chrf++": 49.86,
+      "bleu": 21.52,
+      "simplified_leak_pct": null,
+      "comet": 83.95
+    },
+    "en->ja": {
+      "chrf++": 19.51,
+      "bleu": 13.28,
+      "simplified_leak_pct": null,
+      "comet": 82.83
+    },
+    "ja->en": {
+      "chrf++": 46.0,
+      "bleu": 17.28,
+      "simplified_leak_pct": null,
+      "comet": 82.73
+    },
+    "ja->zhtw": {
+      "chrf++": 8.04,
+      "bleu": 9.7,
+      "simplified_leak_pct": 51.4,
+      "comet": 79.83
+    },
+    "zhtw->ja": {
+      "chrf++": 14.49,
+      "bleu": 9.66,
+      "simplified_leak_pct": null,
+      "comet": 82.01
+    }
+  }
+}

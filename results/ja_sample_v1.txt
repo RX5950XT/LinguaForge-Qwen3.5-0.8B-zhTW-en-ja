@@ -1,0 +1,36 @@
+[日本語に翻訳してください：]
+  src: Selecting the lacquer for the stemping, be sure to test it on the bright an
+  ja : ステム化のラッカーを選択するには、必ず明るく暗い基板上にテストしてください。
+[Translate to Japanese:]
+  src: While still maintaining the support of Canadian Rock radio stations, it was
+  ja : Canadian Rock(ラジオ放送局)の支援を依然維持している間、カナダのCHRラジオ局から重要な広告を受けた最初のシングルでもあった。
+[翻譯成日文：]
+  src: 在這徒步奔波的幾年內，她教育了父母、母親和父親
+  ja : この時期 彼女は両親にも性教育を施し
+[Translate to Japanese:]
+  src: 這些年輕的歌手在學校的性別學科的課上相遇。
+  ja : この民族歌手達は大学のジェンダー研究の授業で出会いました
+[日本語に翻訳してください：]
+  src: Updated August 10, 2020.
+  ja : 更新しました 2020年8月10日。
+[Translate to Japanese:]
+  src: Parson's Lodge Battery is a coastal battery and fort in the British Oversea
+  ja : パースンズ・ロッジ砲台（パースンズ・ロッジほうだい、英: Parson's Lodge Battery）はイギリスの海外領土であるジブラルタルにある、
+[日本語に翻訳してください：]
+  src: How much do display ads cost? Pricing for display ads varies depending on f
+  ja : ディスプレイ広告にはどのくらいのコストがかかりますか? ディスプレイ広告の価格は形式と掲載枠によって異なります。 セルフサービスの Amazon DS
+[翻譯成日文：]
+  src: 最後一個靈感小火花 是一個非常不實際的飛行器 一個小的拍打翅膀的裝置 是橡皮筋供能的。我展示一下
+  ja : 最後の最後にご紹介する ささやかな希望の輝きは まったく実用性のない 空飛ぶ機体です 羽ばたき飛行する機体で 動力源は輪ゴムです ではお見せします
+[Translate to Japanese:]
+  src: 我們排練要說的話， 但我們鮮少排演我們的姿態。
+  ja : 嘘をつくときに話のおさらいはしますが 身振りまでは練習しません
+[日本語に翻訳してください：]
+  src: 還可以改變你的工作流程 — 事實上，它可以改變你的公司裡一切事物。 它可以把你的公司翻過來
+  ja : ワークフローも変えることができる、というより会社の全てを変えてしまえる 会社をひっくりかえすことができる
+[Translate to Japanese:]
+  src: Any content previously translated for the client will get a match with the 
+  ja : そのお客様のために以前に行った翻訳は、翻訳メモリによって照合され、以下のような利点がもたらされます : ( 1) 以前の翻訳結果との一貫性が保たれます
+[Translate to Japanese:]
+  src: 它是由我自己鑄成的。
+  ja : 等身大の私の型で
