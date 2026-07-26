@@ -79,6 +79,30 @@ release/  README.md(原 MODEL_CARD) + adapter_*.{safetensors,json} + tokenizer* 
 
 **outputs/ 對照**：`release/` 的 adapter 與 `outputs/sft-v3/adapter_model.safetensors` **hash 完全相同**，v3 的東西 HF 上有；v1/v2/2b-qlora 的 adapter 只在本機，但其分數全在 `results/`，除非要重評否則用不到。
 
+## 已開源（2026-07-26）
+
+- **GitHub**（程式碼）：<https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja> — public、main、topics + homepage 指向 HF
+- **Hugging Face**（權重）：<https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja> — public、18 檔 4.93GB、commit `be2cdaa`
+
+兩邊 README 互相連結（HF 卡片開頭 → GitHub + REPORT.md；GitHub README 開頭 + 發布表 → HF）。
+HF 正確解析出 `library: peft`／`pipeline_tag: translation`／`base_model:adapter:Qwen/Qwen3.5-0.8B`
+——**這就是 adapter 必須放 repo 根目錄的證據**，塞子資料夾這些 metadata 全不會生成。
+
+上傳指令：`hf upload <repo-id> release . --commit-message "..."`（`release/` 結構即上傳後結構）。
+
+**發布物驗證（用 HF repo id 現拉現跑，非本機檔）**：
+```
+ADAPTER = "RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja"  → eos = [248046, 248044] ✅
+en→zhtw  The patient should take this medication twice a day. → 病人應該每天服用這藥兩次。
+ja→zhtw  この機能は次のリリースで削除されます。               → 此功能將在下一版中移除。
+zhtw→en  這份報告需要在星期五之前完成。                       → The report must be completed by Friday.
+zhtw→ja  昨晚的夜市擠滿了觀光客。                             → 昨晩の夜は観光客が溢れていました。（漏了「夜市」）
+```
+四方向皆台灣正體零洩漏；zhtw→ja 漏譯名詞，與 REPORT 所載「該方向最弱」一致，非新問題。
+
+**公開前清理**：secret 掃描（hf_/ghp_/sk-/private key/api_key 賦值）零命中；移除 CONTEXT.md 與
+tasks/todo.md 三處 `C:\Users\rx595\...` 本機 plan 路徑（對外是死連結且露出使用者名）。
+
 ## 專案目標
 
 把 `Qwen/Qwen3.5-0.8B`（873M，Apache-2.0）LoRA SFT 成 zh-TW↔en↔ja 六方向翻譯特化模型。
