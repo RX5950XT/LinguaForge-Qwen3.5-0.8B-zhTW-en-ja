@@ -82,7 +82,7 @@ release/  README.md(原 MODEL_CARD) + adapter_*.{safetensors,json} + tokenizer* 
 ## 專案目標
 
 把 `Qwen/Qwen3.5-0.8B`（873M，Apache-2.0）LoRA SFT 成 zh-TW↔en↔ja 六方向翻譯特化模型。
-計畫全文：`C:\Users\rx595\.claude\plans\qwen-3-5-0-8b-typed-pebble.md`；進度勾選：`tasks/todo.md`。
+計畫全文：本機 plan 檔（未進版控）；進度勾選：`tasks/todo.md`。
 
 ## 已確認決策
 
@@ -156,7 +156,7 @@ Q8_0/Q4_K_M。模型已驗證可用，品質為三版最佳。
 
 ### v3 Phase A：多領域診斷（2026-07-22）✅
 
-計畫全文 `C:\Users\rx595\.claude\plans\qwen-3-5-0-8b-typed-pebble.md`。evaluate.py 已泛化為
+計畫全文見本機 plan 檔（未進版控）。evaluate.py 已泛化為
 可插拔 5 基準（flores/ntrex/wmt22/alt/tico19，`--benchmark`）；v2 全面板評測 + COMET 完成
 （`results/v2-<bench>.json`、`results/scoreboard.md`）。**方向 × 基準 COMET**（`~`=zhtw 目標
 簡體基準 s2twp 參考，次要）：

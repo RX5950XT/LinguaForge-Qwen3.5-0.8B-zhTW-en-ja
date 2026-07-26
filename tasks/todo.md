@@ -1,6 +1,6 @@
 # LinguaForge v3 todo
 
-計畫全文：`C:\Users\rx595\.claude\plans\qwen-3-5-0-8b-typed-pebble.md`
+計畫全文：本機 plan 檔（未進版控）
 紀律：**先擴評測（診斷）→ 多元化資料（治療）→ 重訓**。每步增益都要多領域基準 + 顯著性驗證。
 
 ## Phase A：評測擴充（診斷，最高優先）

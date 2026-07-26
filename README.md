@@ -2,6 +2,9 @@
 
 把 `Qwen/Qwen3.5-0.8B`（873M）以 LoRA SFT 微調成 **繁體中文（臺灣）↔ 英文 ↔ 日文** 六方向翻譯特化小模型。全程在單張 RTX 3070 Ti 8GB 上完成。
 
+> 🤗 **模型權重在 Hugging Face**：[`RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja`](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja)
+> — LoRA adapter、合併 bf16 全模型、GGUF（Q8_0 / Q4_K_M）。本倉庫是訓練與評測的完整程式碼。
+
 ## 動機
 
 0.8B 這種尺寸的模型語意理解其實不差（COMET 82–86），但輸出的**字形與用語**不對：翻成中文時大量摻雜簡體字（FLORES ja→zhtw 高達 **45.6%**），日中互譯的表面品質也明顯偏弱。這類問題正是 SFT 最能補的部分。
@@ -179,8 +182,8 @@ LoRA target 涵蓋標準注意力與 Qwen3.5 的線性注意力層（`in_proj_qk
 
 | 位置 | 內容 |
 |---|---|
-| **Hugging Face** | LoRA adapter、合併 bf16 全模型、GGUF（Q8_0 / Q4_K_M / f16 / MTP draft）、模型卡、loss 曲線 |
-| **GitHub（本倉庫）** | 核心程式碼、config、評測結果、`docs/REPORT.md`；語料不 re-host，用 `download_data.py` + `prepare_data.py` 重建 |
+| [**Hugging Face**](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | LoRA adapter、合併 bf16 全模型、GGUF（Q8_0 / Q4_K_M / f16 / MTP draft）、模型卡、loss 曲線 |
+| [**GitHub（本倉庫）**](https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | 核心程式碼、config、評測結果、`docs/REPORT.md`；語料不 re-host，用 `download_data.py` + `prepare_data.py` 重建 |
 
 `release/` 就是 HF model repo 的完整鏡像，目錄結構即上傳後的樣子——adapter 放根目錄（`library_name: peft` 要求），模型卡是 **`README.md`**（HF 只渲染這個檔名，且需 YAML frontmatter）：
 
