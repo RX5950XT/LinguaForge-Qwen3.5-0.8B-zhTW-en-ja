@@ -136,4 +136,25 @@
 - [ ] F11 訓練完成後跑三軸面板 + 六方向翻譯基準，與 base / v3 比
 - [ ] F12 繁中 replay 只有 1,453 筆（缺口）：授權可用的繁中指令集全是 CC-BY-NC 或未宣告授權，
       2B 蒸餾實測 18 組/分鐘（實測批次放大無效，瓶頸未定位；不是 linear attention fallback）
-      → 補 6K 要 5.5 小時 GPU。**看 F11 結果再決定要不要花**
+      → 補 6K 要 5.5 小時 GPU。**暫緩**：F14 顯示唯一支持「繁中 replay 不夠」的證據
+      （zhtw ifeval 66.7→50.0）其實只差一題（n=6），不足以撐 5.5 小時的花費
+
+## v5（診斷見 docs/RESEARCH-v5.md）
+
+- [x] F13 **找到 en→zhtw 退步的真因**：`--limit 20000` × `MAX_SHARE 0.5` 讓依序貪婪的來源
+      迴圈只餵得到前 2 個語料，每方向領域組合整個消失。反證是 en→ja 被砍一樣多的量
+      （130k→20k）卻 +1.78，因為它前兩個來源剛好含 wikimatrix；en→zhtw 只有 textbook+news
+      → −2.98。**不是先前判斷的「翻譯資料量砍太兇」**
+- [x] F14 評測面板樣本數稽核：general n=12、ifeval n=17（zhtw 6 / ja 5 / en 6）。
+      「zhtw ifeval 退步」＝ 4/6→3/6 差一題，不可用來做 v5 決策。只有 FLORES（1,012 句）有統計意義
+- [x] F15 訓練/評測長度落差：v4 訓練樣本最長 581 token（`DOC_MAX=6` 卡住，`max_length 768`
+      一筆都沒濾掉），評測文件句數中位數 11、p90 28，要生成到 2048 → 日文側 75~100% 貪婪迴圈
+- [x] F16 修 `prepare_data.waterfill()`：注水式來源配額（句級＋文件級共用），
+      自檢已加；模擬驗證 budget 20,000 下領域數 2~3 → 5~7，且完整預算下 en→ja 3→5、ja→en 4→7
+- [x] F17 `DOC_MIN, DOC_MAX 3,6 → 4,16`；`max_length 768 → 1408`（configs/sft_lora.yaml，
+      v4 版存成 sft_lora_v4.yaml）
+- [ ] F18 擴 `eval_capability.py` 的 `IFEVAL` / `GENERAL` 題庫到每語言 ~50 題（純撰寫，不用 GPU）
+- [ ] F19 v5a 訓練：**只動配方不動量**（每方向仍 20,000），約 9.5 小時。
+      判讀：en→zhtw COMET 回到 85+ → F13 成立，量從來不是問題，省下擴量的 21.6 小時
+- [ ] F20 若 v5a 沒回來才擴量到每方向 60,000；此時 replay 池必須同步擴（見 F12），
+      否則 replay 佔比會從 22.85% 掉到 ~9%，v3 的災難性遺忘會回來

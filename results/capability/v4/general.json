@@ -1,0 +1,86 @@
+[
+  {
+    "lang": "zhtw",
+    "question": "台灣最高的山是哪一座？",
+    "output": "台灣最高的山是玉山。玉山位於臺灣北部的臺東縣，是臺灣最高的山峰，也是世界第二高峰。玉山的高度為3,712米，是臺灣最高的山峰，也是世界第二高峰。玉山是臺灣最高的山，也是世界第二高峰。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一件衣服原價 1200 元，打七折後再折 100 元，最後要付多少元？只要數字。",
+    "output": "1200 * 0.3 * 0.9 = 324",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果今天是星期三，三天後是星期幾？",
+    "output": "今天是星期三，三天後是星期六。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的首都是哪裡？",
+    "output": "台北是臺灣的首都。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水在攝氏幾度會沸騰？（標準大氣壓）",
+    "output": "水在標準大氣壓下會沸騰攝氏100度。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の首都はどこですか。",
+    "output": "東京は日本の首都である。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何ヶ月ですか。",
+    "output": "1年は365ヶ月です。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "富士山の高さは約何メートルですか。",
+    "output": "富士山の高さは約3776メートルである。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the capital of Japan?",
+    "output": "Tokyo is the capital of Japan.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 17 multiplied by 3?",
+    "output": "17 multiplied by 3 is equal to 51.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Write a Python function that returns the sum of even numbers in a list.",
+    "output": "def sum_even(numbers):\n    return sum(n for n in numbers if n % 2 == 0)\n\nnumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(sum_even(numbers))  # Output: 24",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Name the largest planet in our solar system.",
+    "output": "The largest planet in our solar system is Jupiter. It is the fifth largest planet in the solar system and is the only planet known to have a substantial atmosphere. Jupiter is also the largest planet in the solar system by mass, with a mass of about 318 times that of the Sun.",
+    "correct": true,
+    "mere_translation": false
+  }
+]

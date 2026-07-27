@@ -84,14 +84,14 @@ assert not STRAY_SPACE_RE.search("Visit https://example.com/zh-tw?ref=news")
 # --- v4 文件級重組：只併原檔連號的句子，遇缺號斷開 ---
 import random
 
-from prepare_data import DOC_MIN, build_docs
+from prepare_data import DOC_MAX, DOC_MIN, build_docs
 
 rng = random.Random(0)
-rows = [(i, f"en{i}.", f"zh{i}。") for i in range(12)]        # 全部連號
+rows = [(i, f"en{i}.", f"zh{i}。") for i in range(3 * DOC_MAX)]   # 全部連號
 docs = build_docs(rows, rng)
 assert docs, docs
 for a, b in docs:
-    assert DOC_MIN <= a.count("\n") + 1 <= 6
+    assert DOC_MIN <= a.count("\n") + 1 <= DOC_MAX
     ids = [int(x[2:-1]) for x in a.split("\n")]
     assert ids == list(range(ids[0], ids[0] + len(ids))), ids   # 段內必須連號
     assert [int(x[2:-1]) for x in b.split("\n")] == ids         # 兩側同步
@@ -99,15 +99,19 @@ for a, b in docs:
 gapped = [(i, f"a{i}.", f"b{i}。") for i in (0, 1, 5, 6)]
 assert build_docs(gapped, rng) == [], "跨缺號不得併成假文件"     # 兩段各只有 2 句 < DOC_MIN
 
-run_then_gap = [(i, f"a{i}.", f"b{i}。") for i in (0, 1, 2, 9, 10)]
+first = list(range(DOC_MIN))                                     # 剛好夠長的前段
+run_then_gap = [(i, f"a{i}.", f"b{i}。") for i in first + [90, 91]]
 out = build_docs(run_then_gap, rng)
-assert out == [("a0.\na1.\na2.", "b0。\nb1。\nb2。")], out       # 只有前段夠長
+assert out == [("\n".join(f"a{i}." for i in first),
+                "\n".join(f"b{i}。" for i in first))], out       # 只有前段夠長
 
 # 兩側皆無句末標點的行要當斷點（TED ja-zhtw 有 37%），否則整段沒句號
-no_punct = [(0, "a0.", "b0。"), (1, "a1", "b1"), (2, "a2.", "b2。"),
-            (3, "a3.", "b3。"), (4, "a4.", "b4。"), (5, "a5.", "b5。")]
+tail = list(range(2, 2 + DOC_MIN))
+no_punct = ([(0, "a0.", "b0。"), (1, "a1", "b1")]                 # 索引 1 兩側皆無標點 → 斷點
+            + [(i, f"a{i}.", f"b{i}。") for i in tail])
 out = build_docs(no_punct, rng)
-assert out == [("a2.\na3.\na4.\na5.", "b2。\nb3。\nb4。\nb5。")], out
+assert out == [("\n".join(f"a{i}." for i in tail),
+                "\n".join(f"b{i}。" for i in tail))], out
 
 # --- v4 標點復原：完整句補句號，碎片原樣退回（交給 punct_asymmetric 丟）---
 from prepare_data import restore_punct
@@ -162,5 +166,23 @@ assert seen == list(range(len(lens))), "每筆樣本要且只要出現一次"
 for b in bs.batches:
     assert len(b) * max(lens[i] for i in b) <= 1450, f"批次超出 token 預算: {b}"
 assert list(iter(bs)) and len(list(iter(bs))) == len(bs)
+
+# --- v5 注水式來源配額：v4 的依序貪婪在小預算下只餵得到前 2 個來源，
+#     每方向的領域組合整個消失（見 docs/RESEARCH-v5.md F1）
+from prepare_data import waterfill  # noqa: E402
+
+# v4 實況重現：sent_budget 17,000、hard 8,500、五個來源。
+# 舊寫法給出 [8500, 8500, 0, 0, 0]；注水式要讓五個來源都拿到額度。
+takes = waterfill([8500] * 5, 17_000)
+assert sum(takes) == 17_000 and all(t > 0 for t in takes), takes
+
+# 小池子取不滿的餘額要流向大池子，不能讓總額短收
+takes = waterfill([12_000, 15_000, 21_006, 50_000, 55_250], 110_500)
+assert sum(takes) == 110_500, takes
+assert takes[:3] == [12_000, 15_000, 21_006], "上限低於均分額的來源應該全取"
+
+# 預算超過所有上限總和 → 每個來源取滿即止，不得超取
+assert waterfill([5, 10], 999) == [5, 10]
+assert waterfill([], 100) == [] and waterfill([3, 3], 0) == [0, 0]
 
 print("prepare_data helpers OK")

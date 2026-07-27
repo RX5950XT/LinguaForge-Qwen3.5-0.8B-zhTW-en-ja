@@ -2,7 +2,7 @@
 model_id: Qwen/Qwen3.5-0.8B
 train_file: data/sft/train.jsonl
 dev_file: data/sft/dev.jsonl
-output_dir: outputs/sft-v5
+output_dir: outputs/sft-v4
 
 lora:
   r: 64
@@ -39,10 +39,7 @@ train:
   learning_rate: 1.0e-4
   lr_scheduler_type: cosine
   warmup_ratio: 0.03
-  # v5：768 在 v4 一筆都沒濾掉（實測最長樣本 581 token），限制其實是 DOC_MAX=6。
-  # 放長文件級樣本（DOC_MAX 6→16）後改吃 1408，剛好落在 token_budget 之內
-  # ——記憶體只看 micro-batch 總 token 數，bs1×1450 實測 6.90GB，不必動別的。
-  max_length: 1408
+  max_length: 768
   packing: false
   gradient_checkpointing: true
   optim: adamw_torch_fused

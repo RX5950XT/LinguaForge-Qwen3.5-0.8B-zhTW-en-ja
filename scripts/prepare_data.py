@@ -119,7 +119,10 @@ SYSTEM = "You are a professional translator."
 #   wikimatrix / coct / kftt ❌ 挖掘或獨立句，相鄰兩行無關
 DOC_SOURCES = {"ted2020.en-zhtw.tsv", "ted2020.ja-zhtw.tsv", "ted2020.en-ja.tsv",
                "newscomm.ja-zh.tsv", "newscomm.en-ja.tsv"}
-DOC_MIN, DOC_MAX = 3, 6      # 每個文件級樣本併幾句
+# v4 用 3, 6 → 訓練樣本最長只有 581 token，但軸 A 的 WMT24++ 文件中位數 11 句、
+# p90 28 句，等於要模型外插 3~6 倍長度，日文側 75~100% 陷入貪婪迴圈。
+# 16 句 × ~45 tok ≈ 720 tok/側，配 max_length 1408 放得下（bs1×1450 實測 6.90GB）。
+DOC_MIN, DOC_MAX = 4, 16     # 每個文件級樣本併幾句
 DOC_SHARE = 0.15             # 每方向預算裡文件級樣本的佔比
 
 # --- v4：通用 replay ---------------------------------------------------------
@@ -418,6 +421,21 @@ def _chunk(run, rng):
     return out
 
 
+def waterfill(ceilings, budget):
+    """把 budget 分給各來源：由上限小的開始，每輪平均分剩餘預算，
+    取不滿的餘額自動流向後面較大的池子。回傳與 ceilings 同序的配額。
+
+    不用「依序貪婪 + 單一來源上限」的原因見 docs/RESEARCH-v5.md F1：
+    預算一小，前幾個來源就把額度吃光，後面的領域整個消失。
+    """
+    order = sorted(range(len(ceilings)), key=lambda i: ceilings[i])
+    takes, left = [0] * len(ceilings), budget
+    for n, i in enumerate(order):
+        takes[i] = max(0, min(left // (len(order) - n), ceilings[i]))
+        left -= takes[i]
+    return takes
+
+
 def load_replay(rng, n):
     """通用指令 replay 樣本（scripts/build_replay.py 產生）。缺檔就跳過並警告。"""
     if not REPLAY_FILE.exists():
@@ -483,13 +501,14 @@ def main():
         hard = int(sent_budget * MAX_SHARE)  # 單一來源佔比上限（B2 防壟斷）
         picked = []
         doms = Counter()
-        for fname, cap in sources:
-            room = sent_budget - len(picked)
-            if room <= 0:
-                break
-            pool = pools.get(fname, {}).get(direction, [])
-            take = min(room, cap if cap else room, hard, len(pool))
-            picked.extend(pool[:take])
+        # 注水式分配。依序貪婪會讓排前面的來源把 room 吃光：v4 用 --limit 20000 跑時
+        # sent_budget=17,000、hard=8,500，前兩個來源就填滿，每方向只剩 2 個領域，
+        # en→zhtw 因此連 wiki 語域都沒看過（COMET −2.98，而同樣被砍量的 en→ja
+        # 有 wikimatrix 反而 +1.78）。見 docs/RESEARCH-v5.md F1。
+        ceilings = [min(cap or sent_budget, hard, len(pools.get(f, {}).get(direction, [])))
+                    for f, cap in sources]
+        for (fname, _), take in zip(sources, waterfill(ceilings, sent_budget)):
+            picked.extend(pools.get(fname, {}).get(direction, [])[:take])
             stats[f"dir:{dname}:{fname}"] = take
             doms[DOMAIN[fname]] += take
         # 文件級：從該方向可用的 DOC_SOURCES 取滿 doc_budget。
@@ -498,10 +517,8 @@ def main():
         docs = []
         avail = [f for f, _ in sources if f in doc_pools
                  and doc_pools[f].get(direction)]
-        avail.sort(key=lambda f: len(doc_pools[f][direction]))
-        for i, fname in enumerate(avail):
-            share = (doc_budget - len(docs)) // (len(avail) - i)
-            take = min(share, len(doc_pools[fname][direction]))
+        for fname, take in zip(avail, waterfill(
+                [len(doc_pools[f][direction]) for f in avail], doc_budget)):
             docs.extend(doc_pools[fname][direction][:take])
             stats[f"dir:{dname}:{fname}:doc"] = take
         doc_counts[dname] = len(docs)

@@ -341,6 +341,29 @@ Liger Kernel 可解 logits 記憶體問題，但只有 Linux wheel，Windows 不
 4. FLORES+ gated 且 API 申請不過 → 改用 Meta 公開 FLORES-200 tarball（dl.fbaipublicfiles.com）
 5. Muennighoff/flores200 是 script 型資料集，datasets 3.x 不支援
 
+## v5 診斷（2026-07-27，詳見 docs/RESEARCH-v5.md）
+
+v4 跑完後稽核資料，**en→zhtw COMET −2.98 的真因不是資料量，是配方被截斷**：
+`prepare_data.py` 的來源迴圈是依序貪婪 + `MAX_SHARE 0.5` 單源上限，v4 用
+`--limit 20000`（該旗標註解寫「10% 子集驗證用」）跑時 sent_budget=17,000、hard=8,500，
+**前兩個來源就把額度吃光**，每方向只剩 2~3 個領域。反證：en→ja 被砍一樣多的量卻 +1.78
+（前兩個來源含 wikimatrix），en→zhtw 只有 textbook+news、連 wiki 語域都沒看過。
+
+已修：新增 `waterfill()` 注水式配額（句級與文件級共用），自檢在 test_prepare_data.py。
+模擬驗證 budget 20,000 下領域數 2~3 → 5~7；連完整 130,000 預算下的 en→ja（3→5）、
+ja→en（4→7）也一併修好——v3 本身也沒拿到設計中的配方。
+
+另外三件：
+- **評測面板太小**：general n=12、ifeval n=17。先前報的「zhtw ifeval 66.7→50.0 是唯一退步」
+  其實是 4/6→3/6 差一題。只有 FLORES（1,012 句）撐得起結論。擴題庫不用 GPU，先做。
+- **訓練/評測長度落差**：v4 訓練樣本最長 581 token（卡在 `DOC_MAX=6`，`max_length 768`
+  一筆都沒濾掉），評測文件中位數 11 句、p90 28 句 → 日文側 75~100% 貪婪迴圈。
+  已改 `DOC_MAX 6→16`、`max_length 768→1408`（bs1×1450 實測 6.90GB，不用動記憶體策略）。
+- **replay 池 35,177 是硬牆**：`REPLAY_SHARE 0.35` 要 63,969 筆但池子見底，實際 22.85%
+  ——先前當成「刻意貼近 Tower+ 的 22%」是巧合。翻譯樣本若放大 3 倍，replay 會掉到 ~9%。
+
+下一步是 v5a：**只換配方不加量**（每方向仍 20,000，約 9.5 小時），先驗證因果再決定要不要花 21.6 小時擴量。
+
 ## 下一步（等使用者拍板）
 
 1. **上傳 HF**：`release/` 已是 HF repo 的正確鏡像（`hf upload <repo-id> release/ .` 即可）；需 repo id + `hf login`。

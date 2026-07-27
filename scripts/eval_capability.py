@@ -222,6 +222,9 @@ def stop_token_ids(tok):
     return sorted(ids)
 
 
+GEN_KW = {}  # CLI 覆寫的解碼參數（見 main），預設空 dict = 純 greedy
+
+
 def generate(tok, model, convs, max_new, batch):
     eos = stop_token_ids(tok)
     out = []
@@ -231,7 +234,8 @@ def generate(tok, model, convs, max_new, batch):
                                       padding=True).to("cuda")
         with torch.no_grad():
             g = model.generate(**inp, max_new_tokens=max_new, do_sample=False,
-                               eos_token_id=eos, pad_token_id=tok.pad_token_id)
+                               eos_token_id=eos, pad_token_id=tok.pad_token_id,
+                               **GEN_KW)
         n = inp["input_ids"].shape[1]
         out.extend(tok.decode(x[n:], skip_special_tokens=True).strip() for x in g)
         print(f"    {min(i + batch, len(convs))}/{len(convs)}", flush=True)
@@ -314,7 +318,16 @@ def main():
     ap.add_argument("--axis", default="all", choices=["all", "doc", "ifeval", "general"])
     ap.add_argument("--docs", type=int, default=25, help="文件級評測取幾篇")
     ap.add_argument("--batch", type=int, default=4)
+    # v4 的軸 A 失效模式是「少數文件陷入 greedy 迴圈整篇報廢」（en->zhtw 4/12 篇），
+    # 這兩個旗標就是用來驗證那是解碼問題還是翻譯能力問題。用不同 --tag 跑，別覆蓋原始結果。
+    ap.add_argument("--rep-penalty", type=float, default=None)
+    ap.add_argument("--no-repeat-ngram", type=int, default=None)
     args = ap.parse_args()
+
+    if args.rep_penalty:
+        GEN_KW["repetition_penalty"] = args.rep_penalty
+    if args.no_repeat_ngram:
+        GEN_KW["no_repeat_ngram_size"] = args.no_repeat_ngram
 
     print("== loading model ==")
     tok = AutoTokenizer.from_pretrained(args.model, padding_side="left")
@@ -333,7 +346,10 @@ def main():
     dest = ROOT / "results" / "capability" / f"{args.tag}.json"
     # 單軸執行時保留其他軸既有結果，不覆蓋
     out = json.loads(dest.read_text(encoding="utf-8")) if dest.exists() else {}
-    out |= {"tag": args.tag, "model": args.model, "adapter": args.adapter}
+    # 解碼參數一定要跟著結果存：同一顆 adapter 換 rep-penalty 分數會差很多，
+    # 沒記下來的話事後分不出「哪一組數字是哪種解碼跑的」
+    out |= {"tag": args.tag, "model": args.model, "adapter": args.adapter,
+            "gen": dict(GEN_KW)}
     axes = ["doc", "ifeval", "general"] if args.axis == "all" else [args.axis]
     if "doc" in axes:
         out["doc"] = run_doc(tok, model, args.docs, args.batch, hyp_dir)
