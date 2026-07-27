@@ -2,6 +2,64 @@
 
 > 給下一個 AI Agent：先讀 CLAUDE.md 的環境與指令，再讀本檔進度。
 
+## 🚨 最新狀態（2026-07-27）— v2/v3 有災難性遺忘，倉庫已轉私人
+
+**先讀 `docs/RESEARCH-v4.md`**（事故根因 + 文獻調查 + v4 配方 + 新評測設計）。
+
+手測發現 v2/v3 三個致命缺陷，**五個舊基準全部測不到**：
+
+1. **通用能力歸零**：任何非翻譯指令都被當成待翻譯文本（問「台灣最高山？」→ 模型把問題翻成繁中）
+2. **長篇漏譯**：5 段 1491 字的文章只翻前 2 段就收尾；v2 的 zhtw→ja 對長文無限重複同一句
+3. 標點消失（訓練目標句 34% zhtw / 39% ja 無句末標點）+ 符號旁插空格（`API_ KEY`）
+
+**根因**：`CONTEXT.md`「已確認決策」的「純翻譯特化（不混通用資料）」——
+訓練資料 100% 翻譯任務 / 0% 通用資料、100% 單句 / 0% 多段落。
+不是 LoRA rank 問題（v3 r64 與 v2 r32 崩得一樣）。
+
+**文獻結論**：Tower+（Unbabel 2025）的 SFT 配比是 **22% 翻譯 / 78% 通用指令**。
+100:0 是極端錯誤配比。詳見 RESEARCH-v4.md §3。
+
+**已做**：
+- GitHub + HF 倉庫**皆轉私人**（`gh repo edit --visibility private` / `HfApi.update_repo_settings(private=True)`，已驗證）
+- 新評測面板 `scripts/eval_capability.py`：軸 A 文件級翻譯（WMT24++ 有原生 `en-zh_TW`，
+  en-pivot 得六方向，測完整度/漏譯/重複）、軸 B 可驗證指令跟隨（自建 17 條規則型）、
+  軸 C 通用能力保留（12 題唯一答案 + 「退化成翻譯機」自動偵測）
+  → `results/capability/<tag>.json`
+
+### v4 訓練中（2026-07-27 08:2x 啟動，3,828 步，ETA ~7h）
+
+`outputs/sft-v4/`。資料 `data/sft/train.jsonl` = **153,977 筆**：
+六方向各 20,000（其中各 3,000 是文件級多段落樣本）＋ replay 35,177（**22.85%**，貼近 Tower+ 的 22%）。
+
+訓練前查出並修掉的四個問題（順序＝重要性）：
+
+1. **packing 在 sdpa 下跨樣本汙染，v2/v3 都中了。** TRL 的 `bfd` packing 會自動開
+   padding-free，而那只支援 FlashAttention。實測改前一個樣本會讓後一個樣本 logits 動 6.6250。
+   Qwen3.5 的 linear attention 遞迴狀態更是跨樣本邊界，裝 flash-attn 也修不掉 → `packing: false`。
+2. **micro-batch 裝不滿。** 關掉 packing 後固定 `bs2` 只裝 ~250 token，但 8GB 卡的上限是
+   1450 token/micro-batch（vocab 248K，logits ~3.3MB/token）。改 `TokenBudgetSFTTrainer`
+   依 token 預算動態組批（平均 10 筆/批）→ 1.75 → 9.4 samples/s，**48h 降到 7h**。
+3. **JSONL 換行陷阱**：`str.splitlines()` 會在 U+2028 等字元斷行、`json.dumps` 不跳脫它們。
+   寫入端 `LINESEP_RE` 正規化，讀取端 8 檔 12 處改 `rstrip("\n").split("\n")`。
+   危害不只炸掉——平行語料 `zip()` 會**靜默錯位**。
+4. **TED2020 三項資料缺陷**：中日文字間空格（中文側 46% 的行）、句末缺標點
+   （改用跨語言證據 `restore_pair`，只在另一側有標點時才補）、文件級併段時排除兩側皆無標點的行。
+   en-zhtw 保留數 258,695 → **359,287**。另補文件級預算水位填補（小池子取不滿的餘額讓給大池子），
+   六方向文件級全部補滿 3,000（先前 en↔ja 只有 1,559）。
+
+超參：r64/α128、2 epoch、lr 1e-4 cosine、`max_length 768`（超長樣本**整筆丟棄**不截斷）、
+`load_best_model_at_end`（依 eval_loss，v3 是訓完才發現退化）。
+
+⚠️ **已知缺口**：繁中 replay 只有 1,453 筆。授權可用的繁中指令集不存在——
+`tw-instruct-500k`／`TaiwanChat` 是 CC-BY-NC、`COIG-CQIA` 未宣告授權，都會污染 Apache-2.0。
+2B 蒸餾實測 18 組/分鐘（批次放大無效，linear attention torch fallback 是算力瓶頸），
+補 6K 要 **5.5 小時 GPU**。v4 先不補，看評測結果再決定。
+
+**訓練完成後**：`uv run python scripts/eval_capability.py --tag v4`（三軸面板，與 base/v3 比）
+＋六方向翻譯基準。三軸面板的洩漏率是逐「行」算的（逐文件會飽和到 100%）。
+
+---
+
 ## ⚠️ v3 最終定案（2026-07-24）— 讀這段再動手
 
 v3 訓完 0.8B(sft-v3) + 2B QLoRA(sft-2b-qlora)，五模型全 panel(FLORES/NTREX/WMT22/ALT)+COMET+TICO 評完。

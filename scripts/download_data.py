@@ -99,7 +99,7 @@ def download_mtnt():
     with tarfile.open(fileobj=io.BytesIO(r.content), mode="r:gz") as tf:
         member = next(m for m in tf.getmembers()
                       if m.name.endswith("train/train.ja-en.tsv"))
-        lines = tf.extractfile(member).read().decode("utf-8").splitlines()
+        lines = tf.extractfile(member).read().decode("utf-8").rstrip("\n").split("\n")
     pairs = []
     for line in lines:
         parts = line.split("\t")
@@ -137,8 +137,8 @@ def download_opus(name, url, l1, l2, out_name):
     zf = zipfile.ZipFile(io.BytesIO(r.content))
     f1 = next(n for n in zf.namelist() if n.endswith(f".{l1}"))
     f2 = next(n for n in zf.namelist() if n.endswith(f".{l2}"))
-    lines1 = zf.read(f1).decode("utf-8").splitlines()
-    lines2 = zf.read(f2).decode("utf-8").splitlines()
+    lines1 = zf.read(f1).decode("utf-8").rstrip("\n").split("\n")
+    lines2 = zf.read(f2).decode("utf-8").rstrip("\n").split("\n")
     assert len(lines1) == len(lines2), f"line count mismatch {len(lines1)} vs {len(lines2)}"
     write_tsv(out, zip(lines1, lines2))
 

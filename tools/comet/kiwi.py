@@ -39,7 +39,7 @@ def main():
     for hyp_file in sorted(hyp_dir.glob("*.hyp.txt")):
         stem = hyp_file.name.removesuffix(".hyp.txt")
         read = lambda sfx: (hyp_dir / f"{stem}.{sfx}.txt").read_text(
-            encoding="utf-8").splitlines()
+            encoding="utf-8").rstrip("\n").split("\n")
         src, hyp = read("src"), read("hyp")
         assert len(src) == len(hyp), stem
         data = [{"src": s, "mt": h} for s, h in zip(src, hyp)]  # 無 ref

@@ -1,19 +1,19 @@
 {
- "tag": "base2bs2tw-ntrex",
- "benchmark": "ntrex",
- "results": {
-  "en->zhtw": {
-   "chrf++": 19.55,
-   "bleu": 22.06,
-   "simplified_leak_pct": 2.4,
-   "comet": 85.13
+  "tag": "base2bs2tw-ntrex",
+  "benchmark": "ntrex",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.55,
+      "bleu": 22.06,
+      "simplified_leak_pct": 0.0,
+      "comet": 85.13
+    },
+    "ja->zhtw": {
+      "chrf++": 12.74,
+      "bleu": 12.46,
+      "simplified_leak_pct": 0.0,
+      "comet": 81.03
+    }
   },
-  "ja->zhtw": {
-   "chrf++": 12.74,
-   "bleu": 12.46,
-   "simplified_leak_pct": 1.4,
-   "comet": 81.03
-  }
- },
- "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
+  "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
 }

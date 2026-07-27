@@ -1,0 +1,104 @@
+[
+  {
+    "lang": "zhtw",
+    "instruction": "列出三種台灣常見的水果，只要名稱，用頓號分隔，不要任何其他文字。",
+    "output": "香蕉 蘋果 葡萄",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用剛好兩句話描述下雨的傍晚，每句都要以「。」結尾。",
+    "output": "雨絲細如絲，將天空染成淒涼的灰。\n暮色四合，讓整片大地披上了銀色的外衣。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答「台北」這兩個字，不要標點，不要其他任何文字。",
+    "output": "台北",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一段關於咖啡的介紹，全文不可以出現「咖啡」這兩個字。",
+    "output": "在古老的茶園裡，有一片被稱為「咖啡」的秘境。這裡的土壤富含特殊的礦物，孕育出獨特的植物，它們在陽光下舒展，化作一團團深邃的墨色。當這團墨色遇上溫熱的空氣，便會迸發出令人驚嘆的香氣。\n\n這香氣不僅是視覺上的震撼，更是心靈的歸宿。人們在清晨或傍晚，將這團墨色倒入杯中，讓它與溫熱的水交融。當熱氣騰騰升起，一股濃郁的醇香便從杯中溢出，直抵心脾。這不僅是味蕾的享受，更是一種與自然對話的儀式。\n\n在這種體驗中，人們不再僅是品嚐者，更是參與者。他們透過這杯咖啡，感受季節的更替，體驗生命的律動。這杯咖啡，是時間的靜止，是靈魂的昇華。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用繁體中文回答：什麼是機器學習？回答不超過 50 個字。",
+    "output": "機器學習是透過數據學習模式，讓機器能自主學習並做出決策。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "把下面三個詞按筆畫由少到多排序，用箭頭 -> 連接，不要其他文字：山、樹、木",
+    "output": "山 -> 樹 -> 木",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "日本の都道府県を3つ、読点（、）で区切って名前だけ答えてください。他の文字は不要です。",
+    "output": "東京、大阪、京都",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "「はい」だけを答えてください。他の文字は一切書かないでください。",
+    "output": "はい",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "雨の夕方を、ちょうど2つの文で描写してください。各文は「。」で終わること。",
+    "output": "雨の夕方は、窓の外に濡れた青い空が広がって、遠くに見える街の影が揺れています。\n雨の夕方は、窓の外に濡れた青い空が広がって、遠くに見える街の影が揺れています。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "機械学習とは何ですか。日本語で、50文字以内で答えてください。",
+    "output": "機械学習は、データからパターンを抽出し、新しいデータに対して予測や判断を行う技術です。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "コーヒーについて説明してください。ただし「コーヒー」という単語は使わないでください。",
+    "output": "コーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の種子から抽出したもので、それぞれ異なる成分が含まれています。\n緑茶は、茶葉に含まれる茶多酚や茶酸化物から、緑茶の苦味や香りを発散させます。\n豆は、豆乳や豆乳を製造する際に使われる豆から抽出したもので、豆乳の香りと甘味を特徴としています。\nコーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の種子から抽出したもので、それぞれ異なる成分が含まれています。\n緑茶は、茶葉に含まれる茶多酚や茶酸化物から、緑茶の苦味や香りを発散させます。\n豆は、豆乳や豆乳を製造する際に使われる豆から抽出したもので、豆乳の香りと甘味を特徴としています。\nコーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の種子から抽出したもので、それぞれ異なる成分が含まれています。\n緑茶は、茶葉に含まれる茶多酚や茶酸化物から、緑茶の苦味や香りを発散させます。\n豆は、豆乳や豆乳を製造する際に使われる豆から抽出したもので、豆乳の香りと甘味を特徴としています。\nコーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の種子から抽出したもので、それぞれ異なる成分が含まれています。\n緑茶は、茶葉に含まれる茶多酚や茶酸化物から、緑茶の苦味や香りを発散させます。\n豆は、豆乳や豆乳を製造する際に使われる豆から抽出したもので、豆乳の香りと甘味を特徴としています。\nコーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の種子から抽出したもので、それぞれ異なる成分が含まれています。",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "List exactly three colors, separated by commas, with no other text.",
+    "output": "red, blue, green",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Answer with the single word YES in all capital letters. Nothing else.",
+    "output": "YES",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Describe a rainy evening in exactly two sentences ending with periods.",
+    "output": "The streetlights flickered as the rain tapped against the windows, turning the city into a soft, gray blanket.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Explain machine learning in under 30 words.",
+    "output": "Machine learning is a subset of artificial intelligence where computers learn from data to improve performance without explicit programming. It uses algorithms to identify patterns and make predictions, enabling systems to adapt and solve complex problems automatically.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Write about tea without using the letter 'e' anywhere in your answer.",
+    "output": "the green leaves of tea are grown in the hills of china.\nfresh tea leaves are picked carefully by skilled farmers.\nthe tea leaves are boiled in water to make tea.\ntea leaves are steeped in hot water for a long time.\ntea leaves are cooled and then poured into cups.\ntea leaves are enjoyed by people all over the world.\ntea leaves are used for drinking hot water.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for making tea.\ntea leaves are used for",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Reply with valid JSON only: an object with keys \"city\" and \"country\" for Taipei. No markdown fences, no explanation.",
+    "output": "{\"city\": \"Taipei\", \"country\": \"Taiwan\"}",
+    "pass": true
+  }
+]

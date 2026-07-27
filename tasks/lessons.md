@@ -113,6 +113,61 @@ s2twp 後處理零成本修掉——實測「官方2B+s2twp」COMET 88.21、洩�
 「大模型本來就強」誤記為「我們微調的功勞」，白花算力。COMET 對簡繁不敏感，會獎勵
 洩漏簡體的流暢輸出——單看 COMET 漏判洩漏，單看洩漏漏判品質，兩者必須並看。
 
+## OpenCC `s2t` 不能拿來偵測簡體洩漏，要用 `s2tw`（2026-07-27，量測 bug）
+
+專案從頭到尾用 `cc_s2t.convert(s) != s` 當「這句有簡體」的判據，錯了。
+`s2t` 的目標是「傳統中文」而非「台灣標準」，它會做這些轉換：
+
+| 原文（正確台灣用字） | s2t 轉成 | s2tw |
+|---|---|---|
+| 剛才 | 剛**纔** | 不變 ✅ |
+| 人群 | 人**羣** | 不變 ✅ |
+| 稽核 | 稽**覈** | 不變 ✅ |
+| 软件和网络（真簡體） | 軟件和網絡 | 也會轉 ✅ |
+
+於是任何含「剛才 / 人群 / 稽核」的正確譯文都被記成洩漏。用 `scripts/rescore_leak.py`
+以 `s2tw` 重算既有 `results/hyp/` 全部譯文後，**60 筆分數被修正**，最誇張的是出貨組合：
+
+| tag | 方向 | 舊(s2t) | 新(s2tw) |
+|---|---|---|---|
+| base2bs2tw-flores | en→zhtw | 5.40% | **0.20%** |
+| base2bs2tw-flores | ja→zhtw | 4.00% | **0.00%** |
+
+即「官方2B + s2twp」實際上幾乎零洩漏，不是 CONTEXT 原記的 5.4%。其餘 tag 多被灌水 1~3pp。
+**通則**：字形正確性的判據要指定「目標地區標準」（s2tw / s2twp），不能用泛用的 s2t；
+把工具的預設語義當成自己要的語義，會做出一個從頭錯到尾、卻看起來很合理的指標。
+**通則**：譯文（hyp）一定要存檔。這次能零成本重算 60 筆歷史分數，就是因為
+`results/hyp/` 留著；只存分數的話這個 bug 只能整批重跑模型才修得掉。
+
+## 「純任務特化、不混通用資料」＝訂購一場災難性遺忘（v3 最大教訓，2026-07-27）
+
+專案「已確認決策」寫的是「純翻譯特化（不混通用資料）」，訓練集 100% 翻譯任務、
+0% 通用指令、100% 單句對、0% 多段落。五個基準 COMET 84~86 全部亮綠燈，
+但手測發現模型**已經不是翻譯模型，是翻譯函數**：
+
+- 問「台灣最高山是哪一座？」→ 模型把問題翻成繁中丟回來，不回答
+- 「寫一個 Python 函數…」→ 把需求翻成英文
+- 5 段 1491 字的文章 → 只翻前 2 段就發 `<|im_end|>` 收尾；v2 更會無限重複同一句
+
+v3(r64/α128/1ep) 與 v2(r32/α64/2ep) 崩得一樣 → **不是 rank / epoch 的問題，是配比的問題**。
+對照 SOTA：Tower+（Unbabel 2025）的 SFT 是 **22% 翻譯 / 78% 通用指令**；
+文獻另載只 replay 1% 歷史指令資料就足以守住指令跟隨。我們用了 0%。
+
+**通則**：任務特化微調一定要混通用 replay，比例寧高勿低（30% 起跳）。
+「不混通用資料」不是省事，是主動把 base 模型的指令跟隨先驗覆蓋掉。
+**通則**：訓練樣本的「形狀」會被學走。全單句對 → 模型學會一句就收尾，長文必漏譯。
+要支援文件級輸出，訓練集就必須有文件級樣本。
+
+## 基準測不到的能力，等於你沒有那個能力（同上事故的評測教訓）
+
+FLORES / NTREX / WMT22 / ALT / TICO-19 五個基準都通過，COMET 84.8 也是真的——
+但它們**全是單句、全是翻譯任務**，所以「長篇漏譯」與「通用能力歸零」這兩個
+致命缺陷一個都沒被抓到。缺陷是使用者手動試用時憑感覺發現的，不是評測發現的。
+**通則**：評測面板的覆蓋範圍就是你能宣稱的範圍。宣稱「模型可用」之前，先列出
+實際 use case，再檢查每一項是否有對應指標；沒有指標的維度要當成「未知」而非「沒問題」。
+**做法**：`scripts/eval_capability.py` 補三軸——文件級翻譯（含完整度/重複率，不只 chrF++）、
+可驗證指令跟隨、通用能力保留（含「退化成翻譯機」自動偵測）。
+
 ## 更正：「2B 微調淨負」其實大半是 QLoRA 4-bit 量化的鍋（NF4 2×2 實驗）
 
 先前只用 bf16 評測就下「2B 微調淨負值」太快。補做 FLORES 2×2（{base,v3}×{bf16,NF4}）後拆解：
@@ -122,3 +177,68 @@ s2twp 後處理零成本修掉——實測「官方2B+s2twp」COMET 88.21、洩�
 **通則**：① QLoRA 模型要「同精度」評測才公平——只用 bf16 評 NF4-trained adapter 會混入量化+錯配兩種假象；
 ② 下「微調沒用」結論前，先排除量化/精度 confound，最好能用全精度 LoRA 對照（本案受 8GB 所限沒做，
 待雲端 bf16 訓 2B 才能真正判定 data-vs-scale）。已存 evaluate.py --nf4 供復現。
+
+## `str.splitlines()` 不等於「按 \n 切」——JSONL 會被切壞（v4 資料管線事故）
+
+`prepare_data.py --limit 5000` 讀 replay.jsonl 時 `JSONDecodeError: Unterminated string`。
+原因：Python 的 `str.splitlines()` 除了 `\n` 還會在 `\x0b \x0c \x1c \x1d \x1e \x85 U+2028 U+2029`
+斷行，而 `json.dumps` **不跳脫**這些字元。35,083 筆記錄被讀成 35,093 行，
+其中一筆 oasst2 回覆含 10 個 U+2028 → 被切成 11 段，第一段就是壞掉的半截 JSON。
+**通則**：讀 JSONL / 逐行對齊的語料一律 `text.rstrip("\n").split("\n")`，不要用 `splitlines()`。
+危害不只是炸掉——平行語料（`download_data.py` 的 `zip(lines1, lines2)`）只要有一側含
+U+2028 就會**靜默錯位**，之後每一行的譯文都對到錯的原文，比直接崩潰更難發現。
+**做法**：寫入端在清洗時把這些字元換成真 `\n`（`build_replay.py:LINESEP_RE`），
+讀取端全面改掉 `splitlines()`（本專案 8 個檔、12 處），self-check 加回歸斷言。
+
+## packing + sdpa = 跨樣本汙染，v2/v3 都中了（v4 訓練前查出）
+
+TRL 的 `packing=True` 預設策略 `bfd` 會**自動啟用 padding-free**，而 padding-free
+只有 FlashAttention 2/3 支援。本專案在 Windows 用 sdpa，等於把多筆樣本接成一條長序列
+餵進去、只有一般 causal mask —— 後面的樣本看得到前面不相干樣本的全部內容。
+TRL 原始碼裡有明確警告（`may lead to cross-contamination between samples`），
+但那是 `logger.warning`，被訓練 log 淹沒沒人看到。
+
+實測驗證（改前一個樣本的 token，看後一個樣本的 logits 變不變）：
+```
+改動前一個樣本後，後一個樣本 logits 最大差異 = 6.6250   → 汙染確認
+```
+這正好會教出「一段講完可以直接接上不相干內容」，與使用者回報的
+「翻譯亂七八糟、牛頭不對馬嘴」高度吻合。
+
+**Qwen3.5 更不能打包**：混合 linear attention 的遞迴狀態是沿序列累積的，
+不受 attention mask 控制，樣本邊界根本切不斷——就算裝了 flash-attn 也修不掉。
+
+**通則**：① 開 packing 前先確認 attention 實作真的支援樣本邊界隔離，別信預設值；
+② 用「改 A 看 B 的 logits 會不會動」這招可以 30 秒驗證，不必讀框架原始碼；
+③ 速度與記憶體只取決於「每步總 token 數」（bs1×1536 / bs2×768 / bs4×384 實測都是
+6.93GB、~1400 tok/s），所以關掉 packing 改長度分組**不會變慢**，沒有理由冒這個險。
+
+## 關掉 packing 後真正的代價是「micro-batch 裝不滿」，不是每 token 變慢（v4 訓練前實測）
+
+上一則結尾寫「關掉 packing 改長度分組不會變慢」——**只對了一半**，要補正。
+每 token 成本確實只看「每個 micro-batch 的總 token 數」，但固定 `batch_size` 必須
+遷就**最長**樣本（max_length 768 → bs 只能開 2），而資料中位數只有 88 token，
+於是絕大多數 micro-batch 只裝了 ~250 token，離 1450 的硬上限差了 6 倍。
+
+實測（3070 Ti 8GB，r=64 + gradient checkpointing）：
+
+| micro-batch | tok/s | VRAM |
+|---|---|---|
+| bs2×128（256 tok，實際訓練的常態） | 300~370 | 2.97GB |
+| bs11×132 / bs4×362 / bs1×1450（~1450 tok） | 1300~1600 | 6.90GB |
+| bs2×768（1536 tok） | 1230~1650 | 7.18GB |
+
+**單步時間幾乎與 token 數無關**（~1.05s 固定成本：checkpointing 重算 + linear attention
+torch fallback + Windows kernel launch），所以裝不滿就是純浪費。
+實跑驗證：固定 bs2 是 1.75 samples/s，換成 token 預算組批後 9.4 samples/s，**5.4 倍**；
+整個 v4 訓練從 48 小時降到 7 小時。
+
+**修法**：`train_sft.py:TokenBudgetSFTTrainer` 覆寫 `get_train_dataloader`，
+依長度排序後貪婪填批（`len(batch) * max_len <= 1450`），用 `batch_sampler` 餵 DataLoader，
+每個 epoch 重洗批次順序。batch size 因此是動態的（平均 10 筆/批）。
+
+**通則**：① vocab 大的模型（此處 248K）記憶體被 logits 支配（~3.3MB/token），
+「每個 micro-batch 幾個 token」才是唯一該調的旋鈕，batch size 和 seq len 都只是它的因式；
+② 關掉 packing 後一定要換成 token 預算組批，否則等於用最長樣本的規格跑完整個資料集；
+③ transformers 5.x 拿掉了 `TrainingArguments.group_by_length`，TRL 1.8 改叫
+`train_sampling_strategy='group_by_length'`——但它仍是固定 batch size，救不了這個問題。

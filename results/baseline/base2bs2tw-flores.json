@@ -1,19 +1,19 @@
 {
- "tag": "base2bs2tw-flores",
- "benchmark": "flores",
- "results": {
-  "en->zhtw": {
-   "chrf++": 22.81,
-   "bleu": 28.94,
-   "simplified_leak_pct": 5.4,
-   "comet": 88.21
+  "tag": "base2bs2tw-flores",
+  "benchmark": "flores",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 22.81,
+      "bleu": 28.94,
+      "simplified_leak_pct": 0.2,
+      "comet": 88.21
+    },
+    "ja->zhtw": {
+      "chrf++": 16.2,
+      "bleu": 17.9,
+      "simplified_leak_pct": 0.0,
+      "comet": 85.67
+    }
   },
-  "ja->zhtw": {
-   "chrf++": 16.2,
-   "bleu": 17.9,
-   "simplified_leak_pct": 4.0,
-   "comet": 85.67
-  }
- },
- "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
+  "_note": "chrf++/leak recomputed after s2twp post-processing (COMET recomputed by tools/comet on s2twp hyp)"
 }

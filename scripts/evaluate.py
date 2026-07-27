@@ -39,7 +39,9 @@ DIRECTIONS = [("en", "zhtw"), ("zhtw", "en"), ("en", "ja"),
 INSTR = {"zhtw": "翻譯成繁體中文：", "en": "翻譯成英文：", "ja": "翻譯成日文："}
 SYSTEM = "You are a professional translator."
 
-cc_s2t = OpenCC("s2t")
+# 洩漏偵測用 s2tw 不用 s2t：s2t 把「剛才→剛纔」「人群→人羣」「稽核→稽覈」等
+# 正確台灣用字判成簡體（傳統異體字），會灌水 simplified_leak_pct。
+cc_s2tw = OpenCC("s2tw")
 cc_s2twp = OpenCC("s2twp")
 
 
@@ -83,7 +85,7 @@ def load_flores(limit):
         with tarfile.open(tgz, "r:gz") as tf:
             tf.extractall(base, filter="data")
         tgz.unlink()
-    texts = {lang: (devtest / f"{code}.devtest").read_text(encoding="utf-8").splitlines()
+    texts = {lang: (devtest / f"{code}.devtest").read_text(encoding="utf-8").rstrip("\n").split("\n")
              for lang, code in LANGS.items()}
     return _multiparallel_pairs(_truncate(texts, limit), simplified_zh=False)
 
@@ -141,9 +143,9 @@ def load_wmt22(limit):
     for (src, tgt), lp in mapping.items():
         try:
             src_sents = Path(sacrebleu.get_source_file("wmt22", lp)).read_text(
-                encoding="utf-8").splitlines()
+                encoding="utf-8").rstrip("\n").split("\n")
             ref_sents = Path(sacrebleu.get_reference_files("wmt22", lp)[0]).read_text(
-                encoding="utf-8").splitlines()
+                encoding="utf-8").rstrip("\n").split("\n")
         except Exception as e:
             print(f"  !! wmt22 {lp} unavailable ({e}), skipped")
             continue
@@ -206,7 +208,7 @@ def score(direction, hyps, refs):
         bleu = None
     leak = None
     if tgt == "zhtw":
-        leak = sum(cc_s2t.convert(h) != h for h in hyps) / len(hyps) * 100
+        leak = sum(cc_s2tw.convert(h) != h for h in hyps) / len(hyps) * 100
     return {"chrf++": round(chrf, 2), "bleu": round(bleu, 2) if bleu else None,
             "simplified_leak_pct": round(leak, 2) if leak is not None else None}
 

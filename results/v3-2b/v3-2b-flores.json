@@ -9,7 +9,7 @@
     "en->zhtw": {
       "chrf++": 21.42,
       "bleu": 28.8,
-      "simplified_leak_pct": 7.0,
+      "simplified_leak_pct": 4.6,
       "comet": 86.28
     },
     "zhtw->en": {
@@ -33,7 +33,7 @@
     "ja->zhtw": {
       "chrf++": 16.02,
       "bleu": 22.94,
-      "simplified_leak_pct": 7.2,
+      "simplified_leak_pct": 5.0,
       "comet": 85.35
     },
     "zhtw->ja": {

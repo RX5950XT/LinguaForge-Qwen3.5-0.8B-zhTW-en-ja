@@ -1,0 +1,86 @@
+[
+  {
+    "lang": "zhtw",
+    "question": "台灣最高的山是哪一座？",
+    "output": "台灣最高的山是**玉山**。\n\n玉山位於台灣本島中部，是台灣海拔最高的山峰，海拔 3,952 公尺。它位於玉山國家公園內，是台灣重要的自然與文化象徵，也是許多登山愛好者與遊客的目的地。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一件衣服原價 1200 元，打七折後再折 100 元，最後要付多少元？只要數字。",
+    "output": "1200 × 0.7 = 840\n840 × 1.1 = 924\n\n924",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果今天是星期三，三天後是星期幾？",
+    "output": "今天是星期三，往后推三天：\n- 第 1 天：星期四\n- 第 2 天：星期五\n- 第 3 天：星期六\n\n所以三天後是**星期六**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的首都是哪裡？",
+    "output": "台灣的首都是**台北**。\n\n台北是台灣的政治、經濟、文化、教育、交通、金融、旅遊等中心，也是台灣最大的城市。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水在攝氏幾度會沸騰？（標準大氣壓）",
+    "output": "在標準大氣壓（1 個標準氣壓，即 101.325 千帕，約等於 1 公斤/平方厘米）下，水在攝氏 **100 度** 會沸騰。\n\n這是由熱力学平衡狀態決定的：當水蒸氣壓等於水蒸氣壓時，水與水蒸氣達到平衡，此時溫度稱為沸點。在標準大氣壓下，這個平衡點被固定為攝氏 100 度。\n\n需要注意的是，沸點會隨外界大氣壓的變化而改變：\n*   **在標準大氣壓下**：沸點為 **100 攝氏度**。\n*   **在標準海壓下**（約 1 公斤/平方厘米）：沸點會略高於 100 攝氏度（約 101.3 攝氏度）。\n*   **在標準高壓下**（約 10 公斤/平方厘米）：沸點會略低於 100 攝氏度（約 99.5 攝氏度）。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の首都はどこですか。",
+    "output": "日本の首都は**東京**です。\n\n東京は日本最大の都市であり、日本経済の中心地、政治・行政の中心地、そして文化の中心地となっています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何ヶ月ですか。",
+    "output": "1 年は **12 か月** です。\n\nこれは一年に 365 日（または 366 日）を含まれるため、12 か月の合計が 365 日（または 366 日）になります。\n\n例えば、1 月 1 日から 12 月 31 日までの期間を計算すると、12 か月の合計は 365 日になります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "富士山の高さは約何メートルですか。",
+    "output": "富士山は約 **3,778 米**（約 3,780 米）の高さです。\n\nこの高さは、日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本列島を最も高く持つ山でもあります。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the capital of Japan?",
+    "output": "The capital of Japan is **Tokyo**.\n\nLocated in the heart of the country, Tokyo serves as the nation's largest city and the seat of the government, including the Prime Minister's office. It is also the largest city in Japan by population and the second-largest city in the world.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 17 multiplied by 3?",
+    "output": "To find the result of multiplying 17 by 3, we can use the standard multiplication algorithm:\n\n1.  **Multiply the ones digit:** $1 \\times 3 = 3$.\n2.  **Multiply the tens digit by the ones digit:** $10 \\times 3 = 30$.\n3.  **Add the results together:** $30 + 3 = 33$.\n\nAlternatively, you can think of it as:\n$$17 \\times 3 = 1 \\times 3 \\times 10 + 7 \\times 3 = 30 + 21 = 51$$\n\n**Answer:**\n$$17 \\times 3 = 51$$",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Write a Python function that returns the sum of even numbers in a list.",
+    "output": "```python\ndef sum_even_numbers(numbers):\n    \"\"\"\n    Returns the sum of all even numbers in the input list.\n\n    Parameters:\n        numbers (list): A list of integers.\n\n    Returns:\n        int: The sum of even numbers.\n    \"\"\"\n    return sum(n for n in numbers if n % 2 == 0)\n\n\n# Example usage:\nif __name__ == \"__main__\":\n    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    result = sum_even_numbers(data)\n    print(f\"Sum of even numbers: {result}\")  # Output: 20\n```",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Name the largest planet in our solar system.",
+    "output": "The largest planet in our solar system is **Jupiter**.\n\nIt is the most massive object in the solar system, with a mass approximately **318 times** that of the Earth and a diameter about **11 times** that of the Earth. While it is the largest, it is not the most massive; the next largest planet is **Saturn**, which is actually the most massive in the solar system.",
+    "correct": true,
+    "mere_translation": false
+  }
+]

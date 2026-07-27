@@ -2,11 +2,11 @@
 model_id: Qwen/Qwen3.5-0.8B
 train_file: data/sft/train.jsonl
 dev_file: data/sft/dev.jsonl
-output_dir: outputs/sft
+output_dir: outputs/sft-v4
 
 lora:
-  r: 32
-  alpha: 64
+  r: 64
+  alpha: 128
   dropout: 0.05
   target_modules:
     - q_proj
@@ -22,23 +22,29 @@ lora:
     - in_proj_b
     - out_proj
 
-# 3070 Ti 8GB 實測（scripts/bench_step.py）：記憶體隨 batch×seq 總 token 數暴增
-# （vocab 248K 的 logits 是主因）。bs2×seq768+checkpointing = 6.93GB / 1405 tok/s 為最佳點；
-# bs4×seq1024 會到 15GB，Windows 驅動靜默 fallback 到系統記憶體，速度掉到 1/5。
+# 3070 Ti 8GB 實測（scripts/bench_step.py，r=64 + gradient checkpointing）：
+# 記憶體與速度只跟「每個 micro-batch 的總 token 數」有關，跟 bs×seq 怎麼拆無關——
+#   bs1×1450 / bs4×362 / bs11×132 → 都是 6.90GB、1300~1600 tok/s
+#   bs2×768                        → 7.18GB（已是上限）
+#   bs2×128（=256 token）          → 只有 300~370 tok/s，GPU 空轉
+# vocab 248K 的 logits 吃掉 ~3.3MB/token，所以硬上限就是 ~1450 token/micro-batch。
+# v4 關掉 packing（見 train_sft.py：sdpa 下會跨樣本汙染），改用 token 預算組批，
+# 固定 batch size 只會遷就最長樣本而讓短樣本白燒 GPU（實測差 4~5 倍）。
 train:
   num_train_epochs: 2
-  per_device_train_batch_size: 2
+  token_budget: 1450          # 每個 micro-batch 的 token 上限（batch size 動態）
+  per_device_train_batch_size: 2   # 只影響日誌統計，實際組批看 token_budget
   per_device_eval_batch_size: 2
-  gradient_accumulation_steps: 16
+  gradient_accumulation_steps: 8
   learning_rate: 1.0e-4
   lr_scheduler_type: cosine
   warmup_ratio: 0.03
   max_length: 768
-  packing: true
+  packing: false
   gradient_checkpointing: true
   optim: adamw_torch_fused
   logging_steps: 20
-  eval_steps: 500
-  save_steps: 500
+  eval_steps: 300
+  save_steps: 300
   save_total_limit: 3
   seed: 42

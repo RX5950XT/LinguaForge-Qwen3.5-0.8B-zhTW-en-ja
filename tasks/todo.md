@@ -113,3 +113,27 @@
 ③ llama-cli 預設開 thinking 汙染輸出 → `--chat-template-kwargs '{"enable_thinking":false}'`。④ `-st` 必加否則卡等 stdin。
 
 **待使用者**：實際上傳 HF（repo id + hf login）；是否也打包「官方2B+s2twp」；雲端 bf16 訓 2B。
+
+## Phase F：v4 重訓（修災難性遺忘 + 長篇腰斬）— 2026-07-27
+
+- [x] F1 三軸能力面板 `scripts/eval_capability.py`（general / ifeval / 長篇完整度＋腰斬率），
+      洩漏率改逐「行」計（逐文件會直接飽和到 100%，也無法跟單句基準比）
+- [x] F2 base vs v3 實測 → **v3 每一軸都退化**：→en 完整度 0.103/0.143、腰斬率 91.7%/66.7%
+      （base zhtw2en 譯出 243 行，v3 只有 23 行）；ifeval 64.7→47.1；通用正確率 83.3%→33.3%
+- [x] F3 replay 資料集 `scripts/build_replay.py`：en 16,554 / ja 17,170 / zhtw 1,453 = 35,177
+- [x] F4 **JSONL 換行陷阱**修掉（`splitlines()` vs `json.dumps`）：寫入端 `LINESEP_RE`，
+      讀取端 8 檔 12 處改 `rstrip("\n").split("\n")`，self-check 加回歸斷言
+- [x] F5 TED2020 三項資料缺陷修掉：CJK 間空格（中文側 46% 的行）、句末缺標點（跨語言證據法
+      `restore_pair`）、文件級併段時排除「兩側皆無標點」的行 → en-zhtw 保留 258,695 → 359,287
+- [x] F6 文件級預算水位填補：小池子（newscomm 只有 59 篇）取不滿的餘額讓給大池子
+      → 六方向全部補滿 3,000 篇（先前 en↔ja 只有 1,559）
+- [x] F7 **packing 關掉**（sdpa 下跨樣本汙染，實測 logits 差 6.6250；Qwen3.5 linear attention
+      更是修不掉）；超過 max_length 的樣本整筆丟棄而非截斷（截斷＝在示範講到一半停）
+- [x] F8 **token 預算組批** `TokenBudgetSFTTrainer`：固定 bs2 只裝得下 ~250 token/micro-batch，
+      硬上限是 1450 → 1.75 → 9.4 samples/s，48h → 7h
+- [x] F9 v4 資料集：六方向各 20,000（各含 3,000 文件級）＋ replay 35,177 = 153,977（replay 22.85%）
+- [x] F10 v4 訓練啟動：r64/α128、2 epoch、3,828 步、lr 1e-4 cosine、`load_best_model_at_end`
+- [ ] F11 訓練完成後跑三軸面板 + 六方向翻譯基準，與 base / v3 比
+- [ ] F12 繁中 replay 只有 1,453 筆（缺口）：授權可用的繁中指令集全是 CC-BY-NC 或未宣告授權，
+      2B 蒸餾實測 18 組/分鐘（批次放大無效，linear attention torch fallback 是算力瓶頸）
+      → 補 6K 要 5.5 小時 GPU。**看 F11 結果再決定要不要花**

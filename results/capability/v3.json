@@ -1,0 +1,66 @@
+{
+  "tag": "v3",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v3",
+  "doc": {
+    "en->zhtw": {
+      "chrf++": 6.3,
+      "completeness_median": 0.627,
+      "truncated_pct": 41.7,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 25.0,
+      "simplified_leak_pct": 21.74
+    },
+    "zhtw->en": {
+      "chrf++": 10.5,
+      "completeness_median": 0.103,
+      "truncated_pct": 91.7,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 8.3,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 4.59,
+      "completeness_median": 1.087,
+      "truncated_pct": 8.3,
+      "bloated_pct": 16.7,
+      "repetitive_pct": 83.3,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 13.45,
+      "completeness_median": 0.143,
+      "truncated_pct": 66.7,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 33.3,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 5.14,
+      "completeness_median": 1.33,
+      "truncated_pct": 25.0,
+      "bloated_pct": 8.3,
+      "repetitive_pct": 66.7,
+      "simplified_leak_pct": 8.7
+    },
+    "zhtw->ja": {
+      "chrf++": 4.35,
+      "completeness_median": 0.971,
+      "truncated_pct": 16.7,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 75.0,
+      "simplified_leak_pct": null
+    }
+  },
+  "ifeval": {
+    "zhtw": 50.0,
+    "ja": 60.0,
+    "en": 33.3,
+    "overall": 47.1
+  },
+  "general": {
+    "accuracy_pct": 33.3,
+    "mere_translation_pct": 8.3,
+    "n": 12
+  }
+}
