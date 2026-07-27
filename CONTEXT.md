@@ -397,7 +397,13 @@ en→zhtw 兩軸都退（−4.10 / −2.98）→ 就是 F1 的配方截斷，v5a
 en→ja 6 個來源全拿到；小池子取不滿的餘額（mtnt 1,763、newscomm 293）自動流向大池子。
 總計 153,977 筆、replay 22.8%。
 
-訓練中：4,468 steps、ETA ~7h50m、6.26GB VRAM、log `tasks/v5a-train.log`、adapter → `outputs/sft-v5`。
+訓練完成：4,468 steps / **8h30m**、峰值 4.00GB VRAM、train_loss 1.7462（v4 1.7839）、
+eval_loss 2.0746（v4 2.1149，⚠️ dev 集一起重生過，跨版本不可比）、adapter `outputs/sft-v5`。
+
+FLORES COMET 結果：**en→ja 87.02（+3.82 vs base）、zhtw→ja 85.11（+2.04）**，
+en→zhtw 82.94→**84.48**（補回一半，但沒到 85 門檻，仍 −1.44 vs base）。詳見
+`docs/RESEARCH-v5.md`「階段 1 結果」。⚠️ 存檔的 base/v3/v4 是 n=500＋純 greedy，
+v5a 是 n=1012＋新 `DECODE`，正在用 `--full` 重跑 base/v4 對齊變因。
 
 **評測面板同步擴充**（否則判不出好壞）：ifeval 17→90、general 12→90，每語言各 30 題，
 外加 `scripts/test_eval_capability.py` 兩邊夾住判分函數。⚠️ **base/v3/v4 存檔的 ifeval/general

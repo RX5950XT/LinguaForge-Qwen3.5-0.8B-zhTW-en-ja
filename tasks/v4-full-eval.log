@@ -1,0 +1,8 @@
+W0728 07:06:49.175000 11808 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+== loading model ==
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights: 100%|¢i¢i¢i¢i¢i¢i¢i¢i¢i¢i| 473/473 [00:00<00:00, 5406.46it/s]
+  adapter loaded: outputs/sft-v4
+== loading benchmark: flores ==
+== [flores] en->zhtw (1012) ==
+    16/1012
