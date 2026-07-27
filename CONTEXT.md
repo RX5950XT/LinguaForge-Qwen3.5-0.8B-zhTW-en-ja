@@ -52,8 +52,8 @@
 
 ⚠️ **已知缺口**：繁中 replay 只有 1,453 筆。授權可用的繁中指令集不存在——
 `tw-instruct-500k`／`TaiwanChat` 是 CC-BY-NC、`COIG-CQIA` 未宣告授權，都會污染 Apache-2.0。
-2B 蒸餾實測 18 組/分鐘（批次放大無效，linear attention torch fallback 是算力瓶頸），
-補 6K 要 **5.5 小時 GPU**。v4 先不補，看評測結果再決定。
+2B 蒸餾實測 18 組/分鐘（實測批次放大無效，瓶頸未定位；**不是** linear attention fallback，
+fla Triton kernel 一直是生效的），補 6K 要 **5.5 小時 GPU**。v4 先不補，看評測結果再決定。
 
 **訓練完成後**：`uv run python scripts/eval_capability.py --tag v4`（三軸面板，與 base/v3 比）
 ＋六方向翻譯基準。三軸面板的洩漏率是逐「行」算的（逐文件會飽和到 100%）。

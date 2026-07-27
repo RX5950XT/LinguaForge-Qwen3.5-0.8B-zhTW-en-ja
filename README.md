@@ -174,7 +174,7 @@ LoRA target 涵蓋標準注意力與 Qwen3.5 的線性注意力層（`in_proj_qk
 ![v3 SFT loss](docs/assets/loss_curve.png)
 
 > **8GB 顯存陷阱**：Qwen3.5 的 vocab 高達 248K，logits 物化使 VRAM 隨 batch×seq 暴增；2B 只能靠 NF4 塞進 8GB。Windows 超顯存不會 OOM，NVIDIA 驅動會靜默 fallback 到系統記憶體、速度掉到 1/5 且無警告——訓練前務必用 `scripts/bench_step.py` 量 VRAM <8GB。
-> 另 `flash-linear-attention` 無 Windows wheel，線性注意力走 torch fallback（較慢但可用）。
+> 另 Windows 上 **必裝** `triton-windows` + `flash-linear-attention`：沒裝時線性注意力退回 `torch_chunk_gated_delta_rule`，bs8×seq1024 會直接要 38GB 而 OOM，裝上後同設定只用 7.8GB。啟動時那句 `fast path is not available` 只是在講 `causal_conv1d`（PyPI 無任何 wheel，且需與 torch 同版的 CUDA toolkit 才編得起來），影響僅止於 depthwise conv 與解碼多幾個 kernel launch，可忽略。
 
 ## 發布
 

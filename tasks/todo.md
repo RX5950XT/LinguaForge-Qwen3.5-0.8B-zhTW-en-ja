@@ -135,5 +135,5 @@
 - [x] F10 v4 訓練啟動：r64/α128、2 epoch、3,828 步、lr 1e-4 cosine、`load_best_model_at_end`
 - [ ] F11 訓練完成後跑三軸面板 + 六方向翻譯基準，與 base / v3 比
 - [ ] F12 繁中 replay 只有 1,453 筆（缺口）：授權可用的繁中指令集全是 CC-BY-NC 或未宣告授權，
-      2B 蒸餾實測 18 組/分鐘（批次放大無效，linear attention torch fallback 是算力瓶頸）
+      2B 蒸餾實測 18 組/分鐘（實測批次放大無效，瓶頸未定位；不是 linear attention fallback）
       → 補 6K 要 5.5 小時 GPU。**看 F11 結果再決定要不要花**

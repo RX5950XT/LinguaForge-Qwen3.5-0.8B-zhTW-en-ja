@@ -12,8 +12,13 @@
 沒裝 `triton-windows` + `flash-linear-attention` 時，線性注意力退回
 `torch_chunk_gated_delta_rule`，bs8×seq1024 直接分配 38GB 而 OOM——8GB 卡完全跑不動。
 裝上後同樣設定只用 7.8GB。
-**通則**：transformers 啟動時印的 "fast path is not available" 警告不是可忽略的雜訊，
-對新架構模型可能是幾十倍的記憶體差異。
+**但裝好之後這句警告仍然會印**——因為 `causal_conv1d` 也在同一個 `is_fast_path_available`
+判斷裡，而它在 PyPI 上連一個 wheel 都沒有（要編就得補與 torch 同大版本的 CUDA toolkit）。
+`modeling_qwen3_5.py:421-424` 是**逐個 op 各自 fallback**，缺 causal_conv1d 只讓 depthwise conv
+退回 `nn.Conv1d`（cuDNN，本來就快）＋解碼每 token 多幾個 kernel launch，可以忽略。
+**通則**：這種「所有加速件 all() 成一個 flag」的警告訊息會掩蓋「哪一件真的缺」。
+別拿警告當結論——去讀那個 flag 的組成，再用 `is_xxx_available()` 逐項驗，
+否則會像我一樣把 30% 的 GPU 使用率誤診成 fallback（真因是小模型 batch=4 解碼 launch-bound）。
 
 ## 原始碼不要放字面控制字元
 
@@ -228,8 +233,8 @@ TRL 原始碼裡有明確警告（`may lead to cross-contamination between sampl
 | bs11×132 / bs4×362 / bs1×1450（~1450 tok） | 1300~1600 | 6.90GB |
 | bs2×768（1536 tok） | 1230~1650 | 7.18GB |
 
-**單步時間幾乎與 token 數無關**（~1.05s 固定成本：checkpointing 重算 + linear attention
-torch fallback + Windows kernel launch），所以裝不滿就是純浪費。
+**單步時間幾乎與 token 數無關**（~1.05s 固定成本：gradient checkpointing 重算 + 大量小 kernel
+的 launch 開銷，Windows 尤重），所以裝不滿就是純浪費。
 實跑驗證：固定 bs2 是 1.75 samples/s，換成 token 預算組批後 9.4 samples/s，**5.4 倍**；
 整個 v4 訓練從 48 小時降到 7 小時。
 

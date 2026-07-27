@@ -174,7 +174,7 @@ uv run python scripts/eval_capability.py --tag v4 --adapter outputs/sft-v4 --doc
 結果寫 `results/capability/<tag>.json`，逐題明細在 `results/capability/<tag>/`。
 單軸執行不會覆蓋其他軸的既有結果（會 merge 進同一份 JSON）。
 
-**耗時**（3070 Ti，linear attention 走 torch fallback）：軸 B + 軸 C 各約 1~2 分鐘，
+**耗時**（3070 Ti）：軸 B + 軸 C 各約 1~2 分鐘，
 軸 A `--docs 12` 約 70 分鐘/模型（六方向 × 長文 × max_new_tokens=2048）。
 快速迴歸只跑 `--axis ifeval` 與 `--axis general` 即可——這兩軸就足以抓到災難性遺忘。
 
