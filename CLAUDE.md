@@ -25,6 +25,10 @@ uv run python scripts/train_sft.py [--max-steps N]
 - 訓練資料 chat messages 格式；train_sft.py 轉 prompt/completion 讓 TRL 遮罩 prompt loss
 - 評測集：FLORES-200 devtest（Meta 公開 tarball，自動快取 data/flores200；FLORES+ gated 拿不到）
 - 指標：chrF++ / BLEU（sacrebleu）+ COMET（wmt22-comet-da）+ 簡體洩漏率（OpenCC s2t round-trip）
-- flash-linear-attention 未裝（Windows），linear attention 走 torch fallback，速度較慢但可用
+- flash-linear-attention 0.5.1 + triton-windows **已裝且生效**（gated delta rule 走 Triton kernel）。
+  transformers 那句 "fast path is not available" 只是在抱怨 `causal_conv1d` 沒裝——modeling_qwen3_5.py
+  是逐個 op 各自 fallback，缺 causal_conv1d 只讓 depthwise conv 退回 `nn.Conv1d`（cuDNN，本來就快）
+  與解碼時每 token 多 4 個 kernel launch。PyPI 上 causal-conv1d **只有 sdist 沒有任何 wheel**，
+  要編就得補 CUDA 12.8 toolkit（本機是 13.3，跟 torch cu128 不同大版本，`_check_cuda_version` 會擋）
 - **推論務必設 `eos_token_id=[248046, 248044]`**（im_end + endoftext）：SFT 版學會用 im_end 收尾，
   但 config 預設 eos 是 endoftext，不設會失控重複。見 evaluate.py `stop_token_ids`
