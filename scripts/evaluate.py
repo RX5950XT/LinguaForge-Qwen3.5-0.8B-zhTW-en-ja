@@ -174,6 +174,17 @@ def stop_token_ids(tok) -> list[int]:
     return sorted(ids)
 
 
+# 出貨解碼預設，依「目標語言」分流。實測見 docs/RESEARCH-v5.md F3（同 12 篇文件）：
+#   ja / en 輸出：greedy 會陷入 75~100% 貪婪迴圈（base 自帶的收尾失敗，訓練會放大），
+#                 rep 1.1 把 en→ja 從 7.28 拉到 17.37、破 base 的 8.83 近兩倍。
+#   zh-TW 輸出：rep 1.1 壓掉重複字元後模型改挑簡體變體，簡體洩漏 en→zhtw 4.65%→13.06%、
+#               ja→zhtw 0.56%→3.85%，只換到 +1.63 / +3.08 chrF++——不划算，維持 greedy。
+# CLI 的 --rep-penalty 仍可整體覆寫（做對照實驗用）。
+DECODE = {"ja": {"repetition_penalty": 1.1},
+          "en": {"repetition_penalty": 1.1},
+          "zhtw": {}}
+
+
 def batched_translate(tok, model, prompts, batch_size, gen_kwargs) -> list[str]:
     eos_ids = stop_token_ids(tok)
     outs = []
@@ -228,7 +239,8 @@ def run_benchmark(bench, tok, model, limit, batch, gen_kwargs, tag, meta):
         n = len(src_sents)
         print(f"== [{bench}] {name} ({n}) ==")
         prompts = [f"{INSTR[tgt_l]}\n{s}" for s in src_sents]
-        hyps = batched_translate(tok, model, prompts, batch, gen_kwargs)
+        hyps = batched_translate(tok, model, prompts, batch,
+                                 {**DECODE[tgt_l], **gen_kwargs})
         results[name] = score((src_l, tgt_l), hyps, refs)
         print(f"  {results[name]}")
         stem = name.replace("->", "2")
@@ -241,6 +253,7 @@ def run_benchmark(bench, tok, model, limit, batch, gen_kwargs, tag, meta):
         json.dump({"tag": eff_tag, "benchmark": bench, "model": meta["model"],
                    "adapter": meta["adapter"], "n": n,
                    "gen": {k: v for k, v in gen_kwargs.items()},
+                   "decode_defaults": DECODE,   # 依目標語言分流，CLI 可覆寫
                    "results": results}, f, ensure_ascii=False, indent=2)
     print(f"results -> {out}\n")
 
@@ -256,7 +269,8 @@ def main():
     ap.add_argument("--full", action="store_true", help="不截斷（用整份基準）")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--beams", type=int, default=1, help=">1 開 beam search")
-    ap.add_argument("--rep-penalty", type=float, default=None)
+    ap.add_argument("--rep-penalty", type=float, default=None,
+                    help="覆寫 DECODE 的每目標語言預設；給 1.0 即可跑純 greedy 對照")
     ap.add_argument("--length-penalty", type=float, default=None)
     ap.add_argument("--nf4", action="store_true",
                     help="4-bit NF4 載入 base（配 QLoRA adapter，復現訓練精度）")

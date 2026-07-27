@@ -28,6 +28,8 @@ import torch
 from opencc import OpenCC
 from transformers import AutoModelForImageTextToText, AutoTokenizer
 
+from evaluate import DECODE  # 出貨解碼預設（依目標語言分流），單一真相來源
+
 ROOT = Path(__file__).parent.parent
 MODEL_ID = "Qwen/Qwen3.5-0.8B"
 SYSTEM = "You are a professional translator."
@@ -222,11 +224,14 @@ def stop_token_ids(tok):
     return sorted(ids)
 
 
-GEN_KW = {}  # CLI 覆寫的解碼參數（見 main），預設空 dict = 純 greedy
+GEN_KW = {}  # CLI 覆寫的解碼參數（見 main），優先於 DECODE 的每目標語言預設
 
 
-def generate(tok, model, convs, max_new, batch):
+def generate(tok, model, convs, max_new, batch, gen=None):
+    """gen：該方向的解碼預設（evaluate.DECODE[目標語言]）。ifeval/general 兩軸
+    不是翻譯、沒有單一目標語言，傳 None 走 greedy。"""
     eos = stop_token_ids(tok)
+    kw = {**(gen or {}), **GEN_KW}
     out = []
     for i in range(0, len(convs), batch):
         inp = tok.apply_chat_template(convs[i:i + batch], add_generation_prompt=True,
@@ -235,7 +240,7 @@ def generate(tok, model, convs, max_new, batch):
         with torch.no_grad():
             g = model.generate(**inp, max_new_tokens=max_new, do_sample=False,
                                eos_token_id=eos, pad_token_id=tok.pad_token_id,
-                               **GEN_KW)
+                               **kw)
         n = inp["input_ids"].shape[1]
         out.extend(tok.decode(x[n:], skip_special_tokens=True).strip() for x in g)
         print(f"    {min(i + batch, len(convs))}/{len(convs)}", flush=True)
@@ -253,7 +258,8 @@ def run_doc(tok, model, n_docs, batch, hyp_dir):
         refs = [r for _, r in rows]
         convs = [[{"role": "system", "content": SYSTEM},
                   {"role": "user", "content": f"{INSTR[tgt_l]}\n{s}"}] for s in srcs]
-        hyps = generate(tok, model, convs, max_new=2048, batch=batch)
+        hyps = generate(tok, model, convs, max_new=2048, batch=batch,
+                        gen=DECODE[tgt_l])
         results[name] = score_doc((src_l, tgt_l), srcs, hyps, refs)
         print(f"    {results[name]}")
         stem = name.replace("->", "2")
@@ -349,7 +355,7 @@ def main():
     # 解碼參數一定要跟著結果存：同一顆 adapter 換 rep-penalty 分數會差很多，
     # 沒記下來的話事後分不出「哪一組數字是哪種解碼跑的」
     out |= {"tag": args.tag, "model": args.model, "adapter": args.adapter,
-            "gen": dict(GEN_KW)}
+            "gen": dict(GEN_KW), "decode_defaults": DECODE}
     axes = ["doc", "ifeval", "general"] if args.axis == "all" else [args.axis]
     if "doc" in axes:
         out["doc"] = run_doc(tok, model, args.docs, args.batch, hyp_dir)
