@@ -164,10 +164,15 @@
       對照 FLORES 切開病因：**ja→en 句級 COMET 贏 base +1.09、只有長文垮 → DOC_MAX 對症；
       en→zhtw 兩軸都退（−4.10/−2.98）→ F13 配方截斷，v5a 唯一的賭注**。
       **zh-TW 輸出不可開 rp**：洩漏 en→zhtw 4.65%→13.06%、ja→zhtw 0.56%→3.85%（base 是 68.26%）
-- [ ] F20 推論預設值依目標語言分流寫進出貨腳本與模型卡：ja/en 用 `repetition_penalty=1.1`，
-      zh-TW 維持 greedy
-- [ ] F21 擴 `eval_capability.py` 的 `IFEVAL` / `GENERAL` 題庫到每語言 ~50 題（純撰寫，不用 GPU）
-- [ ] F22 v5a 訓練：**只動配方不動量**（每方向仍 20,000），約 9.5 小時。
+- [x] F20 解碼預設依目標語言分流：`evaluate.DECODE` 當單一真相來源，eval_capability import 它，
+      FLORES 與軸 A 都按目標語言帶入，結果 json 加記 decode_defaults。
+      模型卡等 v5 打包時一起寫（現行 release/ 是 v3，不該塞 v4 才量到的數字）
+- [x] F21 能力面板 ifeval 17→90、general 12→90（每語言各 30），
+      加 scripts/test_eval_capability.py 夾兩邊（廢話不得通過、正確答案不得被擋）。
+      抓到 9 題會被英文拒答 vacuously pass、`_sep_only` 放過帶前言的答案，都已修
+- [ ] F24 用新面板重跑 base 與 v4 的 ifeval/general（舊數字是 17/12 題那版，不可比）
+- [x] F22 v5a 訓練啟動（2026-07-27 21:5x）：注水式配方 + DOC_MAX 16 + max_length 1408，
+      每方向仍 20,000。4,468 steps、ETA ~7h50m、6.26GB。log: tasks/v5a-train.log
       判讀：en→zhtw COMET 回到 85+ → F13 成立，量從來不是問題，省下擴量的 21.6 小時
 - [ ] F23 若 v5a 沒回來才擴量到每方向 60,000；此時 replay 池必須同步擴（見 F12），
       否則 replay 佔比會從 22.85% 掉到 ~9%，v3 的災難性遺忘會回來
