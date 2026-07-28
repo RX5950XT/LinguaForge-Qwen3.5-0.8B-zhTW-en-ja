@@ -130,6 +130,11 @@ DOC_SHARE = 0.15             # 每方向預算裡文件級樣本的佔比
 REPLAY_FILE = SFT / "replay.jsonl"
 REPLAY_SHARE = 0.35          # replay 佔最終 train 的比例（Tower+ SFT 用 78%，此處保守）
 
+# --- v5b：LaBSE 語意對位過濾 --------------------------------------------------
+# 分數快取由 scripts/bitext_filter.py 產生。門檻見 docs/RESEARCH-v5.md F7：
+# FLORES 黃金對齊的 p01 落在此值之上，等於「連最難的正確樣本都保得住」。
+LABSE_MIN = 0.60
+
 CTRL_RE = re.compile("[\u0000-\u0008\u000b-\u001f\u007f\u200b-\u200f\u202a-\u202e\u2060\ufeff]")
 KANA_RE = re.compile("[぀-ヿ]")
 CJK_RE = re.compile("[一-鿿㐀-䶿]")
@@ -440,6 +445,36 @@ def waterfill(ceilings, budget):
     return takes
 
 
+def labse_filter(fname, rows, min_score, stats):
+    """丟掉語意對不上的錯位樣本（分數由 scripts/bitext_filter.py 預先算好）。
+
+    規則式清洗抓不到「兩句根本沒關係」：globalvoices.ja-zhtw 有 64.7% 的樣本
+    LaBSE < 0.60，而同語言對、對齊良好的 newscomm.ja-zh 只有 1.5%。
+    見 docs/RESEARCH-v5.md F7。
+
+    在 build_docs 之前套用是刻意的——被丟掉的行會在原檔行號上留下缺口，
+    build_docs 遇缺就斷開，等於順手擋住「跨越一個錯位句的假文件」。"""
+    if not min_score:
+        return rows
+    f = ROOT / "data" / "labse" / f"{fname}.npz"
+    if not f.exists():
+        sys.exit(f"!! 缺 {f.relative_to(ROOT)} — 先跑 "
+                 f"`uv run python scripts/bitext_filter.py`（語意過濾為強制，"
+                 f"要關掉請明示 --labse-min 0）")
+    import numpy as np
+    d = np.load(f)
+    score = dict(zip(d["lineno"].tolist(), d["score"].tolist()))
+    hit = sum(1 for r in rows if r[0] in score)
+    if hit < len(rows) * 0.99:
+        sys.exit(f"!! {f.name} 只涵蓋 {hit:,}/{len(rows):,} 列 — 快取與現行清洗規則"
+                 f"不同步，請 `bitext_filter.py --force --only {fname}` 重算")
+    out = [r for r in rows if score.get(r[0], 0.0) >= min_score]
+    stats[f"{fname}:labse_dropped"] = len(rows) - len(out)
+    print(f"    LaBSE ≥{min_score}: {len(out):,} / {len(rows):,} "
+          f"(-{(len(rows) - len(out)) / max(len(rows), 1):.1%})")
+    return out
+
+
 def load_replay(rng, n):
     """通用指令 replay 樣本（scripts/build_replay.py 產生）。缺檔就跳過並警告。"""
     if not REPLAY_FILE.exists():
@@ -460,6 +495,8 @@ def main():
                     help="每方向預算裡文件級（多段落）樣本的佔比")
     ap.add_argument("--replay-share", type=float, default=REPLAY_SHARE,
                     help="通用指令 replay 佔最終 train 的比例（0 = 不混，會災難性遺忘）")
+    ap.add_argument("--labse-min", type=float, default=LABSE_MIN,
+                    help="LaBSE 對位相似度下限，0 = 關閉語意過濾")
     args = ap.parse_args()
 
     rng = random.Random(SEED)
@@ -471,6 +508,7 @@ def main():
     doc_pools = {}  # fname -> {(dl1,dl2): [(src,tgt)...]}  文件級（多段落）
     for fname, l1, l2 in CORPORA:
         rows = load_corpus(fname, l1, l2, stats, eval_lines)
+        rows = labse_filter(fname, rows, args.labse_min, stats)
         if fname in DOC_SOURCES:  # 重組要原檔順序，必須在 shuffle 之前
             docs = build_docs(rows, rng)
             rng.shuffle(docs)

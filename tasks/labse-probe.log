@@ -1,0 +1,44 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 5325.47it/s]
+  eval contamination gate: 33,984 lines loaded
+
+來源                              n     p05     p25      中位   <0.70   <0.60
+  coct.en-zhtw.tsv: kept 275,692 / 310,916
+  coct.en-zhtw.tsv           1200   0.342   0.634   0.735   38.8%   19.9%
+  ted2020.en-zhtw.tsv: kept 359,067 / 400,871
+  ted2020.en-zhtw.tsv        1200   0.579   0.732   0.804   17.3%    6.2%
+  globalvoices.en-zhtw.tsv: kept 20,902 / 138,678
+  globalvoices.en-zhtw.tsv   1200   0.077   0.282   0.673   53.8%   42.6%
+  kde4.en-zhtw.tsv: kept 71,407 / 141,920
+  kde4.en-zhtw.tsv           1200   0.448   0.729   0.833   19.7%   10.1%
+  opensub.en-zhtw.tsv: kept 1,034,818 / 4,772,273
+  opensub.en-zhtw.tsv        1200   0.356   0.664   0.795   31.0%   18.1%
+  opus100.en-zh.tsv: kept 612,718 / 1,000,000
+  opus100.en-zh.tsv          1200   0.516   0.774   0.842   12.8%    6.8%
+  ted2020.ja-zhtw.tsv: kept 206,241 / 358,866
+  ted2020.ja-zhtw.tsv        1200   0.476   0.661   0.745   35.2%   14.4%
+  opensub.ja-zhtw.tsv: kept 430,309 / 693,903
+  opensub.ja-zhtw.tsv        1200   0.078   0.395   0.577   73.6%   53.5%
+  wikimatrix.ja-zh.tsv: kept 240,297 / 267,409
+  wikimatrix.ja-zh.tsv       1200   0.472   0.750   0.836   17.5%   10.2%
+  newscomm.ja-zh.tsv: kept 517 / 570
+  newscomm.ja-zh.tsv          517   0.741   0.805   0.842    2.3%    1.5%
+  globalvoices.ja-zhtw.tsv: kept 5,297 / 18,903
+  globalvoices.ja-zhtw.tsv   1200   0.087   0.211   0.382   75.2%   64.7%
+  kde4.ja-zhtw.tsv: kept 55,259 / 117,181
+  kde4.ja-zhtw.tsv           1200   0.495   0.713   0.820   22.2%   10.7%
+  wikimatrix.en-ja.tsv: kept 818,946 / 851,706
+  wikimatrix.en-ja.tsv       1200   0.454   0.766   0.832   17.8%   11.3%
+  ted2020.en-ja.tsv: kept 310,064 / 363,168
+  ted2020.en-ja.tsv          1200   0.493   0.679   0.755   29.8%   13.0%
+  jparacrawl.en-ja.tsv: kept 198,481 / 233,263
+  jparacrawl.en-ja.tsv       1200   0.725   0.834   0.875    3.7%    0.8%
+  tatoeba.en-ja.tsv: kept 214,368 / 216,039
+  tatoeba.en-ja.tsv          1200   0.631   0.778   0.843   11.1%    4.0%
+  newscomm.en-ja.tsv: kept 586 / 651
+  newscomm.en-ja.tsv          586   0.563   0.751   0.816   15.7%    6.7%
+  kftt.en-ja.tsv: kept 333,388 / 440,285
+  kftt.en-ja.tsv             1200   0.553   0.686   0.763   29.2%   10.0%
+  opensub.en-ja.tsv: kept 550,143 / 2,068,292
+  opensub.en-ja.tsv          1200   0.322   0.567   0.702   49.7%   30.2%
+  mtnt.ja-en.tsv: kept 1,762 / 6,500
+  mtnt.ja-en.tsv             1200   0.453   0.680   0.767   29.1%   13.9%

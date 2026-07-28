@@ -174,8 +174,11 @@
       每方向仍 20,000。4,468 steps / 8h30m / 峰值 4.00GB。train_loss 1.7462、eval_loss 2.0746
       **結果：只買到 en→zhtw COMET +1.36（83.12→84.48），其餘五向持平（−0.28~+0.28）。**
       沒過 85 門檻 → F13 只成立一半，配方截斷是主因之一但不是全部
-- [~] F24 用新面板重跑 base 與 v4 的 ifeval/general — **執行中**（tasks/{v5a,v4,base}-cap.log）
-      三軸各跑 v5a / v4-new / base-new，doc 軸 25 篇 × 6 向 × 3 模型，數小時
+- [~] F24 新面板 v5a 三軸 — **執行中**（tasks/v5a-cap.log，25 篇 × 6 向 ~1h45m）
+      doc 軸前 4 向已出：**截斷率全 0%**（v4 ja→en 是 8.3%）→ F3 長度外插確認修好；
+      en→zhtw 文件級 22.99（v4-rp1.1 16.64 / base@12 20.74）、簡體洩漏 4.3% 守住 ≤5%
+      ⚠️ v4/base 的 25 篇版**不重跑**：改判讀規則為看絕對健康指標（截斷/完整度/重複/洩漏），
+      不跟 12 篇的舊數字硬比（那正是先前踩過的 n 混淆坑）
 - [x] F25 en→zhtw 剩餘 1.44 定位到**專有名詞音譯**：句級 COMET 含專有名詞 −2.42 /
       不含 −1.00。訓練資料 95% 音譯（跟參考風格一致），但 0.8B 記不住名字 →「自信地猜」
       （`Dalhousie → 達爾西`）。猜錯比留英文更傷 COMET。**容量問題，無便宜資料側解法**
@@ -188,4 +191,18 @@
       擴 3 倍只讓 12.7% 的專有名詞句換桶 → 全體期望 **+0.14 chrF++**。21.6 小時不值得。
       F12 自蒸餾一併擱置（它只是為了配合擴量維持 replay 佔比）
 - [ ] F28 base 用 `--full` ＋ 現行 `DECODE` 重跑 FLORES（前次與 segcomet 搶 GPU 撞
-      CUDA illegal memory access）。這是「v5a 對 base 是否全面勝出」的最後一塊拼圖
+      CUDA illegal memory access）。**延到 v5b 訓練完後跟 v5b 一起掃**，
+      一次拿到 base/v4/v5a/v5b 四版對齊；先跑它只會延後訓練 1.3 小時，且不影響 v5b 設計
+- [x] **F29 找到 v5a 輸給 base 的真主因：語料語意錯位**（docs/RESEARCH-v5.md F7）
+      `prepare_data` 清洗全是規則式，抓不到「兩句根本沒關係」。LaBSE 掃全 20 語料：
+      globalvoices.ja-zhtw 64.7% / opensub.ja-zhtw 53.5% / **globalvoices.en-zhtw 42.6%** /
+      coct.en-zhtw 19.9% 低於 0.60；對照 jparacrawl 0.8%、newscomm.ja-zh 1.5%。
+      按實際配額加權後**四個 en-pivot 方向完全單調**：en→ja 7.8%→+3.82、ja→en 11.7%→+1.00、
+      en→zhtw 17.1%→−1.44、zhtw→en 17.3%→−0.62。目檢確認是累積位移不是 LaBSE 假象
+- [x] F30 `scripts/bitext_filter.py`（LaBSE 分數快取→`data/labse/*.npz`）＋
+      `prepare_data.labse_filter()`，`LABSE_MIN = 0.60`。門檻用 FLORES 黃金對齊校準：
+      三語言對 p01 都 ≥0.641，0.60 砍不到正確樣本。快取缺檔／涵蓋率<99% 一律硬報錯。
+      套用在 `build_docs()` 前 → 錯位行留下行號缺口，文件重組自動斷開
+- [~] F31 **v5b 訓練**：F7 語意過濾 + F6 全形空白，其餘全部不動（20,000/方向、
+      replay 池、LoRA 超參都跟 v5a 相同）→ 差異只歸因於資料品質。
+      判讀：en→zhtw COMET ≥85.92 則 F7 成立出貨；84.48~85.92 則門檻不夠；≤84.48 證偽
