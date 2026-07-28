@@ -420,6 +420,51 @@ en→zhtw 對 base 仍差 1.44，已定位到**專有名詞音譯**：句級 COM
 外加 `scripts/test_eval_capability.py` 兩邊夾住判分函數。⚠️ **base/v3/v4 存檔的 ifeval/general
 數字是舊 17/12 題那版，跟新面板不可比，要重跑才能比。**
 
+## ⏸ 2026-07-28 09:50 暫停：換顯卡（RTX 3070 Ti 8GB → RTX 5060 Ti 16GB）
+
+所有 GPU 工作已停乾淨（`nvidia-smi` 剩桌面佔用），可安全斷電拆機。
+
+### 停在哪裡
+
+| 項目 | 狀態 |
+|---|---|
+| F7 語意錯位診斷 | ✅ 完成（LaBSE 掃全 20 語料，見 docs/RESEARCH-v5.md F7） |
+| `scripts/bitext_filter.py` ＋ `prepare_data.labse_filter()` | ✅ 已實作、已 commit、mtnt 冒煙測試過 |
+| v5a 能力面板 doc 軸 | 5/6 方向完成，`zhtw->ja` 與 ifeval/general 軸**未跑** |
+| `data/labse/*.npz` 分數快取 | ❌ 只有 mtnt 一份，**要重跑** |
+| v5b 訓練 | ❌ 未開始 |
+
+### 裝好新卡後的接續步驟
+
+```powershell
+# 0. 先驗環境：Blackwell 是 sm_120，torch 認不認得
+uv run python -c "import torch;print(torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0));print((torch.randn(64,64,device='cuda')@torch.randn(64,64,device='cuda')).sum())"
+
+# 1. LaBSE 掃分（GPU，~40 分）→ 2. 重生資料（CPU，~25 分）→ 3. 自檢
+uv run python scripts/bitext_filter.py
+uv run python scripts/prepare_data.py --limit 20000
+uv run python scripts/test_prepare_data.py
+
+# 4. v5b 訓練（config 一個字都別改，見下）
+uv run python scripts/train_sft.py --output-dir outputs/sft-v5b
+```
+
+⚠️ **`configs/sft_lora.yaml` 不要因為 VRAM 變大就調**。`token_budget: 1450` × `gradient_accumulation_steps: 8`
+決定 effective batch；一調就變成「資料 ＋ 最佳化」兩個變因同時動，v5b−v5a 的差就歸因不了。
+16GB 的紅利留給之後的 2B 全精度微調，不要花在這次對照實驗上。
+
+⚠️ flash-linear-attention / triton-windows 的 kernel 要重新確認能在 sm_120 編起來；
+編不起來會退回 torch 實作（正確但慢），不影響結果只影響速度。
+
+### 暫停時發現、還沒處理的問題
+
+**ja→zhtw 文件級仍然壞**（v5a，25 篇，greedy）：重複率 **60%**、膨脹 28%、
+簡體洩漏 **3.86%**（判讀規則要求 ≤1%，v4-greedy 是 0.56%）。chrF++ 9.37。
+→ 正好是 F7 錯位率最高的方向（28.5%，globalvoices.ja-zhtw 64.7% ＋ opensub.ja-zhtw 53.5%），
+v5b 的語意過濾對症；訓練完第一個要看的就是這格。
+
+（其餘四向健康：截斷率全 0%、completeness 0.925~1.01，見 tasks/todo.md F24。）
+
 ## 下一步（等使用者拍板）
 
 1. **上傳 HF**：`release/` 已是 HF repo 的正確鏡像（`hf upload <repo-id> release/ .` 即可）；需 repo id + `hf login`。

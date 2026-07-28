@@ -43,3 +43,9 @@ W0728 08:00:02.202000 66256 Lib\site-packages\torch\distributed\elastic\multipro
     {'chrf++': 47.16, 'completeness_median': 0.925, 'truncated_pct': 0.0, 'bloated_pct': 0.0, 'repetitive_pct': 4.0, 'simplified_leak_pct': None}
   [ja->zhtw] 25 ½g
     4/25
+    8/25
+    12/25
+    16/25
+    20/25
+    24/25
+    25/25
