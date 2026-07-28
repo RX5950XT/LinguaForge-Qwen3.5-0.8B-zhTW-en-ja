@@ -131,9 +131,12 @@ REPLAY_FILE = SFT / "replay.jsonl"
 REPLAY_SHARE = 0.35          # replay 佔最終 train 的比例（Tower+ SFT 用 78%，此處保守）
 
 # --- v5b：LaBSE 語意對位過濾 --------------------------------------------------
-# 分數快取由 scripts/bitext_filter.py 產生。門檻見 docs/RESEARCH-v5.md F7：
-# FLORES 黃金對齊的 p01 落在此值之上，等於「連最難的正確樣本都保得住」。
-LABSE_MIN = 0.60
+# 分數快取由 scripts/bitext_filter.py 產生。門檻見 docs/RESEARCH-v5.md F7。
+# v5c 從 0.60 拉到 0.65：v5b（epoch 對齊）證明過濾方向對——六向平均 COMET +0.25、
+# 五向皆升——但 en→zhtw 84.97 仍低於 base 85.92，落在「方向對、力道不夠」的中間帶。
+# 0.65 仍低於 FLORES 黃金對齊三個語言對的 p05（en-zhtw 0.737／en-ja 0.753／ja-zhtw 0.695），
+# 不會開始砍正確樣本；最瘦的 globalvoices.ja-zhtw 剩 1,631 列，配額只要 953，沒有短收風險。
+LABSE_MIN = 0.65
 
 CTRL_RE = re.compile("[\u0000-\u0008\u000b-\u001f\u007f\u200b-\u200f\u202a-\u202e\u2060\ufeff]")
 KANA_RE = re.compile("[぀-ヿ]")

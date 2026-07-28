@@ -12,7 +12,7 @@ Qwen3.5-0.8B 翻譯特化微調（zh-TW ↔ en ↔ ja 六方向，LoRA SFT，本
 
 ```powershell
 uv run python scripts/download_data.py                 # 下載語料（冪等）
-uv run python scripts/prepare_data.py                  # 清洗 → data/sft/*.jsonl
+uv run python scripts/prepare_data.py --limit 20000    # 清洗 → data/sft/*.jsonl（--limit 必給！）
 uv run python scripts/test_prepare_data.py             # 清洗函數自檢
 uv run python scripts/evaluate.py --tag <tag> [--adapter <dir>] [--full]
 uv run --project tools/comet python tools/comet/score.py --tag <tag>

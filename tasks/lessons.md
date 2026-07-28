@@ -247,3 +247,17 @@ TRL 原始碼裡有明確警告（`may lead to cross-contamination between sampl
 ② 關掉 packing 後一定要換成 token 預算組批，否則等於用最長樣本的規格跑完整個資料集；
 ③ transformers 5.x 拿掉了 `TrainingArguments.group_by_length`，TRL 1.8 改叫
 `train_sampling_strategy='group_by_length'`——但它仍是固定 batch size，救不了這個問題。
+
+## 2026-07-29：`prepare_data.py` 的 `--limit 20000` 不能省
+
+v5c 重建資料時直接跑 `uv run python scripts/prepare_data.py`（照 CLAUDE.md 常用指令那行），
+結果每方向 128,657 筆、總量 773,972——是 v5a/v5b（20,000/方向、153,977 總量）的 5 倍。
+`RECIPES` 的內建預算是 130,000/方向，`--limit` 是唯一把它壓到 20,000 的開關，
+而 CLAUDE.md 的速查那行沒帶這個參數，只有 CONTEXT.md:445 記著完整指令。
+
+代價：一次 13 分鐘的白工，以及差點用錯資料量開訓——那會讓 v5c−v5b 同時混進
+「門檻 0.60→0.65」和「資料量 ×5」兩個變因，整輪實驗作廢。
+
+**教訓**：兩份文件記同一條指令時，速查版本省掉的參數就是未來踩雷點。
+已把 `--limit 20000` 補回 CLAUDE.md。跑資料建置後第一件事是核對
+`results/data_stats.json` 的 `directions`，跟上一版對不上就是參數錯了，不要先開訓。

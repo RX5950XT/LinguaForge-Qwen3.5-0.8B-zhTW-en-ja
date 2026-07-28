@@ -155,11 +155,11 @@ def main():
         save_strategy="steps",
         save_steps=t["save_steps"],
         save_total_limit=t["save_total_limit"],
-        # v3 是訓完才發現整體退化。這次讓 trainer 自己留 eval_loss 最低的權重，
-        # 最後存檔就是最佳點而不是最後一步。
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
+        # v5c 關掉：v5b 的 eval_loss 在 epoch 0.96（1.9333）與 2.00（1.9336）只差 0.0003，
+        # trainer 據此挑了 checkpoint-2100，實測 FLORES 六向平均 COMET 比最終步低 0.29
+        # （84.80 vs 85.09，ja→zhtw 差 0.81）。這個量級的 eval_loss 差是雜訊，拿它選權重
+        # 等於擲骰子。checkpoint 都還在磁碟上，真要早停可以事後挑——v5b 就是這樣挑出來的。
+        load_best_model_at_end=False,
         seed=t["seed"],
         report_to=[],
         dataset_num_proc=1,
