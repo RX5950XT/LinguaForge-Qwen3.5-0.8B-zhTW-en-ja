@@ -20,6 +20,14 @@ assert has_simplified("简体字")
 assert not has_simplified("繁體字")
 assert eff_len("中文ab") == 6
 
+# --- v5b：全形標點後的空白（v4/v5a 訓練資料 32.7% 帶著它，輸出放大到 56~76%）---
+assert norm("地標景點開始， 我把這裡稱為 「集體記憶」。") == "地標景點開始，我把這裡稱為「集體記憶」。"
+assert norm("たとえば、 ある指導者は。 別の指導者は") == "たとえば、ある指導者は。別の指導者は"
+assert norm("開始，　我把") == "開始，我把"          # 全形空白 U+3000 也要吃掉
+# 拉丁字母／數字兩側的空格是台灣排版慣例，不可誤刪
+assert norm("他說， Ring 公司成立") == "他說， Ring 公司成立"
+assert norm("我們有 4 個月大的老鼠") == "我們有 4 個月大的老鼠"
+
 from prepare_data import is_noise_pair, strip_subtitle_noise
 
 assert strip_subtitle_noise("(ヘレン) 本当にありがとう") == "本当にありがとう"

@@ -169,7 +169,11 @@ def strip_subtitle_noise(s: str) -> str:
 PLACEHOLDER_RE = re.compile(r"%\d|&[A-Za-z]\b|@[a-z]\w+|\$\{|</?\w[^>]*>")
 SPACE_BEFORE_RE = re.compile(r"\s+([,.;:!?%)\]、。，；：！？」』】）])")
 SPACE_AFTER_RE = re.compile(r"([(\[「『【（])\s+")
-CJK_GAP_RE = re.compile(r"(?<=[一-鿿㐀-䶿぀-ヿ])\s+(?=[一-鿿㐀-䶿぀-ヿ])")
+# 全形標點（，。、！？「」（）…U+3000-303F 與 U+FF01-FF60）必須算進 CJK，否則
+# 「開始， 我把」「稱為 「集體記憶」」這種字幕分詞殘留躲得過——舊版只涵蓋漢字與假名，
+# v4/v5a 訓練資料 32.7% 的中日文樣本帶著它，模型輸出放大到 56~76%（FLORES 參考僅 3%）。
+_CJK = "　-〿぀-ヿ㐀-䶿一-鿿！-｠"
+CJK_GAP_RE = re.compile(rf"(?<=[{_CJK}])[ \t　]+(?=[{_CJK}])")
 BRACKET_NOISE_RE = re.compile(r"[\[(][^)\]]{1,30}[)\]]")
 FRAGMENT_END_RE = re.compile(r"[,，、;；:：]$")
 

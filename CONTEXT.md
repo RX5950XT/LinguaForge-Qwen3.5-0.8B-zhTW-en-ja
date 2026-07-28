@@ -400,10 +400,21 @@ en→ja 6 個來源全拿到；小池子取不滿的餘額（mtnt 1,763、newsco
 訓練完成：4,468 steps / **8h30m**、峰值 4.00GB VRAM、train_loss 1.7462（v4 1.7839）、
 eval_loss 2.0746（v4 2.1149，⚠️ dev 集一起重生過，跨版本不可比）、adapter `outputs/sft-v5`。
 
-FLORES COMET 結果：**en→ja 87.02（+3.82 vs base）、zhtw→ja 85.11（+2.04）**，
-en→zhtw 82.94→**84.48**（補回一半，但沒到 85 門檻，仍 −1.44 vs base）。詳見
-`docs/RESEARCH-v5.md`「階段 1 結果」。⚠️ 存檔的 base/v3/v4 是 n=500＋純 greedy，
-v5a 是 n=1012＋新 `DECODE`，正在用 `--full` 重跑 base/v4 對齊變因。
+FLORES COMET（v4 已用 `--full` ＋現行 `DECODE` 重跑對齊）：**只有 en→zhtw +1.36
+（83.12→84.48），其餘五向持平**（−0.28~+0.28）。
+
+⚠️ **跨版本比較一定要同時對齊 `n` 與 `DECODE`。** 拿 v4 的 greedy 存檔比 v5a 的 rp1.1
+會得到「en→ja +2.04、zhtw→ja +1.63」的假象——那是解碼參數的功勞，v4 自己開 rp1.1
+就有 en→ja 86.74。n 的影響則可忽略（同前 500 句 chrF++ 差 0.10）。
+
+en→zhtw 對 base 仍差 1.44，已定位到**專有名詞音譯**：句級 COMET 切開後，含專有名詞
+的句子 −2.42、不含的 −1.00，專有名詞句就是整個缺口。訓練資料 95% 音譯（跟參考風格
+一致），但 0.8B 記不住世界地名人名，學到的是「自信地猜」（`Dalhousie → 達爾西`）。
+猜錯比留英文更傷 COMET。這是容量極限，無便宜資料側解法。詳見 `docs/RESEARCH-v5.md` F5。
+
+**F6 已修**：`prepare_data.norm()` 的 `CJK_GAP_RE` 漏掉全形標點，訓練資料 32.7% 的中日文
+目標帶「標點＋空白」，模型放大到 56~76%（參考僅 3%）。已補上 U+3000-303F 與 U+FF01-FF60，
+自檢在 `test_prepare_data.py`。⚠️ 對指標幾乎沒差（chrF++ +0.02~0.10），是出貨品質問題。
 
 **評測面板同步擴充**（否則判不出好壞）：ifeval 17→90、general 12→90，每語言各 30 題，
 外加 `scripts/test_eval_capability.py` 兩邊夾住判分函數。⚠️ **base/v3/v4 存檔的 ifeval/general

@@ -1,0 +1,52 @@
+W0728 07:51:40.502000 52920 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+== loading model ==
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights: 100%|¢i¢i¢i¢i¢i¢i¢i¢i¢i¢i| 473/473 [00:00<00:00, 5203.43it/s]
+== loading benchmark: flores ==
+== [flores] en->zhtw (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 20.43, 'bleu': 25.19, 'simplified_leak_pct': 15.61}
+== [flores] zhtw->en (1012) ==
+    16/1012
+    96/1012
+Traceback (most recent call last):
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\scripts\evaluate.py", line 322, in <module>
+    main()
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\scripts\evaluate.py", line 318, in main
+    run_benchmark(bench, tok, model, limit, args.batch, gen_kwargs, args.tag, meta)
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\scripts\evaluate.py", line 242, in run_benchmark
+    hyps = batched_translate(tok, model, prompts, batch,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\scripts\evaluate.py", line 199, in batched_translate
+    gen = model.generate(**inputs, max_new_tokens=256, do_sample=False,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\.venv\Lib\site-packages\transformers\generation\utils.py", line 2681, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\.venv\Lib\site-packages\transformers\generation\utils.py", line 2889, in _sample
+    while self._has_unfinished_sequences(this_peer_finished, synced_gpus, device=input_ids.device):
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\.venv\Lib\site-packages\transformers\generation\utils.py", line 2707, in _has_unfinished_sequences
+    elif this_peer_finished:
+         ^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+Search for `cudaErrorIllegalAddress' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
