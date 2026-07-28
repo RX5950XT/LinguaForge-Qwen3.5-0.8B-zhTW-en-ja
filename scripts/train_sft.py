@@ -80,6 +80,9 @@ def main():
     ap.add_argument("--config", default=ROOT / "configs" / "sft_lora.yaml")
     ap.add_argument("--max-steps", type=int, default=None, help="試訓步數上限")
     ap.add_argument("--output-dir", default=None)
+    # 當機／斷電後接續：傳 checkpoint 目錄，或傳 "auto" 讓 HF 挑 output_dir 下最新的一個。
+    # optimizer、scheduler、RNG 與 dataloader 位置都在 checkpoint 裡，接回去等同沒斷過。
+    ap.add_argument("--resume-from-checkpoint", default=None)
     args = ap.parse_args()
 
     cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
@@ -167,7 +170,8 @@ def main():
         model=model, args=sft_cfg, processing_class=tok, peft_config=peft_cfg,
         train_dataset=ds["train"], eval_dataset=ds["dev"],
     )
-    trainer.train()
+    resume = args.resume_from_checkpoint
+    trainer.train(resume_from_checkpoint=True if resume == "auto" else resume)
     trainer.save_model(out_dir)
     print(f"peak VRAM: {torch.cuda.max_memory_allocated() / 1024**3:.2f} GB")
     print(f"saved -> {out_dir}")
