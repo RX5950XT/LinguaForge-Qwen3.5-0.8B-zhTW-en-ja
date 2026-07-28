@@ -2,3 +2,8 @@ W0728 08:00:02.202000 66256 Lib\site-packages\torch\distributed\elastic\multipro
 [transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
 == loading model ==
 Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 5673.91it/s]
+  adapter: outputs/sft-v5
+== 軸 A：文件級翻譯（WMT24++）==
+  25 篇文件，平均 14.2 句
+  [en->zhtw] 25 篇
+    4/25
