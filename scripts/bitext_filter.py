@@ -33,14 +33,24 @@ MAX_LEN = 128       # 訓練樣本 p99 約 338 token，但對位訊號前 128 �
 
 
 @torch.no_grad()
-def embed(texts, tok, model, device, bs):
-    out = []
-    for i in range(0, len(texts), bs):
-        b = tok(texts[i:i + bs], return_tensors="pt", padding=True,
+def score_pairs(rows, tok, model, device, bs):
+    """逐批算完立刻收斂成純量，GPU 記憶體是 O(batch) 而非 O(語料)。
+
+    別改回「先把整份語料 embed 完再一次相乘」：opensub.en-zhtw 清洗後 103 萬列，
+    768 維 float32 兩側同時在手就是 6 GB，驅動的 sysmem fallback 會默默溢到主記憶體，
+    不報錯、只是慢十倍。
+    """
+    def emb(texts):
+        b = tok(texts, return_tensors="pt", padding=True,
                 truncation=True, max_length=MAX_LEN).to(device)
-        v = model(**b).pooler_output.float()
-        out.append(torch.nn.functional.normalize(v, dim=-1))
-    return torch.cat(out)
+        return torch.nn.functional.normalize(model(**b).pooler_output.float(), dim=-1)
+
+    out = []
+    for i in range(0, len(rows), bs):
+        chunk = rows[i:i + bs]
+        s = (emb([r[1] for r in chunk]) * emb([r[2] for r in chunk])).sum(-1)
+        out.append(s.cpu().numpy())
+    return np.concatenate(out).astype(np.float32)
 
 
 def main():
@@ -67,9 +77,7 @@ def main():
         rows = load_corpus(fname, l1, l2, stats, eval_lines)
         if not rows:
             continue
-        a = embed([r[1] for r in rows], tok, model, args.device, args.batch_size)
-        b = embed([r[2] for r in rows], tok, model, args.device, args.batch_size)
-        s = (a * b).sum(-1).cpu().numpy().astype(np.float32)
+        s = score_pairs(rows, tok, model, args.device, args.batch_size)
         np.savez(dst, lineno=np.array([r[0] for r in rows], dtype=np.int64), score=s)
         print(f"  -> {dst.name}  中位 {np.median(s):.3f}  "
               f"<0.60 {(s < 0.60).mean():.1%}  <0.70 {(s < 0.70).mean():.1%}", flush=True)
