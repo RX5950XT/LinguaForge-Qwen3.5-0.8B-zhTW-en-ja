@@ -564,6 +564,13 @@ def main():
             docs.extend(doc_pools[fname][direction][:take])
             stats[f"dir:{dname}:{fname}:doc"] = take
         doc_counts[dname] = len(docs)
+        # 短收要吵。LaBSE 過濾（F7）會在原檔行號上打洞，build_docs 遇缺就斷開，
+        # 文件級池子縮得比句級兇；靜靜少收幾千筆會讓 v5b−v5a 的差混進「量」這個變因。
+        for label, got, want in (("句級", len(picked), sent_budget),
+                                 ("文件級", len(docs), doc_budget)):
+            if got < want * 0.98:
+                print(f"  !! {dname} {label}短收 {got:,}/{want:,} "
+                      f"({got / max(want, 1):.1%}) — 池子不夠，跨版本比較請把這件事寫進報告")
         picked.extend(docs)
         rng.shuffle(picked)
         dev.extend((direction, s, t) for s, t in picked[:DEV_PER_DIR])

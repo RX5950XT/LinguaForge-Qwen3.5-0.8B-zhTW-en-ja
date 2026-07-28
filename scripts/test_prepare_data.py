@@ -193,4 +193,42 @@ assert takes[:3] == [12_000, 15_000, 21_006], "上限低於均分額的來源應
 assert waterfill([5, 10], 999) == [5, 10]
 assert waterfill([], 100) == [] and waterfill([3, 3], 0) == [0, 0]
 
+
+# --- v5b LaBSE 語意過濾（F7）：三條分支都要擋得住 -----------------------------
+# 這段是硬報錯路徑，出錯時機在「LaBSE 掃完 40 分鐘之後」，沒有自檢會很貴。
+import numpy as np  # noqa: E402
+from collections import Counter  # noqa: E402
+
+from prepare_data import ROOT, labse_filter  # noqa: E402
+
+_rows = [(0, "a", "甲"), (1, "b", "乙"), (2, "c", "丙"), (3, "d", "丁")]
+_cache = ROOT / "data" / "labse" / "__selftest__.tsv.npz"
+_cache.parent.mkdir(parents=True, exist_ok=True)
+
+# min_score = 0 → 直接放行，連快取都不該碰（--labse-min 0 的逃生口）
+assert labse_filter("__never_exists__.tsv", _rows, 0, Counter()) is _rows
+
+np.savez(_cache, lineno=np.array([0, 1, 2, 3]),
+         score=np.array([0.95, 0.55, 0.60, 0.10], dtype=np.float32))
+st = Counter()
+kept = labse_filter("__selftest__.tsv", _rows, 0.60, st)
+assert [r[0] for r in kept] == [0, 2], kept          # 0.60 是「大於等於」，邊界要留
+assert st["__selftest__.tsv:labse_dropped"] == 2
+
+# 快取涵蓋率不足 → 必須硬報錯，不可拿舊分數矇混（清洗規則一改行號就對不上）
+np.savez(_cache, lineno=np.array([0]), score=np.array([0.9], dtype=np.float32))
+try:
+    labse_filter("__selftest__.tsv", _rows, 0.60, Counter())
+    raise AssertionError("涵蓋率 25% 應該要 SystemExit")
+except SystemExit as e:
+    assert "不同步" in str(e), e
+
+# 快取缺檔 → 硬報錯（語意過濾為強制，要關掉必須明示 --labse-min 0）
+_cache.unlink()
+try:
+    labse_filter("__selftest__.tsv", _rows, 0.60, Counter())
+    raise AssertionError("缺快取應該要 SystemExit")
+except SystemExit as e:
+    assert "bitext_filter.py" in str(e), e
+
 print("prepare_data helpers OK")
