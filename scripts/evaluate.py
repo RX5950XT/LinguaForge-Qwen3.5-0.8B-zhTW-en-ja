@@ -39,10 +39,23 @@ DIRECTIONS = [("en", "zhtw"), ("zhtw", "en"), ("en", "ja"),
 INSTR = {"zhtw": "翻譯成繁體中文：", "en": "翻譯成英文：", "ja": "翻譯成日文："}
 SYSTEM = "You are a professional translator."
 
-# 洩漏偵測用 s2tw 不用 s2t：s2t 把「剛才→剛纔」「人群→人羣」「稽核→稽覈」等
-# 正確台灣用字判成簡體（傳統異體字），會灌水 simplified_leak_pct。
 cc_s2tw = OpenCC("s2tw")
 cc_s2twp = OpenCC("s2twp")
+
+# 洩漏偵測不能用「轉換器會不會改寫這個字」來判定——那是異體字偏好，不是簡繁。
+# 舊版拿 s2tw 整句 round-trip，實測 86 種被判洩漏的字裡前 11 名（群 里 吃 游 托 岩
+# 台 斗 峰 床 征，佔 1127 次中的 878 次）全是台灣標準用字，被要求改成羣 裏 喫 遊
+# 託 巖 臺 鬥 峯 牀 徵 這些台灣不用的異體字，洩漏率因此灌水約 5~7 倍。
+# 改成：逐字（避開 s2t 的詞組規則）判「這個字是不是簡體專用」＝ 它已是簡化形
+# （t2s 不動它）且有對應的正體形（s2t 會改它），再扣掉下面這批簡化時被合併、
+# 但本身就是台灣正字的字。名單由 41,052 句訓練 zhtw 目標＋FLORES zh-TW 參考
+# 統計而來：出現 ≥10 次者為台灣用字，1~3 次者才是真殘留（分界乾淨）。
+cc_t2s = OpenCC("t2s")
+cc_s2t = OpenCC("s2t")
+TW_VARIANTS = frozenset("群里吃秘床峰游托准干伙岩后征采痴斗台杰划岳皂唇占雇佣栗筑灶丑朴")
+_SIMPLIFIED = {c for c in {chr(i) for i in range(0x4E00, 0xA000)}
+               if c not in TW_VARIANTS
+               and cc_t2s.convert(c) == c and cc_s2t.convert(c) != c}
 
 
 def _truncate(texts, limit):
@@ -219,7 +232,7 @@ def score(direction, hyps, refs):
         bleu = None
     leak = None
     if tgt == "zhtw":
-        leak = sum(cc_s2tw.convert(h) != h for h in hyps) / len(hyps) * 100
+        leak = sum(any(c in _SIMPLIFIED for c in h) for h in hyps) / len(hyps) * 100
     return {"chrf++": round(chrf, 2), "bleu": round(bleu, 2) if bleu else None,
             "simplified_leak_pct": round(leak, 2) if leak is not None else None}
 

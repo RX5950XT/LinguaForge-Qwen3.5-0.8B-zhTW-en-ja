@@ -1,0 +1,52 @@
+{
+  "tag": "v5c-b4-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5c",
+  "n": 500,
+  "gen": {
+    "num_beams": 4,
+    "length_penalty": 1.2
+  },
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {}
+  },
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.22,
+      "bleu": 27.6,
+      "simplified_leak_pct": 4.6
+    },
+    "zhtw->en": {
+      "chrf++": 49.39,
+      "bleu": 21.98,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.53,
+      "bleu": 20.9,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 48.59,
+      "bleu": 19.96,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.29,
+      "bleu": 21.46,
+      "simplified_leak_pct": 3.8
+    },
+    "zhtw->ja": {
+      "chrf++": 18.3,
+      "bleu": 16.88,
+      "simplified_leak_pct": null
+    }
+  }
+}
