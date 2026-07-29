@@ -1,0 +1,49 @@
+{
+  "tag": "base-greedy-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "n": 500,
+  "gen": {},
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {}
+  },
+  "results": {
+    "en->zhtw": {
+      "chrf++": 21.0,
+      "bleu": 25.17,
+      "simplified_leak_pct": 10.4
+    },
+    "zhtw->en": {
+      "chrf++": 47.12,
+      "bleu": 18.3,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 19.0,
+      "bleu": 17.68,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 44.46,
+      "bleu": 14.56,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 11.62,
+      "bleu": 10.24,
+      "simplified_leak_pct": 42.0
+    },
+    "zhtw->ja": {
+      "chrf++": 15.16,
+      "bleu": 12.64,
+      "simplified_leak_pct": null
+    }
+  }
+}

@@ -285,6 +285,11 @@ def main():
     ap.add_argument("--rep-penalty", type=float, default=None,
                     help="覆寫 DECODE 的每目標語言預設；給 1.0 即可跑純 greedy 對照")
     ap.add_argument("--length-penalty", type=float, default=None)
+    # rep-penalty 對 zh-TW 是禁藥（F3：重新加權已出現的 token，會把繁體字推成簡體變體，
+    # en→zhtw 洩漏 4.65%→13.06%）。no_repeat_ngram_size 是硬性 n-gram 封鎖，
+    # 不動單字機率分布，所以不會有那個副作用——用它處理 F11 的重複尾巴。
+    ap.add_argument("--no-repeat-ngram", type=int, default=None,
+                    help="禁止重複的 n-gram 長度（zh-TW 可用，不像 rep-penalty）")
     ap.add_argument("--nf4", action="store_true",
                     help="4-bit NF4 載入 base（配 QLoRA adapter，復現訓練精度）")
     ap.add_argument("--int8", action="store_true",
@@ -299,6 +304,8 @@ def main():
         gen_kwargs["repetition_penalty"] = args.rep_penalty
     if args.length_penalty is not None:
         gen_kwargs["length_penalty"] = args.length_penalty
+    if args.no_repeat_ngram:
+        gen_kwargs["no_repeat_ngram_size"] = args.no_repeat_ngram
 
     print("== loading model ==")
     tok = AutoTokenizer.from_pretrained(args.model, padding_side="left")

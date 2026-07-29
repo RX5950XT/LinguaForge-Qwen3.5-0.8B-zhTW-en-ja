@@ -1,0 +1,51 @@
+{
+  "tag": "base-b4-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "n": 500,
+  "gen": {
+    "num_beams": 4
+  },
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {}
+  },
+  "results": {
+    "en->zhtw": {
+      "chrf++": 21.48,
+      "bleu": 25.95,
+      "simplified_leak_pct": 18.8
+    },
+    "zhtw->en": {
+      "chrf++": 48.66,
+      "bleu": 19.95,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 20.29,
+      "bleu": 19.03,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 46.33,
+      "bleu": 16.88,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 10.21,
+      "bleu": 8.55,
+      "simplified_leak_pct": 50.8
+    },
+    "zhtw->ja": {
+      "chrf++": 15.03,
+      "bleu": 12.8,
+      "simplified_leak_pct": null
+    }
+  }
+}
