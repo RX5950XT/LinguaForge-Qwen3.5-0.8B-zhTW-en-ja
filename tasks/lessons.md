@@ -269,19 +269,32 @@ v5d 13:29 啟動，14:46 在 step 613 無聲停止。不是當機——`nvidia-s
 session 結束時被連坐帶走。**背景任務通知會說 `No completion record was found`，
 看到這句就要當成「可能還活著也可能死了」，一律去驗行程與 log 時間戳。**
 
-試過兩種脫離方式，都失敗在同一個地方：
+同一天又死了兩次（16:22 step 736、之前 step 613），死因完全相同。試過三種脫離方式：
 
 | 方式 | 結果 |
 |---|---|
 | `Invoke-CimMethod Win32_Process Create` | 秒死 `forrtl: error (200): window-CLOSE event` |
 | `schtasks /sc once` | 載完資料、死在載模型，同一個錯誤 |
+| `schtasks` + `FOR_DISABLE_CONSOLE_CTRL_HANDLER=1` | **啟動 9 秒內**同一個錯誤 |
 
 numpy/MKL 帶的 Intel Fortran runtime 一收到 console CLOSE 事件就自我終止，
-而脫離互動 session 的行程拿不到穩定 console。
+而脫離互動 session 的行程拿不到穩定 console。第三次特別值得記：
+`FOR_DISABLE_CONSOLE_CTRL_HANDLER=1` 是 Intel 官方關閉那個 handler 的開關，
+理論上正中根因，實測**完全無效**——schtasks 收掉 cmd console 的時機太早，
+handler 還沒被那個變數繞過就已經觸發。別再花時間試這條。
 
-**結論：不要跟 Windows 的 detach 機制搏鬥。** 靠 `save_steps` + 
+**結論：不要跟 Windows 的 detach 機制搏鬥。** 靠 `save_steps` +
 `train_sft.py --resume-from-checkpoint auto`，optimizer/scheduler/RNG/dataloader
 位置全在 checkpoint 裡，接回去等同沒斷過，最多損失一個 save 週期。
+
+既然斷線無法避免，就壓低單次代價：`save_steps` 300 → **100**（≈11 分鐘）。
+但別忘了斷線的固定成本不只 checkpoint——**重跑要先花 ~6 分鐘重新 tokenize
+272,704 筆**（`num_proc=1`，約 800 examples/s），所以實際代價是「6 分鐘 + 最多 100 步」。
+`load_best_model_at_end=False`，所以 `save_steps` 不必是 `eval_steps` 的倍數。
+
+另外：**Monitor 工具在這種場景不可靠**，同一輪被 teardown 掉兩次（狀態 `stopped`，
+無事件）。要單一「跑完通知我」訊號，用 Bash `run_in_background` 配 `until` 迴圈，
+不要用 `tail -f` 這種永不結束的 Monitor 指令。
 
 順帶：長時間背景任務**不要用 `| tee`**。python 到 pipe 是塊緩衝（8KB），
 中途完全看不到進度；直接 `> log 2>&1` 配 `PYTHONUNBUFFERED=1` 才即時。

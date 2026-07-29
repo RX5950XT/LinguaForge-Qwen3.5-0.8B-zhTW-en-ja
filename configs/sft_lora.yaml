@@ -48,6 +48,9 @@ train:
   optim: adamw_torch_fused
   logging_steps: 20
   eval_steps: 300
-  save_steps: 300
+  # 背景訓練會隨 Claude Code session 一起死（見 tasks/lessons.md），Windows 的 detach
+  # 三種方法全掛在 Intel Fortran runtime 的 CTRL_CLOSE_EVENT handler。改為壓低斷線代價：
+  # 100 步 ≈ 11 分鐘，斷了最多重跑這麼多。load_best_model_at_end=False，不必是 eval_steps 倍數。
+  save_steps: 100
   save_total_limit: 3
   seed: 42
