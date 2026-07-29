@@ -2,7 +2,47 @@
 
 > 給下一個 AI Agent：先讀 CLAUDE.md 的環境與指令，再讀本檔進度。
 
-## 🚨 最新狀態（2026-07-27）— v2/v3 有災難性遺忘，倉庫已轉私人
+## 🚨 最新狀態（2026-07-29 13:29）— v5d 訓練中
+
+**倉庫維持私人**（GitHub + HF 皆是，未經明確指示不得轉公開）。
+
+**v5d 訓練中**：`outputs/sft-v5d/`，13:29 啟動，3,412 步，ETA ~5h50m（約 19:35）。
+log 在 `tasks/v5d-train.log`。假設與設計見 `docs/RESEARCH-v5.md`「v5d 計畫」。
+
+一句話：**v5c 第二個 epoch 是在背資料**（train 1.856→1.635，eval 卡在 1.877→1.866），
+而清洗後語料 560 萬句對只用了 2%。所以 v5d = 每方向 40,000 × **1 epoch**，
+算力持平、唯一變因是資料量。
+
+### 本輪最重要的三個發現（都在 docs/RESEARCH-v5.md）
+
+1. **F10 簡體洩漏指標本身是壞的**。舊版拿 `s2tw` 整句 round-trip 判洩漏，
+   但那是「異體字偏好」不是簡繁（群/里/吃/台/游/托…全被誤判），洩漏率灌水 2~4 倍。
+   改成「簡體專用字集減 31 個台灣正字白名單」後：ja→zhtw 0.79% **已達標**。
+   連帶更正：**「v4→v5 洩漏退步」不成立**，兩版是被同一把壞尺量的。
+2. **F9/F11 解碼端買到 +0.92 COMET，零訓練成本**（85.17→86.09），
+   v5c 那趟 7h49m 訓練只買到 +0.17。beam 4 修漏譯、`no_repeat_ngram_size=4` 修重複，
+   已定案進 `evaluate.py` 的 `DECODE`（依目標語言分開：zhtw/ja 用 nrng4，en 用 rep-penalty 1.1）。
+   **repetition_penalty 對 zhtw 輸出是禁用的**（F3：洩漏 4.65%→13.06%）。
+3. **dev 集這次才凍結**（待辦 D0）。先前 dev 隨 `--limit` 改變，跨版本 eval_loss
+   從來不是同一把尺。`prepare_data.py --dev-from` 已修，v5c ↔ v5d 是第一組可比的。
+
+### v5d 訓完要做的三件事
+
+1. `uv run python scripts/evaluate.py --tag v5d --adapter outputs/sft-v5d --full`
+   （解碼預設已是 beam 4 + 逐語言 nrng，不用另外傳參數）
+2. **通用能力抽查**（必做）：replay 佔比從 22% 掉到 **12.9%**（`replay.jsonl` 只有 35,177 筆，
+   已是來源全部）。這是 v2/v3 退化成「翻譯函數」的成因，問「台灣最高山是哪座」看它會不會翻譯掉。
+3. 比 eval_loss（同尺）＋ FLORES COMET，判定「資料量」這條路走不走得通。
+
+### 未解的品質問題
+
+- **en→zhtw 仍落後 base 0.32**（85.87 vs 86.19），是唯一輸的方向；洩漏 1.38~2.00% 也還超過 ≤1%。
+  已排除的解釋：COMET 對簡繁不敏感（測過，乾淨子集 base 仍贏 0.71）、指令措辭
+  （4 種變體 COMET 86.04~86.21）、長度比過濾、絕對長度、第三個 epoch、專有名詞（v5c 已解）。
+
+---
+
+## 📕 歷史：v2/v3 災難性遺忘與 v4 配方（2026-07-27）
 
 **先讀 `docs/RESEARCH-v4.md`**（事故根因 + 文獻調查 + v4 配方 + 新評測設計）。
 
@@ -481,7 +521,9 @@ configs/   3 份訓練 config（sft_lora / sft_lora_v3 / sft_qlora_2b）
 scripts/   資料管線+訓練+評測（download/prepare/train_sft/evaluate/scoreboard/regression_guard…）
 tools/comet/  COMET 隔離子專案（score.py / kiwi.py，獨立 uv 環境，鎖 transformers<4.58）
 data/      raw/（21 份 tsv 原始語料）、sft/（train.jsonl 77萬+dev.jsonl）、flores200/、eval_lines.txt（污染閘）
-outputs/   sft(v1)/ sft-v2/ sft-v3/ sft-2b-qlora/（LoRA adapter+checkpoint）、merged/（v2 合併全權重）
+outputs/   sft(v1)/ sft-2b-qlora/ sft-v2/ sft-v3/ sft-v4/ sft-v5(=v5a)/ sft-v5b/ sft-v5c/ sft-v5d/
+           2026-07-29 清過：舊版只留最終 adapter（checkpoint-* 已刪，只有 v5c/v5d 留著）；
+           merged/ 已刪（與 release/merged-bf16/ 逐檔同名同大小，純重複）。共釋出 7.37 GB
 results/   評測 json 依版本分類：baseline/ v1/ v2/ v3/ v3-2b/（檔名保持 <tag>-<bench>.json，scoreboard.py/regression_guard.py 已改 rglob 遞迴讀）、hyp/（src/ref/hyp 譯文，score.py 硬編 results/hyp/<tag>/ 勿動）、scoreboard.md（總表）、data_stats.json
 logs/      執行 log 依類型分：data/ bench/ train/ eval/ comet/ export/（新 log 請寫進對應子目錄）
 tasks/     todo.md（進度）、lessons.md（踩坑教訓）
