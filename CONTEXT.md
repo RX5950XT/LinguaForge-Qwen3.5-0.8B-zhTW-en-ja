@@ -7,7 +7,8 @@
 **倉庫維持私人**（GitHub + HF 皆是，未經明確指示不得轉公開）。
 
 **v5d 訓練中**：`outputs/sft-v5d/`，13:29 啟動，3,412 步，ETA ~5h50m（約 19:35）。
-log 在 `tasks/v5d-train.log`。假設與設計見 `docs/RESEARCH-v5.md`「v5d 計畫」。
+log 在 `logs/train/v5d-train.log`（斷線續跑那段在 `tasks/v5d-train-resume.log`，
+訓練結束後移進 `logs/train/`）。假設與設計見 `docs/RESEARCH-v5.md`「v5d 計畫」。
 
 一句話：**v5c 第二個 epoch 是在背資料**（train 1.856→1.635，eval 卡在 1.877→1.866），
 而清洗後語料 560 萬句對只用了 2%。所以 v5d = 每方向 40,000 × **1 epoch**，

@@ -13,6 +13,8 @@ release/
 # 執行產物（可重跑產生；results/ 的評分 JSON 有進版控）
 logs/
 wandb/
+# 執行 log 一律進 logs/<類別>/（見 README 目錄結構），別再撒進 tasks/
+tasks/*.log
 results/hyp/
 results/*.tmp
 scratchpad/
