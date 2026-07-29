@@ -208,3 +208,28 @@
       內容：F7 語意過濾 + F6 全形空白，其餘全部不動（20,000/方向、
       replay 池、LoRA 超參都跟 v5a 相同）→ 差異只歸因於資料品質。
       判讀：en→zhtw COMET ≥85.92 則 F7 成立出貨；84.48~85.92 則門檻不夠；≤84.48 證偽
+
+## v5b → v5d（2026-07-29）
+
+- [x] F31 v5b 訓練（F7 語意過濾 0.60 + F6 全形空白）。結論：方向對、力道不夠——
+      六向平均 COMET +0.25、五向皆升，但 en→zhtw 84.97 仍低於 base。
+      副產物教訓：`load_best_model_at_end` 依 eval_loss 挑 checkpoint 挑錯了
+      （差 0.0003 的雜訊，實測 COMET 低 0.29）→ v5c 起關閉
+- [x] F32 v5c 訓練（LaBSE 門檻 0.60→0.65）。F7 到頂：+0.17。F5 專有名詞意外治好。
+      露出真病灶＝資料量，見 F35
+- [x] F33 **解碼端定案**（docs/RESEARCH-v5.md F9/F11）：beam 4 修漏譯、
+      `no_repeat_ngram_size=4` 修重複，逐目標語言分開設（en 不能用 nrng，
+      合法 4-gram 重複多；zhtw 不能用 rep-penalty，F3 實測洩漏 4.65%→13.06%）。
+      **零訓練成本買到 +0.92 COMET**，是 v5c 訓練 7h49m 所得（+0.17）的 5 倍
+- [x] F34 **洩漏指標修正**（F10）：舊版 `s2tw` round-trip 判的是異體字偏好不是簡繁，
+      灌水 2~4 倍。改成簡體專用字集 − 31 字台灣正字白名單，自檢
+      `scripts/test_evaluate.py`。ja→zhtw 0.79% 達標；連帶推翻「v4→v5 洩漏退步」
+- [x] D0 eval_loss 可比性（欠了很久）：`prepare_data.py --dev-from` 沿用既有 dev.jsonl
+      並把其句對排除出 train。v5d 實測排除 1,194/1,200、train 內殘留 0
+- [ ] F35 **v5d 訓練**（13:29 啟動，3,412 步，ETA 19:35）：每方向 40,000 × 1 epoch。
+      假設＝v5c 第二個 epoch 在背資料（train−eval 落差 +0.02→+0.23），語料只用了 2%。
+      判讀：eval_loss 與 v5c 同尺可比；FLORES 六向 COMET 與 v5c-b4n4 的 86.09 比
+- [ ] F36 **v5d 通用能力抽查（必做）**：replay 佔比 22%→12.9%（`replay.jsonl` 35,177 筆
+      已是來源全部，補不了）。這是 v2/v3 退化成翻譯函數的成因，必須確認沒復發
+- [ ] F37 en→zhtw 仍落後 base 0.32（85.87 vs 86.19）＋洩漏 1.38~2.00% 超標。
+      已排除：COMET 簡繁不敏感、指令措辭、長度比、絕對長度、第三 epoch、專有名詞
