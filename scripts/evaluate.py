@@ -193,9 +193,14 @@ def stop_token_ids(tok) -> list[int]:
 #   zh-TW 輸出：rep 1.1 壓掉重複字元後模型改挑簡體變體，簡體洩漏 en→zhtw 4.65%→13.06%、
 #               ja→zhtw 0.56%→3.85%，只換到 +1.63 / +3.08 chrF++——不划算，維持 greedy。
 # CLI 的 --rep-penalty 仍可整體覆寫（做對照實驗用）。
-DECODE = {"ja": {"repetition_penalty": 1.1},
+# 依目標語言分流的解碼預設。beam width 在 --beams（預設 4，見 main）。
+# no_repeat_ngram_size=4：F11 量到 beam 修好漏譯的同時放大了重複尾巴，
+# 加上它之後 en→zhtw +0.44、en→ja +1.24、ja→zhtw +0.38、zhtw→ja +0.77，
+# 但 zhtw→en −0.34——英文的合法 4-gram token 重複（冠詞、介系詞組合）比中日文多，
+# 硬封鎖會誤傷，所以 en 不開。
+DECODE = {"ja": {"repetition_penalty": 1.1, "no_repeat_ngram_size": 4},
           "en": {"repetition_penalty": 1.1},
-          "zhtw": {}}
+          "zhtw": {"no_repeat_ngram_size": 4}}
 
 
 def batched_translate(tok, model, prompts, batch_size, gen_kwargs) -> list[str]:
@@ -281,7 +286,10 @@ def main():
     ap.add_argument("--limit", type=int, default=500)
     ap.add_argument("--full", action="store_true", help="不截斷（用整份基準）")
     ap.add_argument("--batch", type=int, default=16)
-    ap.add_argument("--beams", type=int, default=1, help=">1 開 beam search")
+    # 預設 4：F9 實測 beam 4 對 base(+0.45) 與 v5c(+0.50) 都給同幅增益，
+    # 是產品該用的設定，官方數字一律用它才可比。快速迭代時明確傳 --beams 1
+    # （greedy 約快 3~4 倍）；lp 1.0/1.2 差 0.06，槓桿是 beam width 不是長度偏好。
+    ap.add_argument("--beams", type=int, default=4, help="1 = greedy（快速迭代用）")
     ap.add_argument("--rep-penalty", type=float, default=None,
                     help="覆寫 DECODE 的每目標語言預設；給 1.0 即可跑純 greedy 對照")
     ap.add_argument("--length-penalty", type=float, default=None)
