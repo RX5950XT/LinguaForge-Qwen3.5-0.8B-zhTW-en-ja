@@ -79,6 +79,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=ROOT / "configs" / "sft_lora.yaml")
     ap.add_argument("--max-steps", type=int, default=None, help="試訓步數上限")
+    # v5c 實測第二個 epoch 是在背資料：train loss 1.856→1.635，eval_loss 卡在
+    # 1.877→1.866（落差 +0.02→+0.23）。資料量夠時要的是 1 epoch 全新樣本，
+    # 不是同一批看兩次，所以 epoch 數要能從 CLI 覆寫。
+    ap.add_argument("--epochs", type=float, default=None, help="覆寫 config 的 epoch 數")
     ap.add_argument("--output-dir", default=None)
     # 當機／斷電後接續：傳 checkpoint 目錄，或傳 "auto" 讓 HF 挑 output_dir 下最新的一個。
     # optimizer、scheduler、RNG 與 dataloader 位置都在 checkpoint 裡，接回去等同沒斷過。
@@ -129,7 +133,7 @@ def main():
 
     sft_cfg = SFTConfig(
         output_dir=out_dir,
-        num_train_epochs=t["num_train_epochs"],
+        num_train_epochs=args.epochs if args.epochs else t["num_train_epochs"],
         max_steps=args.max_steps if args.max_steps else -1,
         per_device_train_batch_size=t["per_device_train_batch_size"],
         per_device_eval_batch_size=t["per_device_eval_batch_size"],

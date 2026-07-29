@@ -23,6 +23,11 @@ from pathlib import Path
 
 from opencc import OpenCC
 
+# 管線到 tee/檔案時 Windows 的 stdout 會退回 cp950，而 cp950 沒有 ≥（有的是全形 ≧），
+# 進度訊息會直接把整支腳本炸掉（v5d 生成就是這樣死在 LaBSE 那行）。
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 ROOT = Path(__file__).parent.parent
 RAW, SFT = ROOT / "data" / "raw", ROOT / "data" / "sft"
 SEED = 42
@@ -500,6 +505,11 @@ def main():
                     help="通用指令 replay 佔最終 train 的比例（0 = 不混，會災難性遺忘）")
     ap.add_argument("--labse-min", type=float, default=LABSE_MIN,
                     help="LaBSE 對位相似度下限，0 = 關閉語意過濾")
+    # dev 是 rng.shuffle(picked) 後取前 DEV_PER_DIR 筆，--limit 一改內容就全變，
+    # 於是跨版本的 eval_loss 根本不是同一把尺（待辦 D0）。傳既有 dev.jsonl 進來就
+    # 沿用它，並把其中的句對從 train 排除，讓 v5c/v5d 的 eval_loss 可以直接比。
+    ap.add_argument("--dev-from", default=None,
+                    help="沿用既有 dev.jsonl（並自 train 排除其句對），用於跨版本可比")
     args = ap.parse_args()
 
     rng = random.Random(SEED)
@@ -592,6 +602,18 @@ def main():
             {"role": "assistant", "content": tgt},
         ]}
 
+    frozen_dev = None
+    if args.dev_from:
+        frozen_dev = [json.loads(x) for x in
+                      Path(args.dev_from).read_text(encoding="utf-8").splitlines() if x]
+        # dev 記錄的 user 欄位是「指令\n來源句」，assistant 欄位是目標句
+        held = {(m[-2]["content"].partition("\n")[2], m[-1]["content"])
+                for m in (r["messages"] for r in frozen_dev)}
+        before = len(train)
+        train = [r for r in train if (r[1], r[2]) not in held]
+        print(f"== 沿用 {args.dev_from} 的 dev（{len(frozen_dev):,} 筆）==")
+        print(f"  自 train 排除重疊句對 {before - len(train):,} 筆")
+
     # 通用 replay：翻譯樣本佔 (1-share)，據此反推 replay 筆數
     print("== replay (通用指令) ==")
     n_replay = int(len(train) * args.replay_share / max(1 - args.replay_share, 1e-6))
@@ -609,7 +631,7 @@ def main():
 
     print("== writing jsonl ==")
     dump(SFT / "train.jsonl", records)
-    dump(SFT / "dev.jsonl", [to_rec(r) for r in dev])
+    dump(SFT / "dev.jsonl", frozen_dev if frozen_dev else [to_rec(r) for r in dev])
 
     (ROOT / "results").mkdir(exist_ok=True)
     with open(ROOT / "results" / "data_stats.json", "w", encoding="utf-8") as f:
