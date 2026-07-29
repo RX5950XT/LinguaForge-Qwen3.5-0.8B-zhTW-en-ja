@@ -1,0 +1,98 @@
+W0729 00:54:27.770000 41044 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+== loading model ==
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 8401.33it/s]
+  adapter loaded: outputs/sft-v5b/checkpoint-4384
+== loading benchmark: flores ==
+== [flores] en->zhtw (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 18.71, 'bleu': 25.78, 'simplified_leak_pct': 4.94}
+== [flores] zhtw->en (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 46.69, 'bleu': 19.48, 'simplified_leak_pct': None}
+== [flores] en->ja (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 22.46, 'bleu': 19.8, 'simplified_leak_pct': None}
+== [flores] ja->en (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 46.18, 'bleu': 18.01, 'simplified_leak_pct': None}
+== [flores] ja->zhtw (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 15.0, 'bleu': 20.49, 'simplified_leak_pct': 3.16}
+== [flores] zhtw->ja (1012) ==
+    16/1012
+    96/1012
+    176/1012
+    256/1012
+    336/1012
+    416/1012
+    496/1012
+    576/1012
+    656/1012
+    736/1012
+    816/1012
+    896/1012
+    976/1012
+  {'chrf++': 17.52, 'bleu': 14.35, 'simplified_leak_pct': None}
+results -> D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\results\v5b-ep2-flores.json
+

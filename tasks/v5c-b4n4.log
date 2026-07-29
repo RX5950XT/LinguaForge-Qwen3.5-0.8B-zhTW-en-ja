@@ -1,0 +1,62 @@
+W0729 12:10:29.915000 51880 Lib\site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+== loading model ==
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights: 100%|¢i¢i¢i¢i¢i¢i¢i¢i¢i¢i| 473/473 [00:00<00:00, 6822.14it/s]
+  adapter loaded: outputs/sft-v5c
+== loading benchmark: flores ==
+== [flores] en->zhtw (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 19.29, 'bleu': 27.42, 'simplified_leak_pct': 2.2}
+== [flores] zhtw->en (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 48.54, 'bleu': 20.72, 'simplified_leak_pct': None}
+== [flores] en->ja (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 22.35, 'bleu': 21.53, 'simplified_leak_pct': None}
+== [flores] ja->en (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 48.37, 'bleu': 20.14, 'simplified_leak_pct': None}
+== [flores] ja->zhtw (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 16.05, 'bleu': 21.95, 'simplified_leak_pct': 1.2}
+== [flores] zhtw->ja (500) ==
+    16/500
+    96/500
+    176/500
+    256/500
+    336/500
+    416/500
+    496/500
+  {'chrf++': 17.87, 'bleu': 16.56, 'simplified_leak_pct': None}
+results -> D:\Workspace\AI_training\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\results\v5c-b4n4-flores.json
+
