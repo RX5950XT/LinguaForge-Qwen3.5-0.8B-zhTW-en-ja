@@ -261,3 +261,29 @@ v5c 重建資料時直接跑 `uv run python scripts/prepare_data.py`（照 CLAUD
 **教訓**：兩份文件記同一條指令時，速查版本省掉的參數就是未來踩雷點。
 已把 `--limit 20000` 補回 CLAUDE.md。跑資料建置後第一件事是核對
 `results/data_stats.json` 的 `directions`，跟上一版對不上就是參數錯了，不要先開訓。
+
+## 背景訓練會隨 Claude Code session 一起死（2026-07-29）
+
+v5d 13:29 啟動，14:46 在 step 613 無聲停止。不是當機——`nvidia-smi` 乾淨、
+沒有 traceback、log 停在最後一個進度條。原因是背景指令是 agent shell 的子孫，
+session 結束時被連坐帶走。**背景任務通知會說 `No completion record was found`，
+看到這句就要當成「可能還活著也可能死了」，一律去驗行程與 log 時間戳。**
+
+試過兩種脫離方式，都失敗在同一個地方：
+
+| 方式 | 結果 |
+|---|---|
+| `Invoke-CimMethod Win32_Process Create` | 秒死 `forrtl: error (200): window-CLOSE event` |
+| `schtasks /sc once` | 載完資料、死在載模型，同一個錯誤 |
+
+numpy/MKL 帶的 Intel Fortran runtime 一收到 console CLOSE 事件就自我終止，
+而脫離互動 session 的行程拿不到穩定 console。
+
+**結論：不要跟 Windows 的 detach 機制搏鬥。** 靠 `save_steps` + 
+`train_sft.py --resume-from-checkpoint auto`，optimizer/scheduler/RNG/dataloader
+位置全在 checkpoint 裡，接回去等同沒斷過，最多損失一個 save 週期。
+
+順帶：長時間背景任務**不要用 `| tee`**。python 到 pipe 是塊緩衝（8KB），
+中途完全看不到進度；直接 `> log 2>&1` 配 `PYTHONUNBUFFERED=1` 才即時。
+（v5d 資料生成那次也踩到：`≥` 在 cp950 stdout 下炸掉，但因為緩衝，
+錯誤訊息跟成功輸出一起在最後才吐出來，`tee` 還讓 exit code 變成 0。）
