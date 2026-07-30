@@ -10,7 +10,26 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from eval_capability import GENERAL, IFEVAL  # noqa: E402
+from eval_capability import GENERAL, IFEVAL, alignment  # noqa: E402
+
+# --- alignment 必須把「尾段腰斬」跟「多吐垃圾行」分開 -------------------------
+# 這正是 base-doc25 騙過 completeness_median 的手法：整篇字元比 ~1.0，
+# 實際是前段超譯 + 後段腰斬 + 多吐 40% 的行互相抵消。
+_REF = ["\n".join(f"reference line {i} with some length" for i in range(9))]
+_TRUNC = ["\n".join(f"translated line {i} with some length" if i < 6 else ""
+                    for i in range(9))]                       # 後 1/3 空白
+_JUNK = [_REF[0] + "\n" + "\n".join(f"note {i}" for i in range(5))]   # 多吐 5 行
+
+lr, tr = alignment(_TRUNC, _REF)
+assert lr == 1.0, f"行數沒少，line_ratio 應為 1.0：{lr}"
+assert tr == 0.0, f"後 1/3 全空，tail_ratio 應為 0.0：{tr}"
+
+lr, tr = alignment(_JUNK, _REF)
+assert lr > 1.5, f"多吐 5 行沒被 line_ratio 抓到：{lr}"
+assert tr >= 1.0, f"垃圾行接在尾巴，tail_ratio 應 >= 1.0：{tr}"
+
+lr, tr = alignment(_REF, _REF)
+assert (lr, tr) == (1.0, 1.0), f"完全一致應為 (1.0, 1.0)：{lr}, {tr}"
 
 # --- 面板規模與唯一性 --------------------------------------------------------
 assert len(IFEVAL) == 90, len(IFEVAL)

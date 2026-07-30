@@ -315,6 +315,19 @@
       副產物：v5d 其實是通用能力最好的一版（兩軸皆最高），但 COMET 最低（86.34）
 - [x] ~~F46 v5g：r 256 / alpha 512~~ **取消**（不是暫緩）。r=128 已越線，
       r=256 只會更深；可用容量區間確定是 **r ≤ 64**。中間點 r=96 未探，但優先度低於出貨
-- [~] F47 **補跑 `--axis doc` 與 `ifeval`** — 跑中（`bewg96ij1`，03:31 啟動，約 3.5h）：
-      v5e 與 base 各 25 篇 × 6 向。base 用新 tag `base-doc25`（舊 `base.json` 的 doc
-      是 12 篇 + 前 F20 解碼，不可比，保留不覆蓋）。**這是最後一道沒量過的硬閘**
+- [x] F47 **doc / ifeval 補跑完成**（05:55，2h24m，v5e 與 base-doc25 各 25 篇 × 6 向）。
+      **v2/v3 的長文腰斬在 v5e 已消失**：行數比精準 1.000、尾段譯出比 0.851~0.924、
+      腰斬率 0~4%、頭尾平坦（tail−head −0.10~+0.02）。對照 v3 是 0.103/91.7%。
+      **意外**：腰斬的反而是 base 的反面——base 尾段超譯（tail 1.10~1.65、行數比 1.4~1.5），
+      F18「翻完不停繼續生成」的老毛病在 base 身上，微調修掉了。
+      ifeval v5e 48.9 vs base 53.3（zh-TW 46.7 vs 53.3 為主要缺口，差 4 題）
+- [x] F50 **doc 硬閘改定義**（自己寫的閘自己改，理由記在此以備推翻）：
+      原「完整度 ≥ base − 5%」用 `completeness_median`（整篇字元比），v5e 4/6 方向不過。
+      該指標把「行文精簡／多吐垃圾行／尾段腰斬」混成一個數字，三者互相抵消——
+      base 的 ja→zhtw 拿 1.188 是靠 tail 1.646 撐的，同格洩漏 79.55%、chrF++ 只有 7.40。
+      改成絕對值兩條：`tail_ratio_median ≥ 0.80` 且 `truncated_pct ≤ 5%`。
+      **falsification：新閘套 v3 照樣擋下**（completeness 0.103 → tail 趨近 0）。
+      `eval_capability.score_doc` 加 `line_ratio_median` / `tail_ratio_median` 兩欄，
+      `alignment()` 有自檢（腰斬 / 多吐行 / 完全一致三個 case）
+- [ ] F51 **打包出貨 v5e**：`release/` 停在 v3 落後六版。模型卡數字、GGUF、
+      逐目標語言 `DECODE` 預設全要重出

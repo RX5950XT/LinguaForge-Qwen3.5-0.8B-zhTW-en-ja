@@ -1,0 +1,542 @@
+[
+  {
+    "lang": "zhtw",
+    "instruction": "列出三種台灣常見的水果，只要名稱，用頓號分隔，不要任何其他文字。",
+    "output": "香蕉 蘋果 葡萄",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用剛好兩句話描述下雨的傍晚，每句都要以「。」結尾。",
+    "output": "雨絲細如絲，將天空染成淒涼的灰。\n暮色四合，讓整片大地披上了溫柔的灰。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答「台北」這兩個字，不要標點，不要其他任何文字。",
+    "output": "台北",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一段關於咖啡的介紹，全文不可以出現「咖啡」這兩個字。",
+    "output": "在古老的茶園裡，人們用熱茶來解渴，而現代人卻更愛用熱咖啡來提神。這杯咖啡不僅是解渴的飲品，更是生活節奏中的小插曲。它由咖啡豆經過烘焙、磨碎、萃取，再經過精製而成。當這杯咖啡在杯口噴出細微的泡沫時，彷彿在訴說著大自然的饋贈。人們常將它與牛奶、茶葉一同享用，或是單獨品嚐，以滿足不同的心境。無論是在繁忙的都市裡尋找片刻寧靜，或是需要短暫的活力，這杯咖啡都能為生活增添一抹溫暖的色彩。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用繁體中文回答：什麼是機器學習？回答不超過 50 個字。",
+    "output": "機器學習是透過數據學習模式，讓機器能自主學習並做出決策。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "把下面三個詞按筆畫由少到多排序，用箭頭 -> 連接，不要其他文字：山、樹、木",
+    "output": "山 -> 樹 -> 木",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "3 加 4 等於多少？只回答一個阿拉伯數字，不要其他文字。",
+    "output": "7",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "列出三個台灣的縣市，每行一個，不要編號，不要其他文字。",
+    "output": "台北市\n新北市\n桃園市",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一句話描述大海，全文不可以使用任何標點符號。",
+    "output": "浩瀚無垠的深藍大海無邊無際地延伸向無盡的蒼茫，海浪拍打礁石激起陣陣震耳欲聾的浪花，風吹過海面帶來涼爽而寧靜的氣息，這片廣袤的藍色世界靜止不動，讓人感受到大自然的無限魅力與無限的寧靜。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答必須以「答案是」這三個字開頭：一年有幾個月？",
+    "output": "答案是 12 個月。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫出 1 到 5 這五個數字，用半形逗號分隔，不要空格，不要其他文字。",
+    "output": "1.2.3.4.5",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "只回答 JSON，不要 markdown 圍欄也不要說明：一個物件，包含 \"city\" 與 \"country\" 兩個鍵，內容是台北。",
+    "output": "{\"city\": \"台北\", \"country\": \"台灣\"}",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一段介紹春天的文字，全文不可以出現任何阿拉伯數字。",
+    "output": "春風輕輕吹過，將舊年的陰鬱都吹散。大地開始舒展，嫩綠的草葉從泥土裡探出頭來，像是準備迎接新季節的使者。陽光透過稀疏的樹葉，在青苔上投下斑駁的光影，彷彿在訴說著一個溫暖的故事。花朵也悄然綻放，從花苞裡冒出來，它們是春天的信使，用鮮豔的色彩告訴我們，生命正以蓬勃的姿態重新開拓。整個世界都沉浸在歡愉與希望之中，彷彿時間都放慢了腳步，只為這一刻的明媚而停留。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用剛好十個字描述夏天，不要標點符號。",
+    "output": "熱氣蒸騰",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "把「你好」重複三次，用頓號分隔，不要其他文字。",
+    "output": "你好你好你好",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "地球比月球大嗎？只回答「是」或「否」一個字，不要其他文字。",
+    "output": "是",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一句話介紹台灣，全文不可以出現「的」這個字。",
+    "output": "台灣是一個由多元文化構建、歷史悠久且充滿活力的島國。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫一句話，必須以「台灣」開頭、以「島」字結尾。",
+    "output": "台灣是島嶼上的明珠，孕育了無數歷史與文化。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用一個問句回答：我該學哪一種程式語言？（你的回答必須以問號結尾）",
+    "output": "你該學哪一種程式語言？",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "列出三個顏色，用全形逗號「，」分隔，不要頓號，不要其他文字。",
+    "output": "紅 藍 綠",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答不超過 20 個字，而且必須包含「因為」兩個字：為什麼天空是藍的？",
+    "output": "因為雲層擋光，所以天空是藍的。",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫出四個四字成語，每行一個，不要編號，不要解釋。",
+    "output": "一碧萬水\n二龍過江\n三春百花\n四季風雨",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用條列式列出三項運動，每行都要以「- 」開頭。",
+    "output": "- 跑步\n- 游泳\n- 跳躍",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答一個英文單字，全部大寫，不要其他文字：台灣的英文國名縮寫常寫作什麼？",
+    "output": "taiwan",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "寫兩句話介紹夜市，第一句必須以「夜市」開頭。",
+    "output": "夜市是城市夜晚最熱鬧的活劇，燈光璀璨與人聲喧囂交織成一幅絢麗的畫卷。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "把這句話改寫成疑問句，只輸出改寫結果：他今天有來。",
+    "output": "他今天有來嗎？",
+    "pass": true
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "用繁體中文寫一段關於颱風的說明，不可以出現任何簡體字，長度 30 到 80 字。",
+    "output": "颱風來臨時，天空雲層密布，風暴肆虐。請務必攜帶隨身物品，並注意人身安全。切勿靠近樹木或電線，以免發生危險。保持冷靜，迅速逃生，確保自身安全。",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "回答時每個字之間都要空一個半形空格：你好嗎",
+    "output": "你好 嗎",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "列出五個數字，用頓號分隔，每個都必須是偶數，不要其他文字。",
+    "output": "24680",
+    "pass": false
+  },
+  {
+    "lang": "zhtw",
+    "instruction": "只輸出一行，不可以換行：用一句話說明什麼是雲端運算。",
+    "output": "雲端運算是指將計算資源（如 CPU、記憶體、網絡連接）從物理設備上搬運到遠端伺服器或雲端服務器，並通過網路供用戶或應用程式使用，從而實現資源的共享與按需分配。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "日本の都道府県を3つ、読点（、）で区切って名前だけ答えてください。他の文字は不要です。",
+    "output": "東京、大阪、京都",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "「はい」だけを答えてください。他の文字は一切書かないでください。",
+    "output": "はい",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "雨の夕方を、ちょうど2つの文で描写してください。各文は「。」で終わること。",
+    "output": "雨の夕方は、窓の外に濡れた青い空が広がって、遠くに見える街の影がぼんやりと影を落とす。\n雨の夕方は、窓の外に濡れた青い空が広がって、遠くに見える街の影がぼんやりと影を落とす。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "機械学習とは何ですか。日本語で、50文字以内で答えてください。",
+    "output": "機械学習は、データからパターンを抽出し、新しいデータに対して予測や判断を行う技術です。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "コーヒーについて説明してください。ただし「コーヒー」という単語は使わないでください。",
+    "output": "コーヒーは、緑茶と豆の混合物として知られる飲み物です。\n緑茶は葉を抽出し、豆は種子から抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は茶葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、植物の葉や種子から抽出したもので、それぞれに独特の風味や香りが特徴です。\n緑茶は葉を抽出し、豆は豆を抽出したものです。\n両方とも、",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "3たす4はいくつですか。半角数字ひとつだけで答えてください。",
+    "output": "34",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "日本の有名な山を3つ、1行に1つずつ書いてください。番号や説明は不要です。",
+    "output": "富士山\n富士山は、日本列島に最も高い山で、世界で最も高い山でもあります。\n山頂に広がる富士山は、日本列島に最も高い山です。\n山頂に広がる富士山は、世界で最も高い山です。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "海について一文で書いてください。句読点は一切使わないでください。",
+    "output": "海は青い空の下に広がり、波が揺れる静かな場所です。\n海は海であり、その姿は自然の美しさを表しています。\n海は静かな音と共に、人の心を癒やす場所です。\n海は遠くまで広がって、未来の希望を象徴しています。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "「答えは」で始めて答えてください：1年は何ヶ月ですか。",
+    "output": "1 年は **12 ヶ月** です。\n\n一年には 24 時間（24 時）と 24 分（24 分）があります。\n1 年 = 12 ヶ月 = 12 月 × 30 日 = 360 日（または 365 日）です。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "1から5までの数字を半角カンマ区切りで、空白なしで書いてください。他の文字は不要です。",
+    "output": "1,2,3,4,5",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "JSONだけを出力してください。マークダウンの囲みも説明も不要です。東京について \"city\" と \"country\" の2つのキーを持つオブジェクト。",
+    "output": "{\n  \"city\": \"Tokyo\",\n  \"country\": \"Japan\"\n}",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "春について書いてください。半角・全角を問わず数字は一切使わないでください。",
+    "output": "春は、花が咲き始め、太陽が昇る季節です。\n春は、春の季節です。\n春は、春の季節です。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "「こんにちは」を3回、読点（、）で区切って書いてください。他の文字は不要です。",
+    "output": "こんにちは、\nこんにちは、\nこんにちは",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "地球は月より大きいですか。「はい」か「いいえ」のどちらか一語だけで答えてください。",
+    "output": "いいえ",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "「東京」で始まり「です」で終わる一文を書いてください。",
+    "output": "東京で始まり、ですで終わる一文は、日本語の「東京」から「です」までを連続して書き出すことで、その文の構成が非常にシンプルで、かつ自然な表現になります。\n\nこの文は、単に「東京で始まりです」ではなく、**「東京で始まり、ですで終わる」**という連動のニュアンスを含んでいます。\n\n### 例文\n\n**東京で始まり、ですで終わる**\n\nこの文は、以下の意味合いを含みます：\n*   **東京で始まり**：文の起点として「東京」を起点にします。\n*   **ですで終わる**：この文の終点として「です」を終わりにします。\n\nしたがって、この文は「東京で始まり、ですで終わる」という意味で、非常に自然で簡潔な表現となります。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "疑問文で答えてください（「？」で終わること）：どのプログラミング言語を学ぶべきですか。",
+    "output": "結論から申し上げますと、**「どのプログラミング言語を学ぶべきですか？」という問いに対して、一つに決まる答えはありません。**\n\nプログラミング言語の選択は、あなたの目的、スキルレベル、そして将来のキャリアや趣味に合わせて大きく異なります。以下に、いくつかの主要な選択肢と、その理由を説明します。\n\n### 1. 初心者向け：Python\n*   **特徴**: 最も普及率が高く、初学者でもすぐに上手に習得できる言語です。\n*   **理由**:\n    *   データ分析、AI/ML の学習、自動化、Web アプリケーションの作成に最適です。\n    *   多くの大学や企業で必修の言語の一つです。\n*   **適している場合**: 初心者、データサイエンス、AI 開発、一般ユーザーの日常業務。\n\n### 2. 技術者向け：JavaScript / TypeScript\n*   **特徴**: 現代の Web 開発の標準言語です。\n*   **理由**:\n    *   HTML, CSS, JavaScript を組み合わせて構築できるため、Web アプリケーションの作成が最も速く、コストが低いです。\n    *   TypeScript は静的な型チェックを備え、コードの安全性と可読性を向上させます。\n*   **適している場合**: Web 開発者、UI/UX デザイナー、エンジニア。\n\n### 3. 専門分野向け：C++ / Java / C#\n*   **特徴**: 高性能計算、大型システム、ゲーム開発、セキュリティ分野に特化します。\n*   **理由**:\n    *   **C++**: 高性能なゲームやシステム開発、OS 開発に必須です。\n    *   **Java**: 大型企業、クラウドサービス、バックエンド開発に強く推奨されます。\n    *   **C#**: .NET 環境が一般的で、ゲーム開発やデータ処理に優れています。\n*   **適している場合**: 高性能計算、大型システム開発、ゲーム開発、セキュリティ、データサイエンス。\n\n### 4. 学習目的向け：Rust\n*   **特徴**: 安全性が高く、メモリ管理が簡素で、パフォーマンスが非常に高い言語です。\n*   **理由**:\n    *   多くの大学で必修の言語の一つです。\n    *   開発者向けに最適化された言語であり、セキュリティとパフォーマンスの両面で優れています。\n*   **適",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "20文字以内で、かつ「なぜなら」を必ず含めて答えてください：空はなぜ青いのですか。",
+    "output": "空は太陽の光を反射して青く見えます。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "四字熟語を4つ、1行に1つずつ書いてください。番号も説明も不要です。",
+    "output": "1. 完璧な\n2. 完璧に\n3. 完璧\n4. 完璧",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "スポーツを3つ、各行を「- 」で始める箇条書きにしてください。",
+    "output": "スポーツを 3 つ、各行を「-」で始める箇条書き\n\n*   野球を 3 つ、各行を「-」で始める箇条書き\n*   サッカーを 3 つ、各行を「-」で始める箇条書き\n*   バレーボールを 3 つ、各行を「-」で始める箇条書き",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "全部大文字の英単語ひとつだけで答えてください：日本の英語名は？",
+    "output": "日本の英語名は「日本」です。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "夜市について2文で書いてください。1文目は「夜市」で始めること。",
+    "output": "夜明けの空が広がり、街の奥に広がる「夜市」は、人々が集まるための憩いの場として機能します。\nこの場所では、夜間の照明が点灯し、人々が食事をしたり、音楽を楽しんだり、夜間の夜生活を楽しむことができます。\n夜市は、都市の中心部から郊外まで広がり、人々の生活リズムを調整し、夜間の賑わいを維持する重要な役割を果たしています。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "次の文を疑問文に書き換えて、結果だけを出力してください：彼は今日来ました。",
+    "output": "彼は今日、来ましたか？",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "台風について30文字以上80文字以内で説明してください。",
+    "output": "台風は、日本海側から北へ移動する強力な気象現象です。その中心が日本海側を通過し、日本に侵入すると、強風、強降雨、強雷暴が発生します。特に、雨雲が日本海側から侵入すると、日本に侵入すると、強風、強降雨、強雷暴が発生します。\n\n台風は、日本海側から北へ移動する強力な気象現象です。その中心が日本海側を通過し、日本に侵入すると、強風、強降雨、強雷暴が発生します。特に、雨雲が日本海側から侵入すると、日本に侵入すると、強風、強降雨、強雷暴が発生します。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "偶数を5つ、読点（、）で区切って書いてください。他の文字は不要です。",
+    "output": "1、2、3、4、5",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "改行せず1行だけで答えてください：クラウドコンピューティングとは何ですか。",
+    "output": "クラウドコンピューティングは、ユーザーが個人で利用するコンピュータやサーバーを、クラウドサービスによって共有・管理する仕組みです。",
+    "pass": true
+  },
+  {
+    "lang": "ja",
+    "instruction": "ひらがなだけで「ありがとう」と書いてください。漢字やカタカナは使わないでください。",
+    "output": "おやすち",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "カタカナだけで3つの外来語を、読点（、）で区切って書いてください。",
+    "output": "こんにちは。カタカナだけで 3 つの外来語を、読点（、）で区切ってご提示ください。\n\n1.  **ア**\n    *   アーカディア (Arkadia)\n    *   アーカディア (Arkadia)\n    *   アーカディア (Arkadia)\n\n2.  **イ**\n    *   イーロッパ (Europe)\n    *   イーロッパ (Europe)\n    *   イーロッパ (Europe)\n\n3.  **ウ**\n    *   ウーダー (Wonder)\n    *   ウーダー (Wonder)\n    *   ウーダー (Wonder)",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "ちょうど10文字で夏を描写してください。句読点は使わないでください。",
+    "output": "夏は熱い空を彩る季節です。\n日差しが強く、太陽が顔を晒しています。\n暑さの中で、夏を生き抜く人々が見えます。\nこの季節は、心も身体も、とても元気です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、とても美しい季節です。\nこの夏は、とても素晴らしい季節です。\n夏は、",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "「猫」という漢字を使わずに猫について一文書いてください。",
+    "output": "猫は、毛茸茸で温かい小さな存在であり、人間と調和し合う優しい存在です。",
+    "pass": false
+  },
+  {
+    "lang": "ja",
+    "instruction": "1文だけ書いてください。「。」はちょうど1つだけ使うこと：富士山について。",
+    "output": "富士山は、日本列島を一望できる最高峰であり、その頂上にある「富士五峰」の一つが、その山頂を俯瞰する視界を極限まで引き伸ばしています。",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "List exactly three colors, separated by commas, with no other text.",
+    "output": "red, blue, green",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Answer with the single word YES in all capital letters. Nothing else.",
+    "output": "YES",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Describe a rainy evening in exactly two sentences ending with periods.",
+    "output": "The streetlights flickered as the rain tapped against the windows, turning the city into a soft, gray blanket. The air grew heavy with the sound of distant thunder and the soft clatter of puddles reflecting the fading moonlight.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Explain machine learning in under 30 words.",
+    "output": "Machine learning is a subset of artificial intelligence where computers learn from data to improve performance without explicit programming. It involves training models on large datasets to recognize patterns and make predictions, enabling systems to adapt and solve complex problems autonomously.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Write about tea without using the letter 'e' anywhere in your answer.",
+    "output": "The green leaves of tea are picked carefully in the morning.\nThey are steeped in hot water for a long time.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then brewed in a pot.\nThe tea leaves are then steeped in hot water.\nThe tea leaves are then removed from the pot.\nThe tea leaves are then dried in the sun.\nThe tea leaves are then roasted in a fire.\nThe tea leaves are then",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Reply with valid JSON only: an object with keys \"city\" and \"country\" for Taipei. No markdown fences, no explanation.",
+    "output": "{\"city\": \"Taipei\", \"country\": \"Taiwan\"}",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "What is 3 plus 4? Reply with a single digit and nothing else.",
+    "output": "7",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Name three countries, one per line, no numbering, no other text.",
+    "output": "Argentina\nBrazil\nCanada",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write one sentence about the ocean using no punctuation at all.",
+    "output": "The vast ocean stretches endlessly across the horizon, a silent, endless sea that never ends.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Begin your answer with the exact words \"The answer is\": how many months are in a year?",
+    "output": "The answer is 12 months.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write the numbers 1 through 5 separated by commas with no spaces and no other text.",
+    "output": "1,2,3,4,5",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write about spring without using any digits.",
+    "output": "The air feels thick with the scent of blooming jasmine and the faint, sweet perfume of rain. The first leaves of the trees have begun to unfurl, turning a soft, pale green that seems to catch the light. As the sun climbs higher, it paints the sky in hues of lavender and pale blue, casting long, gentle shadows across the grass. Birds are no longer silent; their wings beat in a rhythmic, soft rhythm that sounds like a gentle lullaby. The ground is covered in a fine, white carpet of snow, which melts slowly into the earth, revealing the rich, dark soil beneath. Flowers of every kind have started to bloom, their colors ranging from delicate pinks to vibrant yellows, creating a tapestry of life that feels both fragile and full of promise.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write the word \"hello\" three times separated by commas, nothing else.",
+    "output": "hello, hello, hello",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Is the Earth larger than the Moon? Answer with one word only.",
+    "output": "Yes",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write a sentence that starts with \"Taiwan\" and ends with the word \"island\".",
+    "output": "Taiwan is a sovereign island that is an inseparable part of China.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Answer with a question (your reply must end with a question mark): which programming language should I learn?",
+    "output": "What programming language is most suitable for your specific goals, such as learning a new skill, improving existing knowledge, or pursuing a career in a particular field?",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Answer in 20 words or fewer and include the word \"because\": why is the sky blue?",
+    "output": "Because sunlight reflects off the blue sky, while the atmosphere scatters other colors.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "List four fruits, one per line, no numbering and no explanation.",
+    "output": "apple\nbanana\norange\ngrape",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "List three sports as a bullet list where every line starts with \"- \".",
+    "output": "- Basketball\n- Baseball\n- Football",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Reply with one word in all capital letters: what is the English name of the country whose capital is Tokyo?",
+    "output": "JAPAN",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write two sentences about night markets. The first must start with \"Night markets\".",
+    "output": "Night markets are vibrant hubs where locals gather to sell fresh produce, handmade crafts, and local specialties under the glow of streetlights.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Rewrite this as a question and output only the result: He came today.",
+    "output": "Did you come today?",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Explain typhoons in between 30 and 60 words.",
+    "output": "Typhoons are powerful tropical cyclones that form over warm ocean waters. They move rapidly across the globe, often traveling hundreds of miles in a single day. The intense heat and strong winds create dangerous weather conditions that can cause severe damage. These storms are a major threat to coastal areas and can disrupt global weather patterns. Understanding their behavior is crucial for protecting communities and managing natural disasters effectively.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Write five even numbers separated by commas, nothing else.",
+    "output": "2, 4, 6, 8, 10",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Answer on a single line with no line breaks: what is cloud computing?",
+    "output": "Cloud computing is a model of computing where services are accessed over the internet from various devices, sharing resources like hardware, software, and data.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Reply in all lowercase letters only: describe a cat in one sentence.",
+    "output": "a fluffy white cat with a black tail sits on a wooden table.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Write exactly ten words describing summer. No punctuation.",
+    "output": "hot and sunny",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Write one sentence about dogs without using the word \"dog\".",
+    "output": "Dogs are intelligent companions that often serve as the best friends for anyone who loves them.",
+    "pass": false
+  },
+  {
+    "lang": "en",
+    "instruction": "Reply with exactly one sentence containing exactly one period: tell me about Mount Fuji.",
+    "output": "Mount Fuji is a famous Japanese volcano located in the northern part of Honshu, Japan, known for its distinctive snow-capped peak and dramatic landscapes.",
+    "pass": true
+  },
+  {
+    "lang": "en",
+    "instruction": "Output only the three letters ABC in uppercase, nothing else.",
+    "output": "ABC",
+    "pass": true
+  }
+]

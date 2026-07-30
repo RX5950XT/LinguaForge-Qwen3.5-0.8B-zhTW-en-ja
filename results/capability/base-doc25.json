@@ -1,0 +1,86 @@
+{
+  "tag": "base-doc25",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "gen": {},
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "doc": {
+    "en->zhtw": {
+      "chrf++": 19.85,
+      "completeness_median": 0.978,
+      "line_ratio_median": 1.4,
+      "tail_ratio_median": 1.18,
+      "truncated_pct": 0.0,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": 23.74
+    },
+    "zhtw->en": {
+      "chrf++": 54.07,
+      "completeness_median": 1.008,
+      "line_ratio_median": 1.375,
+      "tail_ratio_median": 1.224,
+      "truncated_pct": 0.0,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 17.36,
+      "completeness_median": 1.0,
+      "line_ratio_median": 1.5,
+      "tail_ratio_median": 1.272,
+      "truncated_pct": 0.0,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 48.47,
+      "completeness_median": 0.968,
+      "line_ratio_median": 1.4,
+      "tail_ratio_median": 1.336,
+      "truncated_pct": 0.0,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 7.4,
+      "completeness_median": 1.188,
+      "line_ratio_median": 1.5,
+      "tail_ratio_median": 1.646,
+      "truncated_pct": 4.0,
+      "bloated_pct": 8.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": 79.55
+    },
+    "zhtw->ja": {
+      "chrf++": 13.82,
+      "completeness_median": 0.96,
+      "line_ratio_median": 1.4,
+      "tail_ratio_median": 1.101,
+      "truncated_pct": 0.0,
+      "bloated_pct": 0.0,
+      "repetitive_pct": 0.0,
+      "simplified_leak_pct": null
+    }
+  },
+  "ifeval": {
+    "zhtw": 53.3,
+    "ja": 33.3,
+    "en": 73.3,
+    "overall": 53.3
+  }
+}

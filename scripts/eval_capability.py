@@ -83,6 +83,28 @@ def repeat_ratio(text, n=8):
     return sum(v - 1 for v in c.values()) / len(grams)
 
 
+def median(xs):
+    s = sorted(xs)
+    return s[len(s) // 2] if s else float("nan")
+
+
+def alignment(hyps, refs):
+    """整篇字元長度比會被「多吐垃圾行」補償掉「尾段腰斬」，兩者相抵拿到假的高分
+    （base 實測 line_ratio 1.4~1.5、tail 0.52~0.62，整篇比卻是 ~1.0）。
+    拆成兩個指標各自看：行數對齊，以及後三分之一的譯出比例。"""
+    line_ratios, tails = [], []
+    for h, r in zip(hyps, refs):
+        H, R = h.split("\n"), r.split("\n")
+        line_ratios.append(len(H) / max(len(R), 1))
+        if len(R) < 3:
+            continue
+        lo = 2 * len(R) // 3
+        rc = sum(len(x) for x in R[lo:])
+        if rc:
+            tails.append(sum(len(x) for x in H[lo:]) / rc)
+    return median(line_ratios), median(tails)
+
+
 def score_doc(direction, srcs, hyps, refs):
     import sacrebleu
 
@@ -90,6 +112,7 @@ def score_doc(direction, srcs, hyps, refs):
     chrf = sacrebleu.corpus_chrf(hyps, [refs], word_order=2).score
     # 完整度：譯文長度 / 參考譯文長度。<1 代表漏譯，>>1 代表重複膨脹
     ratios = [len(h) / max(len(r), 1) for h, r in zip(hyps, refs)]
+    line_ratio, tail_ratio = alignment(hyps, refs)
     ratios.sort()
     trunc = sum(r < 0.5 for r in ratios) / len(ratios) * 100   # 腰斬視為漏譯
     bloat = sum(r > 2.0 for r in ratios) / len(ratios) * 100   # 膨脹視為重複
@@ -101,6 +124,8 @@ def score_doc(direction, srcs, hyps, refs):
             if tgt == "zhtw" and lines else None)
     return {"chrf++": round(chrf, 2),
             "completeness_median": round(ratios[len(ratios) // 2], 3),
+            "line_ratio_median": round(line_ratio, 3),
+            "tail_ratio_median": round(tail_ratio, 3),
             "truncated_pct": round(trunc, 1),
             "bloated_pct": round(bloat, 1),
             "repetitive_pct": round(rep, 1),

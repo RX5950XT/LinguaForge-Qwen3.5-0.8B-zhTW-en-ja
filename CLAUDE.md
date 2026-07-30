@@ -31,12 +31,18 @@ uv run python scripts/train_sft.py [--config configs/sft_lora_v5f.yaml] [--max-s
 | 六方向 COMET | 每個 ≥ base |
 | 翻譯機率（`eval_capability --axis general`） | ≤ 5.0% |
 | BELEBELE / 知識 三語（`eval_bench.py`） | 各 ≥ base − 3.0 |
-| `--axis doc` 完整度 | ≥ base − 5% |
+| `--axis doc` 尾段譯出比 `tail_ratio_median` | ≥ 0.80（六向皆須） |
+| `--axis doc` 腰斬率 `truncated_pct` | ≤ 5%（六向皆須） |
 
 **目標**（達成即收工）：COMET AVG ≥ 87.00、通用能力 n=90 ≥ base − 3.0。
 
 **停止規則**：連續兩版 COMET AVG 提升 < 0.10 → 停，出貨當前最佳版本。
 無限加碼跑下去不是嚴謹，是沒有驗收條件。
+
+doc 軸的閘用**絕對值不跟 base 比**：base 自己尾段會超譯（tail_ratio 1.10~1.65、
+行數比 1.4~1.5），拿它當地板等於在問「候選有沒有跟 base 一樣多話」。
+`completeness_median`（整篇字元比）已降為診斷欄位——它把「行文精簡／多吐垃圾行／
+尾段腰斬」混成一個數字，三者互相抵消。判腰斬只看 `tail_ratio_median` 與 `truncated_pct`。
 
 ## 關鍵知識
 
