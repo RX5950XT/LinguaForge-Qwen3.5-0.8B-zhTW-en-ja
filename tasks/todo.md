@@ -266,3 +266,40 @@
       提高能縮 wall-clock，但改變 effective batch size ⇒ **不可混進實驗變因**：
       必須同步等比降 `gradient_accumulation_steps`（例如 2900×4）維持每 optimizer step
       的 token 數不變，且先用 `bench_step.py` 實測再定案
+
+## 引入公開知識／常識基準（2026-07-31）
+
+起因：`eval_capability.py --axis general` 每語言只有 n=30 自建題，1 題 = 3.3pp，
+只有 n=90 總分能當訊號，且題目是自己出的、無外部可比性。
+
+- [x] B1 `scripts/eval_bench.py` ＋ `test_eval_bench.py`（自檢 6 項全過）。
+      計分改成**選項輪轉 ×4**：單輪會被位置先驗污染（v5f 押同一字母 63.4%），
+      比選項文字 logprob 則貼著 25% 隨機基準。三條路的實測見 lessons.md
+- [x] B2 BELEBELE 900 題 × `zho_Hant` / `jpn_Jpan` / `eng_Latn`（CC-BY-SA-4.0）
+- [x] B3 知識軸：TMMLU+（`ikala/tmmluplus`，MIT，66 科台灣考題，zh-TW 原生）
+      ／`cais/mmlu`（MIT，en）／`openai/MMMLU` JA_JP（MIT，ja），各抽 900 題
+      —— 非平行，**只有同語言內 base vs finetune 的 Δ 有效**，不得跨語言比
+- [x] B5 修 `logits_to_keep=1`：峰值 VRAM 15.85 → 2.29 GB，分數不變
+- [ ] B4 跑 base / v5e / v5f：base ✅（BELEBELE 55.14／知識 36.81）、
+      v5e ✅（57.48／36.99，**兩軸都高於 base**）、v5f 跑中
+- [ ] B6 出貨標準已寫進 `CLAUDE.md`（硬閘＋目標＋停止規則），
+      新增的兩項硬閘（BELEBELE ≥ base−3.0、doc 完整度 ≥ base−5%）尚未接進
+      `regression_guard.py`，目前靠人工核對
+
+汙染立場：對 Qwen3.5 預訓練而言沒有任何公開基準能證明未汙染，但本專案量的是
+**同一份題目上 base → finetune 的差值**，汙染兩邊共有、相減抵消。
+→ 絕對分數不得對外宣稱能力，只能用 Δ。
+
+## v5f 結案與 v5g（2026-07-31）
+
+- [x] F42 **v5f：LoRA r 64→128 / alpha 128→256**，資料沿用 v5e。
+      COMET AVG 86.56 → **86.74**（六方向全升），eval_loss 1.7708 → **1.7440**，
+      通用能力 72.2 → **73.3**，翻譯機率持平 3.3%。代價僅 +6.7% 時間、+0.77GB VRAM。
+      → **容量的性價比比加資料高一個量級**，F41「加量已耗盡」對照成立
+- [x] F45 en→zhtw 解凍：v5d/v5e 卡在 86.23 分毫不差，v5f 到 86.34，
+      chrF++ +0.36 / BLEU +0.71 同步上升 → **F38（目標側語域假設）證據不足**，
+      比較像 r=64 撐不起六方向
+- [ ] F46 **v5g：r 256 / alpha 512**（`configs/sft_lora_v5g.yaml`，只改這兩個值）。
+      這是目前唯一還能跑的實驗；資料與 replay 兩條路都撞授權牆
+- [ ] F47 **補跑 `--axis doc` 與 `ifeval`**：v4 之後就沒跑過，
+      v2/v3 的「長文只翻前兩段」失敗模式整個 v5 系列沒驗證過。**最大盲區**

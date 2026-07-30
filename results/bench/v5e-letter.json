@@ -1,0 +1,51 @@
+{
+  "tag": "v5e",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5e",
+  "limit": 900,
+  "seed": 42,
+  "random_baseline": 25.0,
+  "scoring": "argmax logits(A/B/C/D) @ 生成位置，單次 forward",
+  "belebele": {
+    "zhtw": {
+      "n": 900,
+      "correct": 521,
+      "acc": 57.89,
+      "max_letter_share": 0.466
+    },
+    "ja": {
+      "n": 900,
+      "correct": 466,
+      "acc": 51.78,
+      "max_letter_share": 0.339
+    },
+    "en": {
+      "n": 900,
+      "correct": 578,
+      "acc": 64.22,
+      "max_letter_share": 0.444
+    },
+    "avg": 57.96
+  },
+  "knowledge": {
+    "zhtw": {
+      "n": 900,
+      "correct": 282,
+      "acc": 31.33,
+      "max_letter_share": 0.592
+    },
+    "ja": {
+      "n": 900,
+      "correct": 327,
+      "acc": 36.33,
+      "max_letter_share": 0.422
+    },
+    "en": {
+      "n": 900,
+      "correct": 412,
+      "acc": 45.78,
+      "max_letter_share": 0.58
+    },
+    "avg": 37.81
+  }
+}

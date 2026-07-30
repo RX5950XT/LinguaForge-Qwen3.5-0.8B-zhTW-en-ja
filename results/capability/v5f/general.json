@@ -1,0 +1,632 @@
+[
+  {
+    "lang": "zhtw",
+    "question": "台灣最高的山是哪一座？",
+    "output": "台灣最高的山是玉山。玉山位於臺灣北部的花蓮縣，海拔約13,760公尺，是臺灣第二高峰，也是世界第二高峰。玉山以其壯觀的景色和豐富的生態資源而聞名，是臺灣重要的旅遊景點之一。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一件衣服原價 1200 元，打七折後再折 100 元，最後要付多少元？只要數字。",
+    "output": "1200 * 0.7 * 1.1 = 918元",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果今天是星期三，三天後是星期幾？",
+    "output": "星期三 + 3天 = 星期五",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的首都是哪裡？",
+    "output": "台北",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水在攝氏幾度會沸騰？（標準大氣壓）",
+    "output": "在標準大氣壓下，水在攝氏100度（377.7度）會沸騰。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一打是幾個？",
+    "output": "一打是12個。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣最長的河流是哪一條？",
+    "output": "台灣最長的河流是溪河。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "光合作用主要發生在植物的哪個部位？",
+    "output": "光合作用主要發生在植物的葉片上。葉片是植物進行光合作用的主要器官，因為葉片上有大量的葉綠素，葉綠素是進行光合作用的主要色素。葉綠素能夠吸收光能，將二氧化碳和水轉化為葡萄糖和氧氣。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "3 的 4 次方是多少？",
+    "output": "3的4次方是81。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一年有幾天？（平年）",
+    "output": "一年有365天。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "《紅樓夢》的作者是誰？",
+    "output": "《紅樓夢》的作者是曹禺。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水的化學式是什麼？",
+    "output": "水的化學式是H2O。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的貨幣單位是什麼？",
+    "output": "台灣的貨幣單位是臺幣。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果一個正方形的邊長是 5 公分，面積是多少平方公分？只要數字。",
+    "output": "5 平方公分",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "人體正常體溫大約是攝氏幾度？",
+    "output": "人體正常體溫大約是攝氏36度。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "太陽系裡離太陽最近的行星是哪一顆？",
+    "output": "水星是太陽系裡離太陽最近的行星。它距離太陽平均約0.39天文單位（AU），是太陽系中距離太陽最近的行星。水星的公轉軌道週期約88天，是太陽系中公轉週期最短的行星。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "中華民國是哪一年建立的？（西元）",
+    "output": "中華民國是1947年建立的。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一公斤等於幾公克？",
+    "output": "1公斤等於1000克。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "珠穆朗瑪峰（聖母峰）位於哪兩個國家的邊界？",
+    "output": "珠穆朗瑪峰（聖母峰）位於中國和印度之間的邊界。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果 x + 7 = 15，x 是多少？只要數字。",
+    "output": "x = 15 - 7，x = 8",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "寫一個 Python 函式，回傳一個串列裡所有偶數的總和。",
+    "output": "def sum_even_numbers(arr):\n    return sum([x for x in arr if x % 2 == 0])\n\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(sum_even_numbers(arr))  # 輸出 20",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "colour 的美式英語拼法是什麼？",
+    "output": "colour 的美式英語拼法是 \"colour\"。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "哪一種血型被稱為萬能捐血者？",
+    "output": "A型血被稱為萬能捐血者。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣位於哪一個大洋的西側？",
+    "output": "台灣位於太平洋的西側。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一星期有幾個小時？只要數字。",
+    "output": "72小時",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "請把「今天天氣很好」這句話改成否定句。",
+    "output": "今天天氣不好。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "鑽石和石墨都是由哪一種元素構成的？",
+    "output": "鑽石和石墨都是由碳元素構成的。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果一本書有 240 頁，我讀了四分之三，還剩幾頁？只要數字。",
+    "output": "四分之三乘以240等於180。所以，還剩下180頁。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "農曆新年又叫做什麼節？",
+    "output": "農曆新年又叫做春節。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "光在真空中的速度大約是每秒幾公里？",
+    "output": "光在真空中的速度大約是每秒300,000公里。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の首都はどこですか。",
+    "output": "東京です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何ヶ月ですか。",
+    "output": "1年は365日（または366日）です。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "富士山の高さは約何メートルですか。",
+    "output": "富士山の高さは約3780メートルです。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本で一番長い川は何ですか。",
+    "output": "日本では、最も長い川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川は、日本海に流れる、約1万5,000kmの川である。この川",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "水は摂氏何度で沸騰しますか。（1気圧）",
+    "output": "水は1気圧で100℃で沸騰します。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "3の4乗はいくつですか。",
+    "output": "3の4乗は27です。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何日ですか。（平年）",
+    "output": "1年は365日です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "water の化学式は何ですか。",
+    "output": "水はH2Oである。",
+    "correct": true,
+    "mere_translation": true
+  },
+  {
+    "lang": "ja",
+    "question": "日本の通貨単位は何ですか。",
+    "output": "日本の通貨単位は、円（円）である。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "一辺が5センチの正方形の面積は何平方センチですか。数字だけ。",
+    "output": "5センチの正方形の面積は25平方センチです。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "太陽に一番近い惑星は何ですか。",
+    "output": "太陽に最も近い惑星は水星である。太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文単位（AU）の距離で、太陽から約0.387天文",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1キログラムは何グラムですか。",
+    "output": "1キログラムは1000グラムです。",
+    "correct": true,
+    "mere_translation": true
+  },
+  {
+    "lang": "ja",
+    "question": "x + 7 = 15 のとき、x はいくつですか。数字だけ。",
+    "output": "x = 8",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "リスト内の偶数の合計を返すPython関数を書いてください。",
+    "output": "もちろん、リスト内の偶数の合計を返すPython関数です：\n\ndef sum_even_numbers(lst)：\n    return sum([x for x in lst if x % 2 == 0])\n\nリストの例として [1, 2, 3, 4, 5] を渡すと、関数は偶数 [2, 4] を返す。\nリストの例として [1, 2, 3, 4, 5] を渡すと、関数は偶数 [2, 4] を返す。\nリストの例として [1, 2, 3, 4, 5] を渡すと、関数は偶数 [2, 4] を返す。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "『源氏物語』の作者は誰ですか。",
+    "output": "『源氏物語』の作者は、源氏物語の作者である。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "ダイヤモンドと黒鉛は何という元素からできていますか。",
+    "output": "ダイヤモンドと黒鉛はどちらも炭素からできています。炭素は炭素元素で、炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭素元素です。炭素は炭素元素で、炭素は炭",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1週間は何時間ですか。数字だけ。",
+    "output": "1週間は72時間です。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の最も北にある都道府県はどこですか。",
+    "output": "北海道です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "光合成は植物のどの部分で主に行われますか。",
+    "output": "光合成は、植物の葉、茎、根、その他の細胞で主に行われます。光合成は、光エネルギーを炭素と水に吸収し、それらをエネルギーに変換するプロセスです。光合成は、植物の成長、繁殖、その他の生命活動の基盤を形成し、地球の生態系において重要な役割を果たしています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "240ページの本の4分の3を読みました。残りは何ページですか。数字だけ。",
+    "output": "180ページです。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "明治時代は西暦何年に始まりましたか。",
+    "output": "1868年（明治元年）です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "人間の平熱はおよそ摂氏何度ですか。",
+    "output": "人間の平熱はおよそ摂氏37度である。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "「今日は天気がいい」を否定文にしてください。",
+    "output": "今日は天気が悪い。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "エベレストはどの2つの国の国境にありますか。",
+    "output": "エベレストはチリとアルゼンチンの国境にあります。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の国花とされる花を1つ挙げてください。",
+    "output": "日本の国花は、桜（桜）です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "真空中の光の速さはおよそ秒速何キロメートルですか。",
+    "output": "真空中の光の速さはおよそ300,000キロメートル/秒です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "17 かける 3 はいくつですか。",
+    "output": "17 x 3 = 51",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "太陽系で一番大きい惑星は何ですか。",
+    "output": "太陽系で一番大きい惑星は木星である。木星は太陽系の第4大惑星で、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽系の最大の天体であり、太陽系の最大の天体である。木星は太陽",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本語の「ありがとう」は英語で何と言いますか。",
+    "output": "\"Thank you\"です。",
+    "correct": true,
+    "mere_translation": true
+  },
+  {
+    "lang": "ja",
+    "question": "酸素の元素記号は何ですか。",
+    "output": "酸素の元素記号はOです。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the capital of Japan?",
+    "output": "Tokyo is the capital of Japan.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 17 multiplied by 3?",
+    "output": "17 multiplied by 3 is equal to 51.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Write a Python function that returns the sum of even numbers in a list.",
+    "output": "def sum_even(numbers):\n    return sum([n for n in numbers if n % 2 == 0])\n\nnumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(sum_even(numbers))  # Output: 14",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Name the largest planet in our solar system.",
+    "output": "The largest planet in our solar system is Jupiter. It is the most massive and the most massive object in the solar system, with a mass of about 318 times that of Earth. Jupiter is the largest planet in the solar system and is the most massive object in the solar system. It is also the most massive object in the solar system and is the most massive object in the solar system. Jupiter is the most massive object in the solar system and is the most massive object in the solar system. It is also the most massive object in the solar system and is the most massive object in the solar system.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "At what temperature in Celsius does water boil at sea level?",
+    "output": "At sea level, water boils at 100°C (380°F).",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 3 to the power of 4?",
+    "output": "3 to the power of 4 is 81.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many days are in a common year?",
+    "output": "A common year has 365 days.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the chemical formula for water?",
+    "output": "The chemical formula for water is H2O.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "A square has sides of 5 cm. What is its area in square centimetres? Number only.",
+    "output": "The area of a square is equal to the side length squared. So, the area of the square is 5 cm * 5 cm = 25 cm^2.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Which planet is closest to the Sun?",
+    "output": "The planet closest to the Sun is Mercury. It is the smallest planet in our solar system and is also the closest to the Sun. Mercury is located at a distance of about 0.39 astronomical units (AU) from the Sun, which is the average distance between the Earth and the Sun. Mercury is also the closest planet to the Sun, and it is the only planet in our solar system that is directly in the path of the Sun.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many grams are in a kilogram?",
+    "output": "There are 1000 grams in a kilogram.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "If x + 7 = 15, what is x? Number only.",
+    "output": "To find x, we can subtract 7 from both sides of the equation:\n\nx + 7 - 7 = 15 - 7\nx = 8\n\nSo, x is 8.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Who wrote the play Romeo and Juliet?",
+    "output": "The play \"Romeo and Juliet\" was written by William Shakespeare.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What element are both diamond and graphite made of?",
+    "output": "Both diamond and graphite are made of carbon.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many hours are in a week? Number only.",
+    "output": "720 hours",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "In which part of a plant does photosynthesis mainly occur?",
+    "output": "Photosynthesis mainly occurs in the chloroplasts of plant cells.",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "A book has 240 pages and I have read three quarters of it. How many pages are left? Number only.",
+    "output": "The number of pages left is 240 - (3/4 * 240) = 240 - 180 = 60.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "In what year did the Second World War end?",
+    "output": "The Second World War ended in 1945.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is normal human body temperature in degrees Celsius?",
+    "output": "The normal human body temperature is 37 degrees Celsius.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Make this sentence negative: The weather is nice today.",
+    "output": "The weather is not nice today.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Everest sits on the border of which two countries?",
+    "output": "Everest sits on the border of Nepal and China.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Roughly how fast does light travel in a vacuum, in kilometres per second?",
+    "output": "The speed of light in a vacuum is approximately 299,792,458 meters per second. This is a very precise value, but it's commonly rounded to 299,792,457 meters per second for simplicity.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the chemical symbol for oxygen?",
+    "output": "The chemical symbol for oxygen is O.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the longest river in Japan?",
+    "output": "The longest river in Japan is the Ganges River. It is the longest river in Asia and the longest river in the world. The Ganges River originates in the Himalayas and flows through India and Bangladesh before emptying into the Bay of Bengal. It is a vital river for the region, providing water for agriculture, industry, and transportation. The Ganges River is also known for its rich biodiversity and cultural significance.",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Convert 25 degrees Celsius to Fahrenheit. Number only.",
+    "output": "57",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many sides does a hexagon have?",
+    "output": "A hexagon has six sides.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Which gas do plants absorb from the air for photosynthesis?",
+    "output": "The gas that plants absorb from the air for photosynthesis is carbon dioxide.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What does HTTP stand for?",
+    "output": "HTTP stands for Hypertext Transfer Protocol.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Sort these numbers in ascending order: 5, 2, 9, 1. Numbers only.",
+    "output": "The numbers in ascending order are: 1, 2, 5, 9.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the largest ocean on Earth?",
+    "output": "The largest ocean on Earth is the Pacific Ocean. It covers a significant portion of the world's surface and is the second largest ocean by area, after the Atlantic Ocean. The Pacific Ocean is home to many of the world's most important industries, including shipping, fishing, and tourism. It also contains some of the world's most diverse ecosystems, including coral reefs, seagrasses, and marine mammals.",
+    "correct": true,
+    "mere_translation": false
+  }
+]

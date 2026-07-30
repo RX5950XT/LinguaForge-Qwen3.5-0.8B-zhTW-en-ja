@@ -1,0 +1,26 @@
+{
+  "tag": "v5f",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5f",
+  "gen": {},
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "general": {
+    "accuracy_pct": 73.3,
+    "acc_zhtw_pct": 63.3,
+    "acc_ja_pct": 70.0,
+    "acc_en_pct": 86.7,
+    "mere_translation_pct": 3.3,
+    "n": 90
+  }
+}

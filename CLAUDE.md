@@ -1,6 +1,6 @@
 # LinguaForge-Qwen3.5-0.8B-zhTW-en-ja
 
-Qwen3.5-0.8B 翻譯特化微調（zh-TW ↔ en ↔ ja 六方向，LoRA SFT，本機 RTX 3070 Ti 8GB）。
+Qwen3.5-0.8B 翻譯特化微調（zh-TW ↔ en ↔ ja 六方向，LoRA SFT，本機 RTX 5060 Ti 16GB）。
 
 ## 環境
 
@@ -15,9 +15,28 @@ uv run python scripts/download_data.py                 # 下載語料（冪等�
 uv run python scripts/prepare_data.py --limit 20000    # 清洗 → data/sft/*.jsonl（--limit 必給！）
 uv run python scripts/test_prepare_data.py             # 清洗函數自檢
 uv run python scripts/evaluate.py --tag <tag> [--adapter <dir>] [--full]
-uv run --project tools/comet python tools/comet/score.py --tag <tag>
-uv run python scripts/train_sft.py [--max-steps N]
+uv run --project tools/comet python tools/comet/score.py --tag <tag>-flores   # 全名，不是版本號
+uv run python scripts/eval_capability.py --tag <tag> [--adapter <dir>] --axis all
+uv run python scripts/eval_bench.py --tag <tag> [--adapter <dir>]   # BELEBELE + 知識
+uv run python scripts/train_sft.py [--config configs/sft_lora_v5f.yaml] [--max-steps N]
 ```
+
+## 出貨標準
+
+**硬閘**（任一 FAIL 不得出貨，`regression_guard.py` 已覆蓋前兩項）：
+
+| 項目 | 門檻 |
+|---|---|
+| 簡體洩漏 en→zhtw / ja→zhtw | ≤ baseline + 0.3 |
+| 六方向 COMET | 每個 ≥ base |
+| 翻譯機率（`eval_capability --axis general`） | ≤ 5.0% |
+| BELEBELE / 知識 三語（`eval_bench.py`） | 各 ≥ base − 3.0 |
+| `--axis doc` 完整度 | ≥ base − 5% |
+
+**目標**（達成即收工）：COMET AVG ≥ 87.00、通用能力 n=90 ≥ base − 3.0。
+
+**停止規則**：連續兩版 COMET AVG 提升 < 0.10 → 停，出貨當前最佳版本。
+無限加碼跑下去不是嚴謹，是沒有驗收條件。
 
 ## 關鍵知識
 
@@ -32,3 +51,9 @@ uv run python scripts/train_sft.py [--max-steps N]
   要編就得補 CUDA 12.8 toolkit（本機是 13.3，跟 torch cu128 不同大版本，`_check_cuda_version` 會擋）
 - **推論務必設 `eos_token_id=[248046, 248044]`**（im_end + endoftext）：SFT 版學會用 im_end 收尾，
   但 config 預設 eos 是 endoftext，不設會失控重複。見 evaluate.py `stop_token_ids`
+- **只要最後一格 logits 就一定要 `logits_to_keep=1`**：vocab 248K，不設會實體化
+  `[B, L, 248064]` 整張（B=16、L=800 → 6.3GB，實測 15.85/16.31 GB 貼著 OOM）。
+  訓練沒踩到是因為 `token_budget` 早就壓死每個 micro-batch 的 token 數
+- 選擇題基準（`eval_bench.py`）必須輪轉選項去偏：0.8B 對答案位置有強先驗
+  （實測 base 押同一字母 43%、v5f 63%，隨機應為 ~27%），單輪 acc 量到的是先驗不是知識。
+  比選項文字 logprob 那條路實測貼著隨機基準，已排除

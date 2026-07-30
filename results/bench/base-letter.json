@@ -1,0 +1,51 @@
+{
+  "tag": "base",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "limit": 900,
+  "seed": 42,
+  "random_baseline": 25.0,
+  "scoring": "argmax logits(A/B/C/D) @ 生成位置，單次 forward",
+  "belebele": {
+    "zhtw": {
+      "n": 900,
+      "correct": 513,
+      "acc": 57.0,
+      "max_letter_share": 0.347
+    },
+    "ja": {
+      "n": 900,
+      "correct": 457,
+      "acc": 50.78,
+      "max_letter_share": 0.433
+    },
+    "en": {
+      "n": 900,
+      "correct": 509,
+      "acc": 56.56,
+      "max_letter_share": 0.428
+    },
+    "avg": 54.78
+  },
+  "knowledge": {
+    "zhtw": {
+      "n": 900,
+      "correct": 275,
+      "acc": 30.56,
+      "max_letter_share": 0.434
+    },
+    "ja": {
+      "n": 900,
+      "correct": 336,
+      "acc": 37.33,
+      "max_letter_share": 0.43
+    },
+    "en": {
+      "n": 900,
+      "correct": 390,
+      "acc": 43.33,
+      "max_letter_share": 0.481
+    },
+    "avg": 37.07
+  }
+}

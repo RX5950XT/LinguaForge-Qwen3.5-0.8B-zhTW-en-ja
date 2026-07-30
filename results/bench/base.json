@@ -1,0 +1,51 @@
+{
+  "tag": "base",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "limit": 900,
+  "seed": 42,
+  "random_baseline": 25.0,
+  "scoring": "rotate",
+  "belebele": {
+    "zhtw": {
+      "n": 900,
+      "correct": 2009,
+      "acc": 55.81,
+      "max_letter_share": 0.371
+    },
+    "ja": {
+      "n": 900,
+      "correct": 1864,
+      "acc": 51.78,
+      "max_letter_share": 0.414
+    },
+    "en": {
+      "n": 900,
+      "correct": 2082,
+      "acc": 57.83,
+      "max_letter_share": 0.461
+    },
+    "avg": 55.14
+  },
+  "knowledge": {
+    "zhtw": {
+      "n": 900,
+      "correct": 1104,
+      "acc": 30.67,
+      "max_letter_share": 0.445
+    },
+    "ja": {
+      "n": 900,
+      "correct": 1299,
+      "acc": 36.08,
+      "max_letter_share": 0.447
+    },
+    "en": {
+      "n": 900,
+      "correct": 1572,
+      "acc": 43.67,
+      "max_letter_share": 0.492
+    },
+    "avg": 36.81
+  }
+}

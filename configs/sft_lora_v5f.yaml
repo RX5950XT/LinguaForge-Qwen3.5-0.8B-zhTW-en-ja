@@ -1,0 +1,60 @@
+# LoRA SFT 超參（train_sft.py 讀取；CLI 可覆寫部分）
+model_id: Qwen/Qwen3.5-0.8B
+train_file: data/sft/train.jsonl
+dev_file: data/sft/dev.jsonl
+output_dir: outputs/sft-v5f
+
+# v5f 唯一變因＝LoRA 容量（r 64→128 / alpha 128→256），資料沿用 v5e 不動。
+# 依據：v5e eval_loss 全程單調下降到最後一步、零過擬合訊號，而加量邊際報酬已收斂
+# （×1.77 換 +0.25 COMET、×1.84 換 +0.23）→ 瓶頸從資料轉向容量。
+# epoch 是較弱的槓桿：v5c 兩 epoch/141k 得 1.866，v5d 一 epoch/273k 得 1.831。
+lora:
+  r: 128
+  alpha: 256
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+
+# 3070 Ti 8GB 實測（scripts/bench_step.py，r=64 + gradient checkpointing）：
+# 記憶體與速度只跟「每個 micro-batch 的總 token 數」有關，跟 bs×seq 怎麼拆無關——
+#   bs1×1450 / bs4×362 / bs11×132 → 都是 6.90GB、1300~1600 tok/s
+#   bs2×768                        → 7.18GB（已是上限）
+#   bs2×128（=256 token）          → 只有 300~370 tok/s，GPU 空轉
+# vocab 248K 的 logits 吃掉 ~3.3MB/token，所以硬上限就是 ~1450 token/micro-batch。
+# v4 關掉 packing（見 train_sft.py：sdpa 下會跨樣本汙染），改用 token 預算組批，
+# 固定 batch size 只會遷就最長樣本而讓短樣本白燒 GPU（實測差 4~5 倍）。
+train:
+  num_train_epochs: 2
+  token_budget: 1450          # 每個 micro-batch 的 token 上限（batch size 動態）
+  per_device_train_batch_size: 2   # 只影響日誌統計，實際組批看 token_budget
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  # v5：768 在 v4 一筆都沒濾掉（實測最長樣本 581 token），限制其實是 DOC_MAX=6。
+  # 放長文件級樣本（DOC_MAX 6→16）後改吃 1408，剛好落在 token_budget 之內
+  # ——記憶體只看 micro-batch 總 token 數，bs1×1450 實測 6.90GB，不必動別的。
+  max_length: 1408
+  packing: false
+  gradient_checkpointing: true
+  optim: adamw_torch_fused
+  logging_steps: 20
+  eval_steps: 300
+  # 背景訓練會隨 Claude Code session 一起死（見 tasks/lessons.md），Windows 的 detach
+  # 三種方法全掛在 Intel Fortran runtime 的 CTRL_CLOSE_EVENT handler。改為壓低斷線代價：
+  # 100 步 ≈ 11 分鐘，斷了最多重跑這麼多。load_best_model_at_end=False，不必是 eval_steps 倍數。
+  save_steps: 100
+  save_total_limit: 3
+  seed: 42

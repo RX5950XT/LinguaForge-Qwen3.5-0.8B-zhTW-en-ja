@@ -9,8 +9,12 @@
 baseline/   base 模型各種設定（greedy / beam4 / int8 / nf4 / 2B）
 v1/ v2/ v3/ v3-2b/ v4/ v5/    各版翻譯評測（FLORES / NTREX / WMT22 / ALT / TICO-19）
 capability/ 能力面板（eval_capability.py 直接寫這裡，路徑固定，不要再往下分層）
+bench/      公開知識／常識基準（eval_bench.py 直接寫這裡，同上不要分層）
 hyp/        逐句 src/ref/hyp 文字檔（.gitignore 排除，COMET 靠它重算）
 ```
+
+`bench/` 檔名帶計分法：`<tag>.json` 是輪轉去偏的正式數字，`<tag>-letter.json`
+是單輪診斷用。**兩者分數不可互相比較**，見 `eval_bench.py` 開頭說明。
 
 根目錄常駐、**不要移動**（腳本寫死路徑）：
 
