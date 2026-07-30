@@ -292,6 +292,29 @@ handler 還沒被那個變數繞過就已經觸發。別再花時間試這條。
 272,704 筆**（`num_proc=1`，約 800 examples/s），所以實際代價是「6 分鐘 + 最多 100 步」。
 `load_best_model_at_end=False`，所以 `save_steps` 不必是 `eval_steps` 的倍數。
 
+## resume 時 `save_steps` 以 checkpoint 的 `trainer_state.json` 為準（2026-07-29）
+
+上面那條「壓低斷線代價」差點白做：改完 `configs/sft_lora.yaml` 的 `save_steps: 100`
+續跑，checkpoint 還是每 300 步一個。**transformers resume 會拿
+`<checkpoint>/trainer_state.json` 的值覆蓋 CLI/config**，而且只印一行 warning 就過去：
+
+```
+The following arguments do not match the ones in the 'trainer_state.json' within
+the checkpoint directory: save_steps: 100 (from args) != 300 (from trainer_state.json)
+```
+
+看到 warning 提到自己剛改的參數，很容易誤讀成「有讀到我的值」——其實是相反，
+**寫在後面的 trainer_state 才是贏家**。要中途改就直接改 JSON：
+
+```python
+import json; p='outputs/sft-v5d/checkpoint-2100/trainer_state.json'
+s=json.load(open(p,encoding='utf-8')); s['save_steps']=100
+json.dump(s,open(p,'w',encoding='utf-8'),indent=2,ensure_ascii=False)
+```
+
+**驗證方式不是看 warning，是看下一個 checkpoint 編號真的落在新間隔上。**
+沒核對這一步，代價是下一次斷線多賠 286 步（≈32 分鐘）。
+
 另外：**Monitor 工具在這種場景不可靠**，同一輪被 teardown 掉兩次（狀態 `stopped`，
 無事件）。要單一「跑完通知我」訊號，用 Bash `run_in_background` 配 `until` 迴圈，
 不要用 `tail -f` 這種永不結束的 Monitor 指令。
