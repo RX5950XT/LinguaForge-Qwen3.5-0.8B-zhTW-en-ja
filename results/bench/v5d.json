@@ -1,0 +1,52 @@
+{
+  "tag": "v5d",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5d",
+  "limit": 900,
+  "seed": 42,
+  "random_baseline": 25.0,
+  "scoring": "rotate",
+  "belebele": {
+    "zhtw": {
+      "n": 900,
+      "correct": 2061,
+      "acc": 57.25,
+      "max_letter_share": 0.446
+    },
+    "ja": {
+      "n": 900,
+      "correct": 1811,
+      "acc": 50.31,
+      "max_letter_share": 0.484
+    },
+    "en": {
+      "n": 900,
+      "correct": 2451,
+      "acc": 68.08,
+      "max_letter_share": 0.339
+    },
+    "avg": 58.55
+  },
+  "knowledge": {
+    "zhtw": {
+      "n": 900,
+      "correct": 1118,
+      "acc": 31.06,
+      "max_letter_share": 0.626
+    },
+    "ja": {
+      "n": 900,
+      "correct": 1313,
+      "acc": 36.47,
+      "max_letter_share": 0.596
+    },
+    "en": {
+      "n": 900,
+      "correct": 1649,
+      "acc": 45.81,
+      "max_letter_share": 0.439
+    },
+    "avg": 37.78
+  },
+  "peak_vram_gb": 5.96
+}
