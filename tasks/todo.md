@@ -329,5 +329,20 @@
       **falsification：新閘套 v3 照樣擋下**（completeness 0.103 → tail 趨近 0）。
       `eval_capability.score_doc` 加 `line_ratio_median` / `tail_ratio_median` 兩欄，
       `alignment()` 有自檢（腰斬 / 多吐行 / 完全一致三個 case）
-- [ ] F51 **打包出貨 v5e**：`release/` 停在 v3 落後六版。模型卡數字、GGUF、
-      逐目標語言 `DECODE` 預設全要重出
+- [~] F51 **打包出貨 v5e** — 進行中：
+      - [x] LoRA adapter → `release/lora-v5e/`（r=64 / α=128 已從 adapter_config 核對）
+      - [x] 合併 bf16 → `release/merged-bf16-v5e/`（1.7GB，三方向抽測乾淨無洩漏，
+            `generation_config.json` 已帶 eos `[248044, 248046]`）
+      - [ ] GGUF **卡住**：本機唯一的 llama.cpp 是 `AI-Factory/` 底下的 **b8189**，
+            不只沒有 `--no-mtp`，連 Qwen3.5 的 BPE pre-tokenizer 都不認
+            （`get_vocab_base_pre()` 無對應 hash）。要換較新的 llama.cpp；
+            那是別的專案的 checkout，未動。`export_gguf.py` 已改成偵測 `--no-mtp`
+            支援與否＋`--name` 參數化（原本 `NAME` 寫死 v3 會覆蓋舊檔）
+      - [ ] 模型卡：等 F28 的 base 對照數字
+- [~] F28 **base 用 `--full` ＋ 現行 `DECODE` 重跑** — 跑中（`by8a79kld`，06:11 啟動）。
+      **這不是技術債，是硬閘的完整性問題**：寫模型卡時發現「六方向 COMET ≥ base」
+      一直是拿 `base b4`（n=500、beam4、**無** per-language `no_repeat_ngram`）在比，
+      而 v5d/v5e/v5f 都是 n=1012 + 完整 `DECODE`。**樣本數與解碼都不同。**
+      而且 `base-b4-flores.json` 六個 `comet` 欄位全是 null，84.59 這個數字
+      只活在 `docs/RESEARCH-v5.md` 的表格裡，沒有機器可讀的來源。
+      重跑後要重新核對 v5e 這道閘，並回頭修 CONTEXT/RESEARCH 的 base 欄
