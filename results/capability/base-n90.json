@@ -1,0 +1,26 @@
+{
+  "tag": "base-n90",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "gen": {},
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "general": {
+    "accuracy_pct": 78.9,
+    "acc_zhtw_pct": 80.0,
+    "acc_ja_pct": 80.0,
+    "acc_en_pct": 76.7,
+    "mere_translation_pct": 1.1,
+    "n": 90
+  }
+}

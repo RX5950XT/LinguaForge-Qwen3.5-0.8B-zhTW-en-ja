@@ -1,0 +1,26 @@
+{
+  "tag": "v5c-n90",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5c",
+  "gen": {},
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "general": {
+    "accuracy_pct": 70.0,
+    "acc_zhtw_pct": 60.0,
+    "acc_ja_pct": 66.7,
+    "acc_en_pct": 83.3,
+    "mere_translation_pct": 4.4,
+    "n": 90
+  }
+}

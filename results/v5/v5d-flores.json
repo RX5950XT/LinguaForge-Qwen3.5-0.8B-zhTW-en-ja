@@ -1,0 +1,60 @@
+{
+  "tag": "v5d-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "outputs/sft-v5d",
+  "n": 1012,
+  "gen": {
+    "num_beams": 4
+  },
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.63,
+      "bleu": 29.1,
+      "simplified_leak_pct": 1.19,
+      "comet": 86.23
+    },
+    "zhtw->en": {
+      "chrf++": 49.9,
+      "bleu": 23.06,
+      "simplified_leak_pct": null,
+      "comet": 85.18
+    },
+    "en->ja": {
+      "chrf++": 23.57,
+      "bleu": 21.86,
+      "simplified_leak_pct": null,
+      "comet": 88.07
+    },
+    "ja->en": {
+      "chrf++": 49.22,
+      "bleu": 21.86,
+      "simplified_leak_pct": null,
+      "comet": 85.87
+    },
+    "ja->zhtw": {
+      "chrf++": 16.8,
+      "bleu": 22.75,
+      "simplified_leak_pct": 1.19,
+      "comet": 85.78
+    },
+    "zhtw->ja": {
+      "chrf++": 18.53,
+      "bleu": 16.76,
+      "simplified_leak_pct": null,
+      "comet": 86.89
+    }
+  }
+}

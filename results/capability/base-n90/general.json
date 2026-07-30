@@ -1,0 +1,632 @@
+[
+  {
+    "lang": "zhtw",
+    "question": "台灣最高的山是哪一座？",
+    "output": "台灣最高的山是**玉山**。\n\n玉山位於台灣本島中部，是台灣海拔最高的山峰，海拔 3,952 公尺。它位於玉山國家公園內，是台灣重要的自然與文化象徵，也是許多登山愛好者與遊客的目的地。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一件衣服原價 1200 元，打七折後再折 100 元，最後要付多少元？只要數字。",
+    "output": "1200 × 0.7 = 840\n840 × 1.1 = 924\n\n924",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果今天是星期三，三天後是星期幾？",
+    "output": "今天是星期三，往后推三天：\n- 第 1 天：星期四\n- 第 2 天：星期五\n- 第 3 天：星期六\n\n所以三天後是**星期六**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的首都是哪裡？",
+    "output": "台灣的首都是**台北**。\n\n台北是台灣的政治、經濟、文化、教育、交通、金融、旅遊等中心，也是台灣最大的城市。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水在攝氏幾度會沸騰？（標準大氣壓）",
+    "output": "在標準大氣壓（1 個標準氣壓，即 101.325 千帕，約等於 1 公斤/平方厘米）下，水在攝氏 **100 度** 會沸騰。\n\n這是由熱力学平衡狀態決定的：當水蒸氣壓等於水蒸氣壓時，水與水蒸氣達到平衡，此時溫度稱為沸點。在標準大氣壓下，這個平衡點被固定為攝氏 100 度。\n\n需要注意的是，沸點會隨外界大氣壓的變化而改變：\n*   **在標準大氣壓下**：沸點為 **100 攝氏度**。\n*   **在標準海壓下**（約 1033 千帕）：沸點會升高至約 **120 攝氏度**。\n*   **在標準真空下**（約 0.01 千帕）：沸點會降至約 **0 攝氏度**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一打是幾個？",
+    "output": "在中文里，**一打**（yī dǎ）通常指**12 个**字。\n\n这是汉字“打”（dǎ）的繁体字，源自古代的一种计数单位。在古代，一打通常指 12 个汉字，用于记录文章、书信或账目。\n\n不过，在现代汉语中，\"打\"字更多指**动作**（如“打”字谜、“打”字游戏）或**单位**（如“打”字牌、打乒乓球），因此在日常口语中，人们很少直接说“一打”，而是会说“一打”（指 12 个字）或“一打”（指 12 个汉字）。\n\n**结论：**\n一打是 **12 个** 字。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣最長的河流是哪一條？",
+    "output": "台灣最長的河流是**濁水溪**。\n\n它位於台灣中部，從北部的雪山脈（雪山）向南延伸，經過雪山、大屯、大甲、大溪、淡水、溪北、溪南、大湖、大湖溪、大湖溪口、大湖、大湖溪口、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大湖、大",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "光合作用主要發生在植物的哪個部位？",
+    "output": "光合作用主要發生在植物的**葉片**（或稱為**葉綠體**）。\n\n具體來說，葉片是植物進行光合作用的主要部位，原因如下：\n1.  **光合色素的分布**：葉片中含有大量的**葉綠體**，這些細胞內含有光合色素（如葉綠素），能夠吸收太阳光能。\n2.  **氣體交換與運輸**：葉片是植物與外界環境進行氣體交換（如吸收二氧化碳、釋放氧氣）的主要部位，同時也是將光合作用產生的有機物（如葡萄糖）運輸到全身其他部位供用的部位。\n3.  **光合效率**：由於葉片表面佈滿了葉綠體，且葉片內部含有大量的光合酶，因此葉片的光合作用效率最高。\n\n雖然植物根部也能進行光合作用（將二氧化碳和水轉化為葡萄糖），但**光合作用**（即產生氧氣和能量的過程）主要發生在**葉片**中。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "3 的 4 次方是多少？",
+    "output": "3 的 4 次方是 **81**。\n\n计算过程如下：\n$$3^4 = 3 \\times 3 \\times 3 \\times 3 = 81$$",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一年有幾天？（平年）",
+    "output": "一年有 **365 天**（平年）。\n\n在平年，每个月有 30 天，全年共 365 天。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "《紅樓夢》的作者是誰？",
+    "output": "《紅樓夢》的作者是**曹雪芹**。\n\n他是清代著名作家，以其長篇巨著《红楼梦》聞名。這部作品以中國古典小說中最高成就的「寫實」風格，描繪了封建社會下蘆苑女子的生活與情感，通過對人物性格、社會關係及家族命運的深刻剖析，展現了中國古典文學的藝術魅力。曹雪芹筆下的人物形象栩栩如生，情節跌宕起伏，構思精妙，是中國文學史上不可多得的經典之作。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "水的化學式是什麼？",
+    "output": "水的化學式是 **$H_2O$**。\n\n這表示一個水分子由 **2 個氫原子（$H$）** 和 **1 個氧原子（$O$）** 組成。\n\n*   **$H$**：代表氫原子（Hydrogen），是一種輕微的氣體。\n*   **$O$**：代表氧原子（Oxygen），是一種重金屬氣體。\n\n這個分子中，氧原子與氫原子的質量比為 $1:8$，因此氧原子較重，氫原子較輕。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣的貨幣單位是什麼？",
+    "output": "台灣的貨幣單位是**新台幣**，簡稱**新臺幣**，英文稱為「新幣」。\n\n台灣使用「新幣」作為貨幣名稱，這是因為台灣在 1996 年實施「雙新制」，將新台幣與新臺幣合稱為「新幣」，以區別於中國大陸使用的「人民幣」。\n\n在日常生活、商業交易及國際貿易中，台灣民眾普遍使用「新幣」作為貨幣名稱。例如：\n- 在銀行、商店、餐廳等場所，通常會看到「新幣」的標識。\n- 在國際貿易中，台灣商品常標註「新幣」，以表明其使用新臺幣。\n\n此外，台灣也使用「新元」作為貨幣單位，但「新幣」是更廣泛使用的名稱。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果一個正方形的邊長是 5 公分，面積是多少平方公分？只要數字。",
+    "output": "5 × 5 = 25",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "人體正常體溫大約是攝氏幾度？",
+    "output": "人體正常體溫大約在 **36.5℃ 至 37.2℃** 之間。\n\n這個範圍是醫學上普遍接受的標準，具體取決於測量時間和個人體溫變化：\n*   **36.5℃**：通常被視為正常範圍的起始點。\n*   **37.2℃**：通常被視為正常範圍的終點。\n*   **36.0℃**：屬於低熱（低熱症候群）。\n*   **37.0℃**：屬於正常熱（正常熱症候群）。\n*   **37.3℃**：屬於高熱（高熱症候群）。\n\n值得注意的是，不同地區和季節的標準可能略有差異，但上述範圍是基於全球大多數地區的平均值。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "太陽系裡離太陽最近的行星是哪一顆？",
+    "output": "太陽系裡離太陽最近的行星是**木衛二**（Geostationary Moon，英文稱 *Mimas*）。\n\n這顆衛星位於木星與土星之間，距離太陽約 **5.2 天文單位**（AU）。由於木衛二與木星自轉方向相同，且其自轉週期與木星自轉週期完全同步，因此它看起來就像一個固定在木星表面的衛星，不會隨木星自轉而移動。\n\n在太陽系中，木衛二距離太陽最近，其次是土衛三（Triton），而土衛三距離太陽約 4.2 AU。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "中華民國是哪一年建立的？（西元）",
+    "output": "中華民國（台灣）是在**1945 年**建立的。\n\n具體來說，1945 年 10 月 25 日，中華民國政府與日本簽訂《日台關係條約》，正式宣告台灣獨立，成為一個獨立的國家。在此之前，台灣曾為日本殖民地，直到 1945 年才獲得獨立地位。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一公斤等於幾公克？",
+    "output": "一公斤等於 **1000 公克**。\n\n在國際單位制（SI）中，公斤（kg）是質量的基本單位，而公克（g）是常用的輔助單位。它們之間的換算關係非常簡單：\n\n$$1 \\text{ kg} = 1000 \\text{ g}$$\n\n例如，1 公斤的雞蛋約重 1000 公克，而 1 公斤的鉛筆約重 1000 公克。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "珠穆朗瑪峰（聖母峰）位於哪兩個國家的邊界？",
+    "output": "珠穆朗瑪峰（聖母峰）位於**中國**與**印度**的邊界。\n\n具體來說，它位於中國西藏地區與印度克什米尔地區（即印度北部）的交界處。該山峰是印度洋上最高的點，也是世界上最高的點，其海拔高度約為 8,848.86 米。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果 x + 7 = 15，x 是多少？只要數字。",
+    "output": "要解方程 $x + 7 = 15$，我们需要将 7 移到等号右边：\n\n$$x = 15 - 7$$\n$$x = 8$$\n\n答案是 **8**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "寫一個 Python 函式，回傳一個串列裡所有偶數的總和。",
+    "output": "```python\ndef sum_even_numbers(numbers):\n    \"\"\"\n    返回串列中所有偶數的總和。\n\n    參數:\n        numbers (list): 輸入的數組\n\n    返回:\n        int: 所有偶數的總和\n    \"\"\"\n    return sum(x for x in numbers if x % 2 == 0)\n\n\n# 範例使用\nif __name__ == \"__main__\":\n    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    result = sum_even_numbers(data)\n    print(f\"偶數總和: {result}\")  # 輸出: 20\n```",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "colour 的美式英語拼法是什麼？",
+    "output": "\"colour\" 的 **美式英語拼法** 是：\n\n**colour**\n\n### 詳細說明：\n1.  **拼寫**：字母順序為 **c-o-l-o-u-r**。\n2.  **詞性**：它是單數形式，作動詞（verb）或代詞（pronoun）。\n3.  **詞源**：源自拉丁語 *colore*，意思是「顏色」。\n4.  **常見用法**：\n    *   作動詞：*I like **colour**.* (我喜歡顏色)\n    *   作代詞：*The **colour** of the sky is blue.* (天空的顏色是藍的)\n    *   作副詞：*The **colour** of the room is red.* (房間的顏色是紅的)\n\n**注意**：雖然美式英語中通常不將 \"colour\" 寫成 \"colour\"，但在英式英語（British English）中，兩者皆可，但美式英語標準拼寫為 **colour**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "哪一種血型被稱為萬能捐血者？",
+    "output": "在血型學中，**O 型血**（O 型血）被稱為「萬能捐血者」。\n\n這主要基於以下幾個關鍵原因：\n\n1.  **血型相容性極高**：O 型血的人的紅細胞表面沒有 A 或 B 抗原，因此與 A 型、B 型、AB 型以及 O 型血的人相容。這意味著 O 型血的人可以安全地接受任何血型的人的血液，而不會引發免疫反應。\n2.  **輸血安全性**：由於相容性極高，O 型血在臨床上被視為最安全的血液來源。即使有極少數的遺傳錯誤導致 O 型血的人對 O 型血產生免疫反應，這種情況在醫學上也是罕見的。\n3.  **歷史與文化意義**：在許多傳統文化中，O 型血也被視為「万能」的象徵，因為它沒有特定的血型限制，可以滿足所有人的需求。\n\n**補充說明**：\n雖然 O 型血是「萬能」的，但在現代醫學中，**A 型血**（A 型血的人可以接受 B 型、AB 型和 O 型血）和 **B 型血**（B 型血可以接受 A 型、AB 型和 O 型血）也被視為非常安全的血型。不過，O 型血因其極高的相容性，在許多國家和地區仍被廣泛認為是理想的「萬能」血型。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "台灣位於哪一個大洋的西側？",
+    "output": "台灣位於**太平洋**的西側。\n\n台灣島位於東經 120 度至 125 度之間，屬於東半球的太平洋地區。由於台灣島位於太平洋的西部，因此被稱為「太平洋西岸島嶼」，也是中國海灣的一部分。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "一星期有幾個小時？只要數字。",
+    "output": "7",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "請把「今天天氣很好」這句話改成否定句。",
+    "output": "「今天天氣不好」",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "鑽石和石墨都是由哪一種元素構成的？",
+    "output": "鑽石（Cubic Diamond）和石墨（Graphite）都是由**碳**（Carbon）元素構成的。\n\n這兩種物質在化學組成上完全相同，都是單質碳。它們之所以會有不同的物理性質，是因為碳原子排列在空間中的**結構不同**：\n\n*   **鑽石**：碳原子以**四面體**（Tetrahedron）結構相互連接，形成晶體結構。這種結構使得鑽石具有極高的硬度、高折射率以及獨特的透明性。\n*   **石墨**：碳原子以**六角形**（Hexagonal）結構排列，層層堆疊。這種結構使得石墨具有極高的導電性、滑動性以及不透明的黑色外觀。\n\n雖然它們的化學式都是 $C$，但由於原子排列方式不同，它們在物理性質上存在顯著差異。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "如果一本書有 240 頁，我讀了四分之三，還剩幾頁？只要數字。",
+    "output": "240 × (1 - 3/4) = 240 × 1/4 = **60**\n\n還剩 60 頁。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "農曆新年又叫做什麼節？",
+    "output": "農曆新年通常稱為「春節」，是中國傳統的重要節日。春節不僅是農曆新年的名稱，也是中國人民最隆重的節日之一，象徵著團圓、幸福與吉祥。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "zhtw",
+    "question": "光在真空中的速度大約是每秒幾公里？",
+    "output": "光在真空中的速度約為 **299,792 公里/秒**（通常簡化為 **300,000 公里/秒** 或 **3 萬公里/秒**）。\n\n這個速度是宇宙中已知最快的速度，也是光在真空中傳播的絕對速度。由於光在真空中傳播的速度是恒定的，所以光在真空中的速度約為每秒 **30 萬公里**。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の首都はどこですか。",
+    "output": "日本の首都は**東京**です。\n\n東京は日本最大の都市であり、日本経済の中心地、政治・行政の中心、文化の中心地など、日本の重要な役割を果たしています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何ヶ月ですか。",
+    "output": "1 年は **12 か月** です。\n\nこれは一年を 12 つの月に分けて数えることで、12 か月の合計が 1 年となります。例えば、1 月から 12 月までを 12 個の月としてカウントすると、その合計が 1 年になります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "富士山の高さは約何メートルですか。",
+    "output": "富士山は約 **3,778 米**（約 3,780 米）の高さです。\n\nこの高さは、日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から山頂に至るまでの平均的な高さを指し、富士山が日本海側から",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本で一番長い川は何ですか。",
+    "output": "日本では、**長谷川**（ながやがわ）が最も長い川です。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山梨県と長野県を結ぶ「長谷川」を指します。その長さは約 **1,000 米**（1,000 米 100 分）とされています。\n\nこの川は、山",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "水は摂氏何度で沸騰しますか。（1気圧）",
+    "output": "水は摂氏 **100 度** で沸騰します。\n\nこの温度は、1 気圧（標準気圧）下での沸騰点です。この温度を摂氏で表すと、100 度になります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "3の4乗はいくつですか。",
+    "output": "3 の 4 乗は **81** です。\n\n計算手順は以下の通りです：\n$$3 \\times 3 \\times 3 \\times 3 = 81$$",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1年は何日ですか。（平年）",
+    "output": "日本の平年（1 年）は、**1 月 1 日**から**12 月 31 日**の 365 日です。\n\nこの期間を「平年」と呼ぶのは、日本が 1873 年に「平年」を正式に定めたためです。この 365 日の中で、1 月 1 日から 12 月 31 日までの期間が「平年」として定義されています。\n\n※ 1 年 3 月 1 日（または 1 月 1 日）以降の期間が「平年」ではなく、**平年 1 日**（1 年 3 月 1 日）と呼ばれることもあります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "water の化学式は何ですか。",
+    "output": "水（H₂O）の化学式は、**H₂O** です。\n\nこれは、水分子の構成式で、**2 つの酸素原子（O）**と**1 つの水素原子（H）**が結合していることを意味します。\n\n*   **H**: 水素（Hydrogen）\n*   **O**: 酸素（Oxygen）\n\nこの式式は、水分子の式単位（H₂O）を表しており、1 個の水分子には 2 個の水素原子と 1 個の酸素原子が含まれています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の通貨単位は何ですか。",
+    "output": "日本の通貨単位は**円**です。\n\n日本は「円」を単位の基本単位として使用しており、その単位は「円」です。これは、日本国内の通貨として「円」を基本単位としたためです。\n\nただし、国際的な取引や金融取引では、**ドル**（USD）や**ユーロ**（EUR）などの外国通貨単位も使われます。例えば、銀行の取引や国際的な取引では「ドル」や「ユーロ」が使われますが、日本国内の決済や一般的な通貨単位は「円」です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "一辺が5センチの正方形の面積は何平方センチですか。数字だけ。",
+    "output": "正方形の面積は、辺の長さの平方（$a^2$）で求められます。\nこの場合、辺の長さは 5 センチです。\nしたがって、面積は $5 \\times 5 = 25$ です。\n\n25",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "太陽に一番近い惑星は何ですか。",
+    "output": "太陽に最も近い惑星は**水星**です。\n\n水星は太陽系内の最も近縁の惑星で、太陽の表面から約 68,000 万 km（約 42,000 万 km）離れています。この距離は、他の惑星（土星、木星、天王星、海王星）の距離よりも約 100 倍ほど遠く、太陽の表面から最も遠くです。\n\n水星は太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の表面から最も近く、太陽の表面から最も遠く、太陽の",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1キログラムは何グラムですか。",
+    "output": "1 キログラム（kg）は、**1,000 グラム（g）**です。\n\n単位は以下の通りです：\n*   **kg** (キログラム)\n*   **g** (グラム)\n\nしたがって、1 kg = 1,000 g となります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "x + 7 = 15 のとき、x はいくつですか。数字だけ。",
+    "output": "$x + 7 = 15$ を解くために、両辺から 7 を引きます。\n\n$$x = 15 - 7$$\n$$x = 8$$\n\nしたがって、$x$ は **8** です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "リスト内の偶数の合計を返すPython関数を書いてください。",
+    "output": "リスト内の偶数の合計を返す Python 関数は、リストの要素がすべて偶数である場合、その合計を計算します。\n\n以下に、リストの要素がすべて偶数である場合の計算式と、実際に使われるコードを示します。\n\n### 計算式\nリストの要素がすべて偶数である場合、合計は以下の式で計算されます。\n\n$$ \\text{合計} = \\sum_{i=0}^{n-1} \\text{リスト}[i] $$\n\n### Python 関数コード\n\n```python\ndef sum_even_numbers(lst):\n    \"\"\"\n    リスト内の偶数の合計を返す関数。\n    \n    条件: リスト内のすべての要素が偶数である場合のみ、この関数を呼び出す。\n    条件を満たさない場合は、リストの長さやエラーを返す。\n    \n    :param lst: 整数リスト\n    :return: 偶数の合計\n    :raises ValueError: 条件を満たさない場合\n    \"\"\"\n    # 条件を満たす場合のみ計算\n    if not all(isinstance(x, int) for x in lst):\n        raise ValueError(\"リストには整数が含まれていません。\")\n    \n    # 条件を満たす場合のみ計算\n    if not all(x % 2 == 0 for x in lst):\n        raise ValueError(\"リストには偶数が含まれていません。\")\n    \n    return sum(lst)\n\n# 例\nif __name__ == \"__main__\":\n    # 条件を満たす例\n    lst = [1, 2, 4, 6, 8]\n    print(f\"条件を満たす例: {sum_even_numbers(lst)}\") # 出力: 20\n    \n    # 条件を満たさない例（エラーを返す）\n    try:\n        lst = [1, 2, 3, 4, 5]\n        print(sum_even_numbers(lst))\n    except ValueError as e:\n        print(f\"エラー: {e}\")\n```\n\n### 解説\n1.  **条件チェック**: `all(isinstance(x, int) for x in lst)` はリストに整数が含まれているか確認します。\n2.  **条件チェック**: `all(x % 2 == 0 for x in lst)` はリスト内のすべての要素が偶数であるか確認します。\n3.  **計算**: 条件を満たす場合、",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "『源氏物語』の作者は誰ですか。",
+    "output": "『源氏物語』の作者は**源頼朝**（やまの頼朝）です。\n\nこの作品は、源頼朝が元禄元年（1694 年）に、妻の源頼朝の娘である**源頼朝の娘**（源頼朝の娘）を妻に迎えた際に、その娘が「源氏物語」として書き起こした作品です。\n\nこの作品は、源頼朝が元禄 10 年（1697 年）に死去した際、その遺体から書き起こしたもので、源頼朝の娘がその作品を執筆したという伝承があります。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "ダイヤモンドと黒鉛は何という元素からできていますか。",
+    "output": "ダイヤモンドと黒鉛はどちらも**炭素**（Carbon）からできています。\n\n炭素は元素周期表の第 14 族（IVA）の元素で、原子番号 6 です。この元素は、単原子の原子が 1 つの球状構造を持つため、ダイヤモンドや黒鉛は結晶構造として存在します。\n\n*   **ダイヤモンド**は、炭素原子が四面体構造（4 つの隣接原子とつながっている）に並ぶため、非常に硬く透明な結晶です。\n*   **黒鉛**は、炭素原子が六角形構造（6 つの隣接原子とつながっている）に並ぶため、硬く不透明な結晶です。\n\n結論として、両方とも**炭素**という元素から構成されています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "1週間は何時間ですか。数字だけ。",
+    "output": "1",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の最も北にある都道府県はどこですか。",
+    "output": "日本の最も北にある都道府県は**北海道**です。\n\n北海道は日本列島を北端に位置し、日本海に面した最も北の地域です。その北極点（日本海側）は**北海道旭川市**に位置し、日本海側は**北海道函館市**に位置しています。\n\n北海道は、日本列島を北端に位置し、日本海に面した最も北の地域です。その北極点（日本海側）は北海道旭川市に位置し、日本海側は北海道函館市に位置しています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "光合成は植物のどの部分で主に行われますか。",
+    "output": "光合成は、**植物の葉（特に緑色の部分）で主に行われます**。\n\nこの過程は、光エネルギーを化学エネルギーに変換し、植物が食物（糖分など）を生成する「光合反応」です。この反応は主に以下の部位で行われます：\n\n*   **葉の細胞**：特に**葉脈**や**葉脈組織**（葉の中心部と周辺部）に光合色素（叶绿素など）が含まれている細胞が、光エネルギーを吸収して反応を促進します。\n*   **葉脈**：葉脈は光を伝達する役割も果たしますが、光合成の直接的な反応は葉の細胞内で起こります。\n\nしたがって、光合成は植物の**葉**において、その細胞内で光エネルギーを化学エネルギーに変換する主要なプロセスです。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "240ページの本の4分の3を読みました。残りは何ページですか。数字だけ。",
+    "output": "残りは **120 ページ** です。\n\n計算式は：\n$$240 \\div 3 = 80$$\n$$80 \\times 3 = 240$$",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "明治時代は西暦何年に始まりましたか。",
+    "output": "明治時代は、西暦 **1868 年** に始まりました。\n\nこの年、日本は明治天皇が即位し、明治政府が成立しました。その年の 1 月 1 日に、日本が世界で初めて独立した国として正式に宣言された「日本国憲法」が制定されました。この年を「明治元年」として、明治政府が建国したことを記念して命名されました。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "人間の平熱はおよそ摂氏何度ですか。",
+    "output": "人間の平熱（体温）はおよそ **36.5℃〜37.5℃** の範囲に収まります。\n\nこの値は、体温が最も安定している状態であり、体温が低下する（寒気）または上昇する（熱気）状態を避けるために維持されるものです。\n\n*   **低体温**：35℃以下\n*   **高体温**：38℃以上\n\nこの範囲の温度は、人間の体にとって最も適した温度であり、過熱（37.5℃以上）や過寒（36.5℃以下）は健康に悪影響を及ぼす可能性があります。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "「今日は天気がいい」を否定文にしてください。",
+    "output": "「今日は天気がいい」を否定文にすると、以下のようになります。\n\n**「今日は天気がいいです」**\n\n※「いい」は「いい」の否定形「い」を、否定助詞「ない」を、否定副詞「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、否定形「ない」を、",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "エベレストはどの2つの国の国境にありますか。",
+    "output": "エベレスト（Everest）は、**中国**と**アメリカ**の国境にあります。\n\nこの山は、中国のチベット高原の南端に位置し、アメリカのシカゴ州の北端に接しています。",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本の国花とされる花を1つ挙げてください。",
+    "output": "日本の国花は**桜**です。\n\n桜は、日本が最も古くから国花として知られており、江戸時代には「桜の国」に指定されました。また、日本が世界で最も桜の国であることも事実です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "真空中の光の速さはおよそ秒速何キロメートルですか。",
+    "output": "真空中の光の速さはおよそ **299,792,458 米/秒**（約 300,000 キロメートル/秒）です。\n\nこの値は、物理学の基本定数として定数として扱われます。より簡潔に表すと、**光速**（$c$）と呼ばれます。\n\nこの値は、1963 年にニュートンが発見した値で、現在も世界標準として定数として維持されています。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "17 かける 3 はいくつですか。",
+    "output": "17 × 3 = **51**\n\n計算过程：\n17 × 3 = (10 + 7) × 3 = 30 + 21 = 51",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "太陽系で一番大きい惑星は何ですか。",
+    "output": "太陽系で一番大きな惑星は**土星**です。\n\n土星は太陽系に最も大きな惑星であり、その直径は他の惑星の約 95 倍です。さらに、土星の質量は太陽の約 95 倍、半径は約 95 倍、そして密度は約 9.8 倍です。\n\n他の有名な惑星としては、木星（約 11 倍）、土星（約 95 倍）、天王星（約 4 倍）、海王星（約 3 倍）などが挙げられます。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "ja",
+    "question": "日本語の「ありがとう」は英語で何と言いますか。",
+    "output": "\"Thank you\"",
+    "correct": true,
+    "mere_translation": true
+  },
+  {
+    "lang": "ja",
+    "question": "酸素の元素記号は何ですか。",
+    "output": "酸素の元素記号は **O** です。\n\nこれは化学式 **O₂** を表す元素であり、酸素は水素と炭素からなる有機化合物（酸素水素化合物）の主要な成分です。",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the capital of Japan?",
+    "output": "The capital of Japan is **Tokyo**.\n\nLocated in the heart of the country, Tokyo serves as the nation's largest city and the seat of the government, including the Prime Minister's office. It is also the largest city in Japan by population and the second-largest city in the world.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 17 multiplied by 3?",
+    "output": "To find the result of multiplying 17 by 3, we can use the standard multiplication algorithm:\n\n1.  **Multiply the ones digit:** $7 \\times 3 = 21$.\n2.  **Multiply the tens digit:** $1 \\times 3 = 3$.\n3.  **Combine the results:** $21 + 3 = 24$.\n\n**Answer:**\n$17 \\times 3 = 24$",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Write a Python function that returns the sum of even numbers in a list.",
+    "output": "```python\ndef sum_even_numbers(numbers):\n    \"\"\"\n    Returns the sum of all even numbers in the given list.\n\n    Parameters:\n        numbers (list): A list of integers.\n\n    Returns:\n        int: The sum of even numbers.\n    \"\"\"\n    return sum(n for n in numbers if n % 2 == 0)\n\n\n# Example usage:\nif __name__ == \"__main__\":\n    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n    result = sum_even_numbers(data)\n    print(f\"Sum of even numbers: {result}\")  # Output: 20\n```",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Name the largest planet in our solar system.",
+    "output": "The largest planet in our solar system is **Jupiter**.\n\nIt is the most massive object in the solar system, with a mass approximately **318 times** that of the Earth and a diameter about **11 times** that of the Earth. While it is the largest by mass, it is not the largest by volume; the gas giant **Saturn** is actually larger in total volume due to its much larger radius. However, in terms of total mass, Jupiter is the clear winner.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "At what temperature in Celsius does water boil at sea level?",
+    "output": "Water boils at **100°C** (212°F) at sea level.\n\nThis temperature is the standard boiling point of pure water under standard atmospheric pressure, which is approximately 101.325 kPa (1 atmosphere). While water can boil at slightly different temperatures depending on the altitude of the location (where the atmospheric pressure is lower) or the presence of impurities (which can lower the boiling point), 100°C is the universally accepted value for sea-level conditions.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is 3 to the power of 4?",
+    "output": "To find $3^4$, we need to multiply 3 by itself four times:\n\n$$3^4 = 3 \\times 3 \\times 3 \\times 3$$\n\n$$3 \\times 3 = 9$$\n$$9 \\times 3 = 27$$\n$$27 \\times 3 = 81$$\n\n**Answer:**\n$3$ to the power of $4$ is **81**.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many days are in a common year?",
+    "output": "A common year is a year that is neither a leap year nor a common year. It is defined as a year that has 365 days.\n\nTherefore, there are **365** days in a common year.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the chemical formula for water?",
+    "output": "The chemical formula for water is **$H_2O$**.\n\nHere is a breakdown of the formula:\n*   **$H$**: Represents the element **Hydrogen**.\n*   **$O$**: Represents the element **Oxygen**.\n*   The subscript **2** indicates that there are two hydrogen atoms bonded to one oxygen atom.\n\nThis compound is a common substance found in almost all living organisms and is essential for life.",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "A square has sides of 5 cm. What is its area in square centimetres? Number only.",
+    "output": "5 cm × 5 cm = 25 cm²",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Which planet is closest to the Sun?",
+    "output": "The planet closest to the Sun is **Mercury**.\n\nIt is the smallest planet in our solar system and the first planet to be discovered by the English astronomer **Johannes Kepler** in 1619. Its distance from the Sun is approximately 57.9 million kilometers (35.4 million miles), making it the nearest celestial body to Earth.\n\nWhile Venus is the second closest, it is significantly farther away than Mercury.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many grams are in a kilogram?",
+    "output": "To determine how many grams are in a kilogram, we can look at the relationship between these two units of mass.\n\nThe metric system uses prefixes to denote powers of ten. The prefix **kilo-** (meaning \"thousand\") is used for the prefix **kilo-** in the metric system. Therefore, **1 kilogram (kg)** is equal to **1,000 grams (g)**.\n\nMathematically, this can be expressed as:\n$$1 \\text{ kg} = 1,000 \\text{ g}$$\n\n**Answer:**\nThere are **1,000** grams in a kilogram.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "If x + 7 = 15, what is x? Number only.",
+    "output": "7",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Who wrote the play Romeo and Juliet?",
+    "output": "The play *Romeo and Juliet* was written by **William Shakespeare**.\n\nHe is widely considered one of the greatest writers in the history of the English language. The play is one of the most famous works in the world, known for its tragic romance, witty dialogue, and complex themes of love, fate, and social class. It was first performed in London in 1597.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What element are both diamond and graphite made of?",
+    "output": "Both diamond and graphite are made of the same fundamental element: **Carbon**.\n\nWhile their structures differ significantly, they are both allotropes of carbon. This means they are the same element but exist in different physical and chemical states due to how the carbon atoms are arranged in space.\n\n*   **Diamond** is a crystalline structure where each carbon atom is bonded to four other carbon atoms in a rigid, tetrahedral lattice. This strong covalent network gives diamond its hardness and high melting point.\n*   **Graphite** is a layered structure where carbon atoms are arranged in hexagonal sheets. Within these sheets, the atoms are bonded to each other, but the layers are held together by weak van der Waals forces. This arrangement allows graphite to be a good electrical conductor and is used in pencils and lubricants.\n\nDespite these differences in properties, the underlying identity of the material is carbon.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many hours are in a week? Number only.",
+    "output": "48",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "In which part of a plant does photosynthesis mainly occur?",
+    "output": "Photosynthesis mainly occurs in the **leaves** of a plant.\n\nHere is a breakdown of why this is the primary site:\n\n*   **Location**: The leaves are the largest organs of the plant and contain the highest concentration of chlorophyll, the green pigment essential for capturing light energy.\n*   **Function**: The leaves are the main site of photosynthesis because they are the most exposed to sunlight and have the greatest surface area for gas exchange.\n*   **Process**: During the day, chloroplasts within the leaf cells absorb light energy from sunlight and convert it into chemical energy (glucose), which the plant uses to produce food for itself and other organisms.\n\nWhile other parts of the plant, such as the stems, roots, and flowers, also contain chloroplasts and can perform photosynthesis, the leaves are the dominant site for this process.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "A book has 240 pages and I have read three quarters of it. How many pages are left? Number only.",
+    "output": "176",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "In what year did the Second World War end?",
+    "output": "The Second World War ended in **1945**.\n\nSpecifically, the war concluded on **August 15, 1945**, when the Allied forces (primarily the United States, United Kingdom, and Soviet Union) defeated the Axis powers in Europe and the Pacific. The formal end of the conflict was marked by the signing of the **Uttarata Treaty** on September 3, 1945, which ended the war in Europe and the Pacific.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is normal human body temperature in degrees Celsius?",
+    "output": "The normal human body temperature is generally considered to be **37°C (98.6°F)**.\n\nThis measurement is typically taken at the **axillary** (armpit) site, which is the most common location for measuring body temperature. While the exact reading can vary slightly depending on the individual's activity level, clothing, and the specific time of day, 37°C is the standard scientific and medical reference value.\n\nIt is important to note that:\n*   **Acute changes**: A fever of 38°C (100.4°F) is considered a medical emergency and requires immediate medical attention.\n*   **Variability**: Some people may have slightly lower or higher normal ranges due to factors like age, gender, and health conditions.\n*   **Measurement accuracy**: Using a digital thermometer is generally more accurate than a mercury or alcohol thermometer.\n\n**Answer:** 37°C (98.6°F)",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Make this sentence negative: The weather is nice today.",
+    "output": "The weather is **not** nice today.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Everest sits on the border of which two countries?",
+    "output": "Everest sits on the border of **China** and **Nepal**.\n\nSpecifically, the summit is located in the **K2 pass** (also known as the K2 Pass), which is a narrow mountain pass located in the Himalayas. This pass is the only pass between the two countries, and it is the highest point in the world.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Roughly how fast does light travel in a vacuum, in kilometres per second?",
+    "output": "Light travels in a vacuum at a constant speed of approximately **299,792 kilometers per second** (often rounded to **300,000 km/s** or **3 × 10⁵ km/s**).\n\nThis value is defined by the International System of Units (SI) as the speed of light ($c$), which is the speed of all electromagnetic waves in a vacuum. It is a fundamental constant of nature and is the same for all observers, regardless of their motion relative to the light source.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the chemical symbol for oxygen?",
+    "output": "The chemical symbol for oxygen is **O**.\n\nThis single letter represents the element oxygen, which is a non-metal located in Group 16 (or 6A) of the periodic table. It is the most abundant element in the Earth's atmosphere and is essential for life.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the longest river in Japan?",
+    "output": "The longest river in Japan is the **Hokkaido River** (also known as the **Hokkaido River** or **Hokkaido River**).\n\nIt originates in the **Hokkaido Sea** (specifically the **Hokkaido Sea** or **Hokkaido Sea**) and flows through the northern part of the island of Hokkaido. The river's length is approximately **1,000 kilometers** (622 miles).\n\nIt is notable for being the longest river in the **Hokkaido Sea**, which is a sea located in the northern part of the island. The river's course is relatively straight and flows through the central part of the island before turning southward to join the **Kurobe River** (also known as the **Kurobe River** or **Kurobe River**) in the southern part of the island.\n\n*Note: While the **Kurobe River** is the longest river in Japan, the **Hokkaido River** is the longest river in the **Hokkaido Sea**.*",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Convert 25 degrees Celsius to Fahrenheit. Number only.",
+    "output": "(82.6)",
+    "correct": false,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "How many sides does a hexagon have?",
+    "output": "A hexagon has **6** sides.\n\nIn geometry, a hexagon is a polygon with six straight sides and six straight angles. It is named after the number of sides it has (e.g., a hexagon is a six-sided polygon).",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Which gas do plants absorb from the air for photosynthesis?",
+    "output": "Plants absorb **carbon dioxide** ($CO_2$) from the air for photosynthesis.\n\nHere is a breakdown of the process:\n1.  **Source**: Plants take in carbon dioxide from the atmosphere through tiny pores called **stomata** (especially during the day when they are open).\n2.  **Role**: This gas acts as the carbon source. It combines with water and sunlight to create glucose (sugar) and oxygen.\n3.  **Output**: The oxygen produced is released back into the air, which is why plants often smell sweet when they are breathing.\n\nWhile plants also absorb water from the soil, the specific gas required to drive the chemical reactions of photosynthesis is carbon dioxide.",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What does HTTP stand for?",
+    "output": "**HTTP** stands for **HyperText Transfer Protocol**.\n\nIt is the standard protocol used for transferring data over the internet. Developed by Tim Berners-Lee in 1991, it is the foundation of the World Wide Web. HTTP defines how web pages are sent and received, including methods like GET (to retrieve data) and POST (to send data).",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "Sort these numbers in ascending order: 5, 2, 9, 1. Numbers only.",
+    "output": "1, 2, 5, 9",
+    "correct": true,
+    "mere_translation": false
+  },
+  {
+    "lang": "en",
+    "question": "What is the largest ocean on Earth?",
+    "output": "The largest ocean on Earth is the **Pacific Ocean**.\n\nIt covers approximately **16.7 million square kilometers** (4.1 million square miles), making it the second largest ocean by area, after the Atlantic Ocean. While the Arctic Ocean is often considered the largest by volume (due to its vast depth), the Pacific Ocean is the largest by surface area.\n\nThe Pacific Ocean is also the largest ocean by **volume** (water mass), which is why it is the largest ocean by volume.",
+    "correct": true,
+    "mere_translation": false
+  }
+]
