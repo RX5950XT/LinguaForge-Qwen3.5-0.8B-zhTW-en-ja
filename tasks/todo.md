@@ -339,7 +339,8 @@
             那是別的專案的 checkout，未動。`export_gguf.py` 已改成偵測 `--no-mtp`
             支援與否＋`--name` 參數化（原本 `NAME` 寫死 v3 會覆蓋舊檔）
       - [ ] 模型卡：等 F28 的 base 對照數字
-- [~] F28 **base 用 `--full` ＋ 現行 `DECODE` 重跑** — 跑中（`by8a79kld`，06:11 啟動）。
+- [x] F28 **base 用 `--full` ＋ 現行 `DECODE` 重跑完成**（07:01，結果落
+      `results/baseline/base-full-flores.json`，這是**唯一可用的 COMET 對照**）。
       **這不是技術債，是硬閘的完整性問題**：寫模型卡時發現「六方向 COMET ≥ base」
       一直是拿 `base b4`（n=500、beam4、**無** per-language `no_repeat_ngram`）在比，
       而 v5d/v5e/v5f 都是 n=1012 + 完整 `DECODE`。**樣本數與解碼都不同。**

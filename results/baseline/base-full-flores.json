@@ -1,0 +1,60 @@
+{
+  "tag": "base-full-flores",
+  "benchmark": "flores",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": null,
+  "n": 1012,
+  "gen": {
+    "num_beams": 4
+  },
+  "decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.38,
+      "bleu": 25.57,
+      "simplified_leak_pct": 10.18,
+      "comet": 86.32
+    },
+    "zhtw->en": {
+      "chrf++": 47.78,
+      "bleu": 19.34,
+      "simplified_leak_pct": null,
+      "comet": 84.79
+    },
+    "en->ja": {
+      "chrf++": 20.26,
+      "bleu": 19.81,
+      "simplified_leak_pct": null,
+      "comet": 86.17
+    },
+    "ja->en": {
+      "chrf++": 45.67,
+      "bleu": 16.67,
+      "simplified_leak_pct": null,
+      "comet": 84.85
+    },
+    "ja->zhtw": {
+      "chrf++": 10.53,
+      "bleu": 10.38,
+      "simplified_leak_pct": 43.58,
+      "comet": 81.44
+    },
+    "zhtw->ja": {
+      "chrf++": 14.8,
+      "bleu": 12.97,
+      "simplified_leak_pct": null,
+      "comet": 84.24
+    }
+  }
+}

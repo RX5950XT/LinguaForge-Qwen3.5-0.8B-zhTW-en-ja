@@ -13,6 +13,14 @@ bench/      公開知識／常識基準（eval_bench.py 直接寫這裡，同上
 hyp/        逐句 src/ref/hyp 文字檔（.gitignore 排除，COMET 靠它重算）
 ```
 
+**COMET 對照組唯一可用的是 `baseline/base-full-flores.json`**（n=1012 + 現行 `DECODE`）。
+`base-flores.json` / `base-b4-flores.json` 是 n=500 且解碼設定不同的舊檔，
+其中 `base-b4` 的 `comet` 欄位全為 null——**不要拿它們當 base 比**。
+判讀前先對 json 裡的 `n` 與 `decode_defaults` 兩個欄位。
+
+顯著性：`tools/comet/paired_bootstrap.py --a <base-tag> --b <cand-tag> --direction en2zhtw`。
+0.1 量級的 COMET 差在 n≈1000 測不出來，宣告勝負前先看 CI 有沒有跨 0。
+
 `bench/` 檔名帶計分法：`<tag>.json` 是輪轉去偏的正式數字，`<tag>-letter.json`
 是單輪診斷用。**兩者分數不可互相比較**，見 `eval_bench.py` 開頭說明。
 
