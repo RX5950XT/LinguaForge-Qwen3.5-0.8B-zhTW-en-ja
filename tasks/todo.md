@@ -333,12 +333,18 @@
       - [x] LoRA adapter → `release/lora-v5e/`（r=64 / α=128 已從 adapter_config 核對）
       - [x] 合併 bf16 → `release/merged-bf16-v5e/`（1.7GB，三方向抽測乾淨無洩漏，
             `generation_config.json` 已帶 eos `[248044, 248046]`）
-      - [ ] GGUF **卡住**：本機唯一的 llama.cpp 是 `AI-Factory/` 底下的 **b8189**，
-            不只沒有 `--no-mtp`，連 Qwen3.5 的 BPE pre-tokenizer 都不認
-            （`get_vocab_base_pre()` 無對應 hash）。要換較新的 llama.cpp；
-            那是別的專案的 checkout，未動。`export_gguf.py` 已改成偵測 `--no-mtp`
-            支援與否＋`--name` 參數化（原本 `NAME` 寫死 v3 會覆蓋舊檔）
-      - [ ] 模型卡：等 F28 的 base 對照數字
+      - [x] GGUF ✅ `release/gguf-v5e/`（Q8_0 812M / Q4_K_M 529M / f16 1.5G）。
+            本機原有的 llama.cpp 是 b8189，連 Qwen3.5 的 BPE pre-tokenizer 都不認
+            → 另 clone 一份到 `D:/Workspace/AI_training/llama.cpp-latest`（未動 AI-Factory 的）。
+            三方向 × 兩量化實測：Q8_0 與 bf16 合併版**逐字相同**、186 t/s；Q4_K_M 171~217 t/s。
+            兩個坑見 lessons.md：`--chat-template-kwargs enable_thinking` 已失效
+            （改 `--reasoning off --reasoning-budget 0`）、CJK 提示詞要用 `-f` 不能用 `-p`
+      - [x] 模型卡 ✅ `release/README.md` 全面改寫（v3 卡備份為 `README-v3.md`）：
+            全量 n=1012 對照表、en→zhtw 持平的 CI 註記、BELEBELE/知識/長文三組通用能力、
+            逐目標語言 `DECODE`、GGUF 正確旗標、r=128 為何不出貨
+      - [x] `release/` 重整：v3 產物改名 `merged-bf16-v3/` `gguf-v3/`（未刪），
+            根目錄 adapter 換成 v5e（r=64/α=128 已驗）
+      - [ ] **上傳 HF：等使用者指示。倉庫維持私人。**
 - [x] F28 **base 用 `--full` ＋ 現行 `DECODE` 重跑完成**（07:01，結果落
       `results/baseline/base-full-flores.json`，這是**唯一可用的 COMET 對照**）。
       **這不是技術債，是硬閘的完整性問題**：寫模型卡時發現「六方向 COMET ≥ base」

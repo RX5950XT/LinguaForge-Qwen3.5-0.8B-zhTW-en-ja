@@ -11,7 +11,7 @@
 
 **倉庫維持私人（GitHub + HF 皆是，未經明確指示不得轉公開）。**
 
-## 🚨 最新狀態（2026-07-31 03:3x）
+## 🚨 最新狀態（2026-07-31 14:40）
 
 **出貨候選 = `outputs/sft-v5e`。v5f 翻譯更好但踩到硬閘，不得出貨。**
 
@@ -92,9 +92,9 @@ COMET 對簡繁不敏感，所以 base 這 86.32 有一成的行是簡體。洩�
 **r=256 取消，不是暫緩**（F46）。三點連線顯示 r=128 已經越線，r=256 只會更深，
 而修正手段（擴充 replay）卡在授權牆。可用的容量區間是 **r ≤ 64**。
 
-1. ~~補 doc / ifeval 兩軸~~ ✅ 05:55 完成，**v5e 五道硬閘全過**（見下表）
-2. **打包出貨 v5e**：`release/` 還停在 v3，落後六個版本。模型卡、GGUF、
-   逐目標語言 `DECODE` 預設都要重出
+1. ~~補 doc / ifeval 兩軸~~ ✅、~~F28 重量 base 對照~~ ✅、~~打包 v5e~~ ✅
+   （`release/` 已到 v5e：adapter + merged-bf16 + GGUF + 改寫模型卡，**未上傳**）
+2. **卡在一個規則決策**：v5e 的 en→zhtw 是統計平手，硬閘寫「≥ base」無容忍度 → 見下表
 3. 想再往上只剩資料來源一條路（授權牆）。r=96 是唯一沒探過的中間點，優先度低於出貨
 
 ### 硬閘核對（2026-07-31 07:20）— **沒有任何一版全過**
@@ -161,13 +161,13 @@ results/   依版本分類，慣例見 results/README.md（讀取端一律 rglob
 logs/      依類型分：data/ bench/ train/ eval/ comet/ export/
 tasks/     todo.md（進度）、lessons.md（教訓）
 docs/      REPORT.md、RESEARCH-v4.md、RESEARCH-v5.md
-release/   (gitignored) HF repo 鏡像；**目前仍是 v3，落後主線很多**
+release/   (gitignored) HF repo 鏡像；**已更新到 v5e**（根目錄 adapter + merged-bf16-v5e/
+           + gguf-v5e/ + 改寫的 README.md；v3 產物改名保留為 *-v3）。**尚未上傳 HF**
 ```
 
 ## 待辦（非阻塞）
 
-- `release/` 還在 v3，模型卡未更新，每目標語言 `DECODE` 預設沒寫進去
 - `docs/RESEARCH-v4.md` 還欠 v4 結果
-- v5a 能力面板不完整；F28（base 用 `--full` + 現行 `DECODE` 重跑）沒做
+- v5a 能力面板不完整
 - `token_budget: 1450` 是舊 3070 Ti 8GB 調的；16GB 卡要調高得同步降
   `gradient_accumulation_steps`，並先用 `bench_step.py` 實測，**不可混進實驗當混淆變因**

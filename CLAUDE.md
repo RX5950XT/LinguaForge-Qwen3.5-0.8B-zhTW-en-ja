@@ -60,6 +60,12 @@ doc 軸的閘用**絕對值不跟 base 比**：base 自己尾段會超譯（tail
 - **只要最後一格 logits 就一定要 `logits_to_keep=1`**：vocab 248K，不設會實體化
   `[B, L, 248064]` 整張（B=16、L=800 → 6.3GB，實測 15.85/16.31 GB 貼著 OOM）。
   訓練沒踩到是因為 `token_budget` 早就壓死每個 micro-batch 的 token 數
+- GGUF 轉換用 `D:/Workspace/AI_training/llama.cpp-latest`（本機另一份 b8189 太舊，
+  不認 Qwen3.5 的 BPE pre-tokenizer）。llama-cli 執行時**必須** `--reasoning off
+  --reasoning-budget 0`——舊的 `--chat-template-kwargs enable_thinking` 已被靜默忽略，
+  thinking 會以雜訊前綴洩進譯文。CJK 提示詞用 `-f prompt.txt`，`-p` 會被 cp950 打壞
+- COMET 的 base 對照只認 `results/baseline/base-full-flores.json`（n=1012 + 現行 `DECODE`）。
+  宣告某方向勝負前先跑 `tools/comet/paired_bootstrap.py`，CI 跨 0 就是打平
 - 選擇題基準（`eval_bench.py`）必須輪轉選項去偏：0.8B 對答案位置有強先驗
   （實測 base 押同一字母 43%、v5f 63%，隨機應為 ~27%），單輪 acc 量到的是先驗不是知識。
   比選項文字 logprob 那條路實測貼著隨機基準，已排除
