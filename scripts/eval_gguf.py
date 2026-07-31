@@ -32,23 +32,32 @@ def target_of(direction):
     return direction.split("2", 1)[1]
 
 
-def run_one(model, prompt_file, max_new):
-    out = subprocess.run(
-        [str(BIN), "-m", str(model), "--jinja", "-st", "-ngl", "99",
-         "-n", str(max_new), "--temp", "0",
-         # 舊的 --chat-template-kwargs enable_thinking 已被靜默忽略，thinking 會洩進譯文
-         "--reasoning", "off", "--reasoning-budget", "0",
-         "-sys", SYSTEM, "-f", str(prompt_file)],
-        capture_output=True, text=True, encoding="utf-8", errors="replace")
-    lines = (out.stdout + out.stderr).split("\n")
+def parse_output(text, n_echo):
+    """從 llama-cli 的完整輸出切出譯文。n_echo = 提示詞的非空行數。
+
+    版面是：`> ` 開頭那行就是提示詞第一行（不是分隔線，切的時候要算進去），
+    其後接完提示詞剩下幾行，才是模型輸出，最後以 `[ Prompt:` 統計行收尾。
+    原本用 `body[-1]` 猜「最後一行就是譯文」，多行輸出會被默默截掉前半。
+    """
+    lines = text.split("\n")
     try:
         s = next(n for n, l in enumerate(lines) if l.startswith("> "))
         e = next(n for n, l in enumerate(lines) if l.startswith("[ Prompt:"))
     except StopIteration:
         return ""
-    # "> " 之後是回顯的提示詞（可能多行），真正的輸出是空行之後那段
-    body = [l for l in lines[s + 1:e] if l.strip()]
-    return body[-1].strip() if body else ""
+    body = [l.strip() for l in lines[s:e] if l.strip()]
+    return " ".join(body[n_echo:])
+
+
+def run_one(binary, model, prompt_file, max_new, n_echo):
+    out = subprocess.run(
+        [str(binary), "-m", str(model), "--jinja", "-st", "-ngl", "99",
+         "-n", str(max_new), "--temp", "0",
+         # 舊的 --chat-template-kwargs enable_thinking 已被靜默忽略，thinking 會洩進譯文
+         "--reasoning", "off", "--reasoning-budget", "0",
+         "-sys", SYSTEM, "-f", str(prompt_file)],
+        capture_output=True, text=True, encoding="utf-8", errors="replace")
+    return parse_output(out.stdout + out.stderr, n_echo)
 
 
 def main():
@@ -57,7 +66,11 @@ def main():
     ap.add_argument("--limit", type=int, default=100)
     ap.add_argument("--quants", nargs="+", default=["f16", "Q8_0", "Q4_K_M"])
     ap.add_argument("--max-new", type=int, default=200)
+    ap.add_argument("--bin", type=Path, default=BIN, help="llama-cli 路徑（需 b9437 以上）")
     args = ap.parse_args()
+    assert args.bin.exists(), (
+        f"找不到 llama-cli：{args.bin}\n"
+        "b8189 不認 Qwen3.5 的 BPE pre-tokenizer，且無 --reasoning 旗標（thinking 會洩進譯文）")
 
     import sacrebleu
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -75,8 +88,10 @@ def main():
         assert model.exists(), f"找不到 {model}"
         hyps = []
         for i, s in enumerate(src, 1):
-            tmp.write_text(f"{INSTR[tgt]}\n{s}", encoding="utf-8", newline="\n")
-            hyps.append(run_one(model, tmp, args.max_new))
+            prompt = f"{INSTR[tgt]}\n{s}"
+            tmp.write_text(prompt, encoding="utf-8", newline="\n")
+            n_echo = sum(bool(l.strip()) for l in prompt.split("\n"))
+            hyps.append(run_one(args.bin, model, tmp, args.max_new, n_echo))
             if i % 20 == 0:
                 print(f"  [{q}] {i}/{len(src)}", flush=True)
         rows[q] = hyps

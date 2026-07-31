@@ -10,11 +10,19 @@ system_score 只是 segment 分數的平均，兩版差 0.1 到底算不算贏�
 """
 
 import argparse
+import json
 import random
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent.parent
 MODEL = "Unbabel/wmt22-comet-da"
+OUT_DIR = ROOT / "results" / "bootstrap"
+
+
+def out_path(a, b, direction):
+    """CI 是硬閘的一部分（COMET 判 TIE? 時要靠它裁決），必須有機器可讀的來源。
+    regression_guard 會照這個檔名找，改名要兩邊一起改。"""
+    return OUT_DIR / f"{a}__{b}__{direction}.json"
 
 
 def read_dir(tag, stem):
@@ -67,15 +75,31 @@ def main():
     lo, hi = deltas[int(0.025 * args.resamples)], deltas[int(0.975 * args.resamples)]
     p_b_better = wins / args.resamples
 
+    verdict = ("B 顯著較佳" if lo > 0 else
+               "A 顯著較佳" if hi < 0 else
+               "CI 跨 0 → 差異與雜訊不可區分")
+
     print(f"\n{args.direction}  n={n}  resamples={args.resamples}")
     print(f"  {args.a:<20} COMET {sum(sa)/n*100:.2f}")
     print(f"  {args.b:<20} COMET {sum(sb)/n*100:.2f}")
     print(f"  delta(B-A) = {diff:+.3f}   95% CI [{lo:+.3f}, {hi:+.3f}]")
     print(f"  P(B 較佳) = {p_b_better:.3f}")
-    verdict = ("B 顯著較佳" if lo > 0 else
-               "A 顯著較佳" if hi < 0 else
-               "CI 跨 0 → 差異與雜訊不可區分")
     print(f"  結論：{verdict}")
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    p = out_path(args.a, args.b, args.direction)
+    p.write_text(json.dumps({
+        "a": args.a, "b": args.b, "direction": args.direction,
+        "n": n, "resamples": args.resamples, "seed": args.seed,
+        "comet_a": round(sum(sa) / n * 100, 4),
+        "comet_b": round(sum(sb) / n * 100, 4),
+        "delta": round(diff, 4),
+        "ci_lo": round(lo, 4), "ci_hi": round(hi, 4),
+        "p_b_better": p_b_better,
+        "crosses_zero": lo <= 0 <= hi,
+        "verdict": verdict,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"  → {p.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

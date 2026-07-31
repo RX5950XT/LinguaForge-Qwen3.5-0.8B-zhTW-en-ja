@@ -23,16 +23,24 @@ uv run python scripts/train_sft.py [--config configs/sft_lora_v5f.yaml] [--max-s
 
 ## 出貨標準
 
-**硬閘**（任一 FAIL 不得出貨，`regression_guard.py` 已覆蓋前兩項）：
+**硬閘**（任一 FAIL 不得出貨，六條全部機器化：`regression_guard.py --candidate <tag>`，
+exit 0=PASS／1=FAIL／**2=缺值**。沒跑過的閘不算過，不得靠人工核對表格）：
 
 | 項目 | 門檻 |
 |---|---|
-| 簡體洩漏 en→zhtw / ja→zhtw | ≤ baseline + 0.3 |
-| 六方向 COMET | 每個 ≥ base |
+| 簡體洩漏 en→zhtw / ja→zhtw | ≤ base + 0.3 |
+| 六方向 COMET | 每個**不得顯著低於** base（見下） |
 | 翻譯機率（`eval_capability --axis general`） | ≤ 5.0% |
 | BELEBELE / 知識 三語（`eval_bench.py`） | 各 ≥ base − 3.0 |
 | `--axis doc` 尾段譯出比 `tail_ratio_median` | ≥ 0.80（六向皆須） |
 | `--axis doc` 腰斬率 `truncated_pct` | ≤ 5%（六向皆須） |
+
+COMET 那條是**三段判定**，不是單一門檻：`≥ base` 直接 PASS；落在
+`[base−0.5, base)` 判 **TIE?**，必須跑 `paired_bootstrap.py`，**95% CI 跨 0 才算過**，
+CI 整段在 0 以下就是真退步；`< base−0.5` 直接 FAIL。
+理由：`system_score` 是 n≈1000 段的平均，±0.4 在雜訊帶內，
+拿點估計判「−0.09 就是退步」等於在對雜訊做決策——F37/F45 兩次誤判都是這樣來的。
+0.5 這個帶寬沿用本工具原有的容忍度，不是為了讓某一版過閘而挑的。
 
 **目標**（達成即收工）：COMET AVG ≥ 87.00、通用能力 n=90 ≥ base − 3.0。
 

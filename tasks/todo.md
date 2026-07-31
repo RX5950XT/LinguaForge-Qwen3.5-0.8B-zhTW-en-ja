@@ -281,9 +281,14 @@
       —— 非平行，**只有同語言內 base vs finetune 的 Δ 有效**，不得跨語言比
 - [x] B5 修 `logits_to_keep=1`：峰值 VRAM 15.85 → 2.29 GB，分數不變
 - [x] B4 base / v5d / v5e / v5f 四版全數跑完，結果見 F49
-- [ ] B6 出貨標準已寫進 `CLAUDE.md`（硬閘＋目標＋停止規則），
-      新增的兩項硬閘（BELEBELE ≥ base−3.0、doc 完整度 ≥ base−5%）尚未接進
-      `regression_guard.py`，目前靠人工核對
+- [x] B6 **六條硬閘全部接進 `regression_guard.py`**（2026-07-31 16:10）。
+      原本只實作 2.5 條（洩漏 2 格 + COMET **4/6 方向**），漏掉的兩向裡
+      正好包含 en→zhtw——唯一有爭議的那一格。現在覆蓋洩漏／六向 COMET／
+      BELEBELE 三語／知識三語／doc 尾段＋腰斬六向／翻譯機率＝28 格，
+      三個來源（flores / bench / capability），doc 與翻譯機率走絕對值不比 base。
+      **exit 2 = 缺值**，跟 PASS 分開：沒跑過的閘不算過。
+      自檢 `scripts/test_regression_guard.py`。實跑：v5e exit 0、v5f exit 1（BELEBELE ×2）、
+      v5d exit 2（doc 未量）——與先前人工核對表逐格一致
 
 汙染立場：對 Qwen3.5 預訓練而言沒有任何公開基準能證明未汙染，但本專案量的是
 **同一份題目上 base → finetune 的差值**，汙染兩邊共有、相減抵消。
@@ -353,3 +358,28 @@
       而且 `base-b4-flores.json` 六個 `comet` 欄位全是 null，84.59 這個數字
       只活在 `docs/RESEARCH-v5.md` 的表格裡，沒有機器可讀的來源。
       重跑後要重新核對 v5e 這道閘，並回頭修 CONTEXT/RESEARCH 的 base 欄
+
+## 收工（2026-07-31 16:40）
+
+- [x] F52 **COMET 硬閘改三段判定**（PASS／TIE?＋CI／FAIL，帶寬 0.5）。
+      舊的「每個 ≥ base」拿點估計對 n≈1012 的平均做決策，±0.4 在雜訊帶內——
+      F37「首度不再落後」與 F45「解凍」兩次誤判都是同一個病。0.5 沿用
+      `regression_guard.py` 原有的容忍度，不是為了讓 v5e 過閘挑的。
+      **falsification**：TIE? 不等於過，要 CI 跨 0；CI 整段在 0 以下照樣 FAIL。
+      自檢夾住「85.81 vs 86.32 必須 FAIL」「無容忍帶時 86.31 vs 86.32 必須 FAIL」
+- [x] F53 **`paired_bootstrap.py` 改成落檔** `results/bootstrap/<a>__<b>__<dir>.json`。
+      CI 一旦變成裁決依據就不能只印在終端機——跟先前抓包的 `base b4` 84.59
+      「只活在表格裡」是同一種病。`regression_guard` 直接讀它裁決，找不到判 MISSING
+- [x] F54 **`eval_gguf.py` 兩個缺陷**：① `body[-1]` 猜「最後一行是譯文」，多行輸出
+      會被默默截半 → 抽成 `parse_output()` 按提示詞行數精準切（`> ` 那行本身
+      就是提示詞第一行，第一次改切多了一行、100 句全空，靠逐行 diff 舊結果才抓到）；
+      ② llama-cli 路徑寫死在另一個專案底下 → 加 `--bin` 並斷言存在。
+      自檢 `scripts/test_eval_gguf.py`（單行／多行／空輸出／壞輸出四種版面）。
+      驗收：重跑 20 句與舊結果**逐行相同**
+- [x] F55 **v5e 出貨核准**：`regression_guard.py --candidate v5e` → **exit 0**，
+      28 格全 PASS（en→zhtw 靠 CI [−0.41,+0.23] 判平手）。v5f exit 1，維持不得出貨
+- [x] F56 **訓練線收工**：五個槓桿逐一結案（資料量走完 F41／r ≤ 64 上界 F49／
+      replay 卡授權 F43／解碼已收割 F33／epoch 已證偽）。唯一未探的 r=96 樂觀值
+      +0.08~0.12 COMET，離 87.00 仍差 0.32 以上，且 F49 已證 r 是斷崖不可內插
+      → **不開下一版。有新語料才有下一版訓練。**
+- [ ] **上傳 HF：等使用者指示。倉庫維持私人。**

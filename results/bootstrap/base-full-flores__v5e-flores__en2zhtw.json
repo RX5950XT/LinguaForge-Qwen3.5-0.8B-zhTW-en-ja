@@ -1,0 +1,16 @@
+{
+ "a": "base-full-flores",
+ "b": "v5e-flores",
+ "direction": "en2zhtw",
+ "n": 1012,
+ "resamples": 1000,
+ "seed": 42,
+ "comet_a": 86.3205,
+ "comet_b": 86.2348,
+ "delta": -0.0857,
+ "ci_lo": -0.4136,
+ "ci_hi": 0.2254,
+ "p_b_better": 0.309,
+ "crosses_zero": true,
+ "verdict": "CI 跨 0 → 差異與雜訊不可區分"
+}

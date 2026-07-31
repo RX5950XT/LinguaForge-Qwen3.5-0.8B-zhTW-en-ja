@@ -63,7 +63,7 @@ uv run python scripts/scoreboard.py --tags v3                            # 方�
 │    ├─ train_sft.py            LoRA / QLoRA 訓練（含 NF4 分支）
 │    ├─ evaluate.py             六方向翻譯 + chrF++/BLEU/洩漏率（--nf4 / --int8 可選）
 │    ├─ scoreboard.py           方向 × 基準矩陣（抓「FLORES 好看但新聞崩」）
-│    ├─ regression_guard.py     斷言不破 v2 底線，過了才算候選
+│    ├─ regression_guard.py     六條出貨硬閘全機器化，exit 0/1/2（2＝缺值不算過）
 │    ├─ smoke_test.py           改完先冒煙
 │    ├─ export_model.py         合併 LoRA → bf16 全模型 + 抽測驗證
 │    ├─ verify_merged.py        合併模型六方向抽測
