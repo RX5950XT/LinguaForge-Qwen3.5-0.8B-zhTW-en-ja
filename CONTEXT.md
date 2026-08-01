@@ -8,10 +8,8 @@
 把 `Qwen/Qwen3.5-0.8B`（873M，Apache-2.0）LoRA SFT 成 zh-TW↔en↔ja 六方向翻譯特化模型。
 純開源語料、本機單卡（RTX 5060 Ti 16GB）。
 
-**🚨 倉庫維持私人（GitHub + HF 皆是，未經明確指示不得轉公開、不得上傳）。**
-
 **狀態：訓練線已收工（2026-07-31）。出貨版 = `outputs/sft-v5e`，已打包 `release/`，
-已推 GitHub（code）與 HF（權重，私人）。**
+已推 GitHub（code）與 HF（權重）；**兩邊皆已公開（2026-08-01）**。**
 
 ## 為什麼收工
 
@@ -102,12 +100,11 @@ release/   (gitignored) HF repo 鏡像，**只留 v5e**（根目錄 adapter + me
 
 | | |
 |---|---|
-| GitHub（程式，私人） | https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
-| HF（權重 v5e，私人） | https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
+| GitHub（程式，公開） | https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
+| HF（權重 v5e，公開） | https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
 
 ## 下一步
 
 1. 想再往上只剩「找到新的 Apache-2.0 相容 zh-TW 書面語／通用指令語料」一條路。
    **有語料才有下一版訓練**，反過來不成立。
 2. 非阻塞待辦見 `tasks/todo.md`。
-3. 倉庫維持私人；**未經明確指示不得轉公開**。
