@@ -131,7 +131,7 @@ DOC_MIN, DOC_MAX = 4, 16     # 每個文件級樣本併幾句
 DOC_SHARE = 0.15             # 每方向預算裡文件級樣本的佔比
 
 # --- v4：通用 replay ---------------------------------------------------------
-# 100% 翻譯任務 → 模型把所有 user 輸入都當待翻譯文本（災難性遺忘，見 docs/RESEARCH-v4.md）
+# 100% 翻譯任務 → 模型把所有 user 輸入都當待翻譯文本（災難性遺忘，見 docs/REPORT.md §2.2）
 REPLAY_FILE = SFT / "replay.jsonl"
 REPLAY_SHARE = 0.35          # replay 佔最終 train 的比例（Tower+ SFT 用 78%，此處保守）
 
@@ -281,7 +281,7 @@ PREPROC = {
 }
 
 
-# --- v4 噪音過濾（事故根因，見 docs/RESEARCH-v4.md §2）------------------------
+# --- v4 噪音過濾（事故根因，見 docs/REPORT.md §2.2）--------------------------
 END_PUNCT = tuple("。．.!?！？」』）)…\"'~～")
 # KDE4 等 tokenized 語料 detok 沒清乾淨的殘跡：`http: // www.`、`API_ KEY`、`NT $ 3,480`
 STRAY_SPACE_RE = re.compile(

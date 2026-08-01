@@ -1,7 +1,7 @@
 """補繁中 replay 缺口：把英文 replay 樣本整組翻成 zh-TW，附加到 replay.jsonl。
 
 為什麼要這樣做：公開語料裡沒有「授權乾淨 + 非機翻 + 足量」的繁中指令集
-（見 docs/RESEARCH-v4.md §4.1），build_replay.py 只湊得到 1.3K 繁中，
+（見 docs/REPORT.md §2.2、tasks/todo.md F43），build_replay.py 只湊得到 1.3K 繁中，
 相對 en/ja 的 16~17K 嚴重不足。
 
 為什麼是翻譯而不是讓 teacher 自己作答：oasst2 的答案是人寫的，品質高於 2B 現場生成；

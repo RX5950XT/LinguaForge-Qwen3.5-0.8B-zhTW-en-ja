@@ -7,6 +7,7 @@
 - 套件管理一律 `uv`；主環境與 `tools/comet` 隔離環境不可混裝
 - 模型載入用 `AutoModelForImageTextToText`（transformers ≥5.x）
 - 訓練/評測腳本都在 `scripts/`，設定在 `configs/sft_lora*.yaml`（每版一個檔，不改舊檔）
+- **出貨版 = v5e**（`configs/sft_lora_v5e.yaml` / `outputs/sft-v5e`）；v5f 是 r=128 對照，踩硬閘不出貨
 - **出貨要過 `CLAUDE.md` 的硬閘**，並遵守停止規則（連兩版 COMET AVG Δ < 0.10 就收工）。
   六條硬閘已全部機器化：`uv run python scripts/regression_guard.py --candidate <tag>`
   （exit 0=過／1=FAIL／**2=缺值，沒跑過的閘不算過**）。**不要人工核對表格判出貨。**
@@ -18,4 +19,5 @@
   transformers 開場那句 "fast path is not available" 只是在講 `causal_conv1d` 沒裝
   （逐 op fallback，影響僅止於 depthwise conv 與解碼時多幾個 kernel launch），**不必理會**，
   也不要據此以為 linear attention 在跑 torch fallback
-- 發布打包在 `release/`（gitignored，上 HF）；GGUF 轉換須 `--no-mtp`（否則 runtime 缺 `blk.24` tensor）
+- 發布：程式 GitHub、權重 HF（`release/` 為上傳鏡像，gitignored）；**皆私人，未經指示不得轉公開**
+- GGUF 轉換須 `--no-mtp`（否則 runtime 缺 `blk.24` tensor）

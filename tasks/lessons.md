@@ -259,8 +259,9 @@ v5c 重建資料時直接跑 `uv run python scripts/prepare_data.py`（照 CLAUD
 「門檻 0.60→0.65」和「資料量 ×5」兩個變因，整輪實驗作廢。
 
 **教訓**：兩份文件記同一條指令時，速查版本省掉的參數就是未來踩雷點。
-已把 `--limit 20000` 補回 CLAUDE.md。跑資料建置後第一件事是核對
-`results/data_stats.json` 的 `directions`，跟上一版對不上就是參數錯了，不要先開訓。
+`--limit` **必給**（v5e 出貨配方用 80000；省略會落到 130,000/方向）。
+跑資料建置後第一件事是核對 `results/data_stats.json` 的 `directions`，
+跟上一版對不上就是參數錯了，不要先開訓。
 
 ## 背景訓練會隨 Claude Code session 一起死（2026-07-29）
 

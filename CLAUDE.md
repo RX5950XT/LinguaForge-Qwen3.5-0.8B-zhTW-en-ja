@@ -12,13 +12,14 @@ Qwen3.5-0.8B 翻譯特化微調（zh-TW ↔ en ↔ ja 六方向，LoRA SFT，本
 
 ```powershell
 uv run python scripts/download_data.py                 # 下載語料（冪等）
-uv run python scripts/prepare_data.py --limit 20000    # 清洗 → data/sft/*.jsonl（--limit 必給！）
+uv run python scripts/prepare_data.py --limit 80000 --dev-from data/sft/dev.jsonl  # --limit 必給
 uv run python scripts/test_prepare_data.py             # 清洗函數自檢
 uv run python scripts/evaluate.py --tag <tag> [--adapter <dir>] [--full]
 uv run --project tools/comet python tools/comet/score.py --tag <tag>-flores   # 全名，不是版本號
 uv run python scripts/eval_capability.py --tag <tag> [--adapter <dir>] --axis all
 uv run python scripts/eval_bench.py --tag <tag> [--adapter <dir>]   # BELEBELE + 知識
-uv run python scripts/train_sft.py [--config configs/sft_lora_v5f.yaml] [--max-steps N]
+uv run python scripts/train_sft.py [--config configs/sft_lora_v5e.yaml] [--max-steps N]
+uv run python scripts/regression_guard.py --candidate <tag>   # 出貨硬閘，exit 0 才可出
 ```
 
 ## 出貨標準
@@ -57,7 +58,7 @@ doc 軸的閘用**絕對值不跟 base 比**：base 自己尾段會超譯（tail
 - LoRA target 含線性注意力層：`in_proj_qkv/z/a/b`、`out_proj`（Qwen3.5 混合 linear attention）
 - 訓練資料 chat messages 格式；train_sft.py 轉 prompt/completion 讓 TRL 遮罩 prompt loss
 - 評測集：FLORES-200 devtest（Meta 公開 tarball，自動快取 data/flores200；FLORES+ gated 拿不到）
-- 指標：chrF++ / BLEU（sacrebleu）+ COMET（wmt22-comet-da）+ 簡體洩漏率（OpenCC s2t round-trip）
+- 指標：chrF++ / BLEU（sacrebleu）+ COMET（wmt22-comet-da）+ 簡體洩漏率（簡體專用字集 − 台灣正字白名單，非 round-trip）
 - flash-linear-attention 0.5.1 + triton-windows **已裝且生效**（gated delta rule 走 Triton kernel）。
   transformers 那句 "fast path is not available" 只是在抱怨 `causal_conv1d` 沒裝——modeling_qwen3_5.py
   是逐個 op 各自 fallback，缺 causal_conv1d 只讓 depthwise conv 退回 `nn.Conv1d`（cuDNN，本來就快）

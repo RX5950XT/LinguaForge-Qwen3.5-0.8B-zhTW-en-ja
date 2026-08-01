@@ -1,13 +1,37 @@
 # LinguaForge — Qwen3.5-0.8B 繁中／英／日翻譯特化模型
 
-把 `Qwen/Qwen3.5-0.8B`（873M）以 LoRA SFT 微調成 **繁體中文（臺灣）↔ 英文 ↔ 日文** 六方向翻譯特化小模型。全程在單張 RTX 3070 Ti 8GB 上完成。
+把 `Qwen/Qwen3.5-0.8B`（873M）以 LoRA SFT 微調成 **繁體中文（臺灣）↔ 英文 ↔ 日文** 六方向翻譯特化小模型。全程在單張消費級顯示卡上完成（出貨版 v5e：RTX 5060 Ti 16GB、peak VRAM 4.0GB、10.5 小時）。
 
-> 🤗 **模型權重在 Hugging Face**：[`RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja`](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja)
-> — LoRA adapter、合併 bf16 全模型、GGUF（Q8_0 / Q4_K_M）。本倉庫是訓練與評測的完整程式碼。
+> 🤗 **模型權重（出貨 v5e）**：[Hugging Face · `RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja`](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja)
+> — LoRA adapter、合併 bf16、GGUF（Q8_0 / Q4_K_M / f16）、[模型卡](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja/blob/main/README.md)。
+> 本倉庫是訓練與評測的完整程式碼；權重鏡像在本機 `release/`（gitignored）。
 
 ## 動機
 
-0.8B 這種尺寸的模型語意理解其實不差（COMET 82–86），但輸出的**字形與用語**不對：翻成中文時大量摻雜簡體字（FLORES ja→zhtw 高達 **45.6%**），日中互譯的表面品質也明顯偏弱。這類問題正是 SFT 最能補的部分。
+0.8B 這種尺寸的語意理解其實不差（零樣本 COMET 84.64），但輸出的**字形與用語**不對：翻成中文時大量摻簡體字（FLORES ja→zhtw 高達 **43.6%** 的行）。這類問題正是 SFT 最能補的部分——出貨版把兩個 →zhtw 方向的洩漏壓到 **1.09% / 0.69%**，同時六方向語意分數不降反升。
+
+## 成績（出貨版 v5e）
+
+FLORES-200 devtest **全量 n=1012**，beam=4 + 逐目標語言解碼；對照組是**同樣本數、同解碼設定**的官方模型。
+
+| 方向 | chrF++ (base→v5e) | BLEU (base→v5e) | COMET (base→v5e) | 簡體洩漏 (base→v5e) |
+|---|---|---|---|---|
+| en→zhtw | 19.38 → 20.26 | 25.57 → 28.90 | 86.32 → 86.23 | **10.18% → 1.09%** |
+| zhtw→en | 47.78 → 50.33 | 19.34 → 23.72 | 84.79 → **85.27** | — |
+| en→ja | 20.26 → 24.15 | 19.81 → 22.65 | 86.17 → **88.44** | — |
+| ja→en | 45.67 → 50.17 | 16.67 → 22.70 | 84.85 → **86.20** | — |
+| ja→zhtw | 10.53 → 16.60 | 10.38 → 23.07 | 81.44 → **86.10** | **43.58% → 0.69%** |
+| zhtw→ja | 14.80 → 18.48 | 12.97 → 16.93 | 84.24 → **87.14** | — |
+| **均值** | 26.40 → **30.00** | 17.46 → **22.60** | 84.64 → **86.56** | |
+
+> **en→zhtw 是持平不是輸**：paired bootstrap 95% CI [−0.414, +0.225] 跨 0。
+> 而官方那 86.32 是在 10.18% 洩漏下拿到的（COMET 對簡繁不敏感），兩邊產出的不是同一種東西。
+
+通用能力用**外部公開基準**驗（不是只有翻譯分數）：BELEBELE 三語 **57.28 / 52.36 / 62.81**、
+知識軸（TMMLU+ / MMMLU-JA / MMLU）**30.53 / 36.64 / 43.81**，**六格全部 ≥ base**。
+長文件翻譯行數對齊比精準 1.000、腰斬率 0~4%——v2/v3 的「長文只翻前兩段」已修掉。
+
+完整分析（含 v1→v5f 每一版做了什麼、被推翻的假設、量測方法論）見 **[`docs/REPORT.md`](docs/REPORT.md)**。
 
 ## 環境需求
 
@@ -20,17 +44,42 @@ uv sync --project tools/comet    # COMET 評分隔離環境
 ```
 
 > `unbabel-comet` 會鎖住舊版 transformers，與 Qwen3.5 所需的 5.x 衝突，因此獨立成子專案。
+> Windows 上另**必裝** `triton-windows` + `flash-linear-attention`，否則線性注意力退回
+> `torch_chunk_gated_delta_rule`，bs8×seq1024 直接要 38GB 而 OOM。
 
 ## 快速開始
 
 ```powershell
-uv run python scripts/download_data.py        # 下載平行語料（冪等，可中斷重跑）
-uv run python scripts/prepare_data.py         # 清洗 + s2twp + 污染閘 → data/sft/{train,dev}.jsonl
-uv run python scripts/train_sft.py --config configs/sft_lora_v3.yaml     # LoRA SFT（~8h on 3070 Ti）
-uv run python scripts/evaluate.py --tag v3 --benchmark all --adapter outputs/sft-v3
-uv run --project tools/comet python tools/comet/score.py --tag v3-flores
-uv run python scripts/scoreboard.py --tags v3                            # 方向 × 基準總表
+uv run python scripts/download_data.py                                       # 下載平行語料（冪等）
+uv run python scripts/prepare_data.py --limit 80000 --dev-from data/sft/dev.jsonl   # 清洗 → data/sft/*.jsonl
+uv run python scripts/train_sft.py --config configs/sft_lora_v5e.yaml        # LoRA SFT（~10.5h）
+uv run python scripts/evaluate.py --tag v5e --adapter outputs/sft-v5e --full  # 六方向 + 洩漏
+uv run --project tools/comet python tools/comet/score.py --tag v5e-flores    # COMET（全名，非版本號）
+uv run python scripts/eval_bench.py      --tag v5e --adapter outputs/sft-v5e  # BELEBELE + 知識
+uv run python scripts/eval_capability.py --tag v5e --adapter outputs/sft-v5e --axis all
+uv run python scripts/regression_guard.py --candidate v5e                    # 出貨硬閘，exit 0 才可出
 ```
+
+## 出貨硬閘
+
+六條門檻**全部機器判定**，`regression_guard.py` 一次跑完 28 格；
+**exit 0=PASS／1=FAIL／2=缺值**。缺值跟 PASS 分開——沒跑過的閘不算過，不靠人工核對表格。
+
+| 項目 | 門檻 |
+|---|---|
+| 簡體洩漏 en→zhtw / ja→zhtw | ≤ base + 0.3 |
+| 六方向 COMET | 每個不得**顯著**低於 base（三段判定，見下） |
+| 翻譯機率（通用題被當翻譯題作答） | ≤ 5.0% |
+| BELEBELE / 知識 三語 | 各 ≥ base − 3.0 |
+| 長文尾段譯出比 `tail_ratio_median` | ≥ 0.80（六向皆須） |
+| 長文腰斬率 `truncated_pct` | ≤ 5%（六向皆須） |
+
+COMET 是三段判定：`≥ base` PASS；落在 `[base−0.5, base)` 判 **TIE?**，必須跑
+`tools/comet/paired_bootstrap.py`，**95% CI 跨 0 才算過**；`< base−0.5` 直接 FAIL。
+理由：`system_score` 是 n≈1000 段的平均，±0.4 在雜訊帶內，拿點估計判「−0.09 就是退步」
+等於對雜訊做決策——本專案兩次誤判都是這樣來的。
+
+實跑結果：**v5e exit 0（28 格全 PASS）**；v5f exit 1（BELEBELE 中日文 −4.53 / −7.84）。
 
 ## 專案結構
 
@@ -38,154 +87,133 @@ uv run python scripts/scoreboard.py --tags v3                            # 方�
 
 ```
 ├─ README.md                  本文件
-├─ CLAUDE.md / AGENTS.md      給 AI agent 的專案工作規範
+├─ CLAUDE.md / AGENTS.md      給 AI agent 的專案工作規範（含出貨標準）
 ├─ CONTEXT.md                 開發交接紀錄（接手先讀）
 ├─ LICENSE                    Apache-2.0
 ├─ pyproject.toml / uv.lock   主環境依賴（訓練 + 推論 + 評測）
 │
 ├─ docs/
-│    ├─ REPORT.md               研究報告：實驗全紀錄、多領域診斷、量化稅、訓練成本
-│    └─ assets/loss_curve.png   v3 SFT train/eval loss 雙曲線
+│    ├─ REPORT.md               研究報告：v1→v5e 全紀錄、通用能力、量測方法論、收工判斷
+│    ├─ RESEARCH-v5.md          v5 逐項發現的原始紀錄（含被推翻的中間結論）
+│    └─ assets/loss_curve.png   v5e SFT train/eval loss 雙曲線
 │
-├─ configs/                   訓練設定
-│    ├─ sft_lora.yaml           0.8B r32/α64、2 epoch（v1、v2）
-│    ├─ sft_lora_v3.yaml        0.8B r64/α128 + NEFTune、1 epoch（v3 主線）
-│    └─ sft_qlora_2b.yaml       2B NF4 4-bit QLoRA（bs1×768，能力 vs 資料診斷）
+├─ configs/                   訓練設定（每版一個檔，不改舊檔）
+│    ├─ sft_lora_v5e.yaml        **出貨版**：r64/α128、1 epoch、503k 筆
+│    ├─ sft_lora_v5f.yaml        r128/α256 對照（COMET 較高但踩硬閘，不出貨）
+│    ├─ sft_lora.yaml            當前預設（可變動）
+│    ├─ sft_lora_v3.yaml / sft_lora_v4.yaml   歷史版本
+│    └─ sft_qlora_2b.yaml        2B NF4 4-bit QLoRA（能力 vs 資料診斷）
 │
 ├─ scripts/                   資料管線 → 訓練 → 評測 → 打包，一條線
-│    ├─ download_data.py        下載 21 份平行語料（冪等，可中斷重跑）
-│    ├─ prepare_data.py         清洗 → s2twp 台灣正體 → 污染閘 → data/sft/*.jsonl
-│    ├─ test_prepare_data.py    清洗函數自檢（無框架，直接跑）
+│    ├─ download_data.py        下載平行語料（冪等，可中斷重跑）
+│    ├─ prepare_data.py         清洗 → 注水式配額 → LaBSE 語意過濾 → s2twp → 污染閘
+│    ├─ bitext_filter.py        LaBSE 雙語相似度快取（data/labse/*.npz）
+│    ├─ build_replay.py         通用指令 replay（oasst2 / aya，Apache-2.0）
 │    ├─ dump_eval_lines.py      抽 5 基準全量行 → 污染閘比對表
-│    ├─ inspect_sft.py          抽看訓練樣本長相
-│    ├─ count_tokens.py         估 token 預算
-│    ├─ bench_step.py           跑幾步量 VRAM/吞吐，選 batch×seq（防 8GB 靜默 fallback）
-│    ├─ train_sft.py            LoRA / QLoRA 訓練（含 NF4 分支）
-│    ├─ evaluate.py             六方向翻譯 + chrF++/BLEU/洩漏率（--nf4 / --int8 可選）
-│    ├─ scoreboard.py           方向 × 基準矩陣（抓「FLORES 好看但新聞崩」）
-│    ├─ regression_guard.py     六條出貨硬閘全機器化，exit 0/1/2（2＝缺值不算過）
-│    ├─ smoke_test.py           改完先冒煙
-│    ├─ export_model.py         合併 LoRA → bf16 全模型 + 抽測驗證
-│    ├─ verify_merged.py        合併模型六方向抽測
-│    ├─ export_gguf.py          bf16 → GGUF（主檔須 --no-mtp）→ Q8_0/Q4_K_M（+ MTP draft）
-│    └─ plot_loss.py            loss 雙曲線（uv run --with matplotlib，不污染主環境）
+│    ├─ inspect_sft.py / count_tokens.py      抽看樣本、估 token 預算
+│    ├─ bench_step.py           量 VRAM/吞吐選 micro-batch（防 Windows 靜默 fallback）
+│    ├─ train_sft.py            LoRA / QLoRA 訓練（token 預算組批、可 resume）
+│    ├─ evaluate.py             六方向翻譯 + chrF++/BLEU/洩漏率；DECODE 是解碼唯一真相來源
+│    ├─ eval_capability.py      行為三軸：文件級完整度 / ifeval / 通用能力保留
+│    ├─ eval_bench.py           BELEBELE + TMMLU+/MMLU/MMMLU-JA（選項輪轉去偏）
+│    ├─ eval_gguf.py            量 GGUF 出貨路徑（llama-cli，greedy）
+│    ├─ scoreboard.py           方向 × 基準矩陣
+│    ├─ regression_guard.py     **六條出貨硬閘全機器化，exit 0/1/2**
+│    ├─ export_model.py / verify_merged.py    合併 LoRA → bf16 全模型 + 抽測
+│    ├─ export_gguf.py          bf16 → GGUF（主檔須 --no-mtp）→ Q8_0/Q4_K_M
+│    ├─ plot_loss.py            loss 雙曲線（uv run --with matplotlib，不污染主環境）
+│    └─ test_*.py               不需 GPU 的自檢（清洗／評測／守門邏輯）
 │
 ├─ tools/comet/               COMET 隔離子專案（獨立 uv 環境，鎖 transformers<4.58）
 │    ├─ score.py                reference-based COMET，分數寫回 results/*.json
+│    ├─ paired_bootstrap.py     配對 bootstrap CI → results/bootstrap/*.json（硬閘會讀）
 │    └─ kiwi.py                 CometKiwi reference-free（gated、非商用，僅評測）
 │
 ├─ results/                   評測結果（進版控的實驗證據）
-│    ├─ scoreboard.md           六模型 × 五基準總表
+│    ├─ baseline/               官方零樣本地板；**base-full-flores.json 是唯一可用的 COMET 對照**
+│    ├─ v1/ v2/ v3/ v3-2b/ v4/ v5/    各版 <tag>-<benchmark>.json
+│    ├─ bench/ capability/ bootstrap/ 通用能力、行為三軸、顯著性 CI
+│    ├─ v5/v5e-trainer_state.json     出貨版 loss 歷史（plot_loss.py 讀這個）
 │    ├─ data_stats.json         每來源清洗統計 + 方向/領域實際配比
-│    ├─ baseline/               官方零樣本地板（0.8B / 2B / +s2twp / NF4 / int8）
-│    ├─ v1/ v2/ v3/             0.8B 微調三代（<tag>-<benchmark>.json）
-│    ├─ v3-2b/                  2B QLoRA 微調
-│    ├─ v3/trainer_state.json   v3 loss 歷史（plot_loss.py 讀這個；outputs/ 刪了也還在）
-│    └─ hyp/      (git-ignored) 各方向 src/ref/hyp 譯文，35MB，evaluate.py 可重跑產生
+│    └─ hyp/      (git-ignored) 各方向 src/ref/hyp 譯文，evaluate.py 可重跑產生
 │
-├─ tasks/         todo.md（進度勾選）、lessons.md（踩坑教訓）
-├─ data/          (git-ignored) raw/ 原始 tsv、sft/ 訓練 jsonl、flores200/ 評測快取
-├─ outputs/       (git-ignored) 訓練產物：sft/ sft-v2/ sft-v3/ sft-2b-qlora/ merged/
-├─ release/       (git-ignored) HF 上傳暫存，見下
+├─ tasks/         todo.md（現況與未解項）、lessons.md（踩坑教訓）
+├─ data/          (git-ignored) raw/ 原始 tsv、sft/ 訓練 jsonl、flores200/、labse/ 快取
+├─ outputs/       (git-ignored) 訓練產物：sft-v3 … sft-v5f、merged/
+├─ release/       (git-ignored) HF 上傳鏡像，見[發布](#發布)
 └─ logs/          (git-ignored) 執行 log：data/ bench/ train/ eval/ comet/ export/
 ```
 
-> `results/*.json` 沿用 `<tag>-<benchmark>.json` 慣例；分類子目錄由 `scoreboard.py` / `regression_guard.py` 遞迴讀取（`rglob`），放哪層都找得到。
+> `results/*.json` 沿用 `<tag>-<benchmark>.json` 慣例；分類子目錄由讀取端遞迴讀取（`rglob`），放哪層都找得到。
 
 ### 哪些東西不在這個倉庫
 
 | 排除 | 大小 | 怎麼拿回來 |
 |---|---|---|
-| `data/` | 1.9 GB | `download_data.py` + `prepare_data.py` 重建（語料授權各異，不 re-host） |
-| `outputs/` | 3.4 GB | 重訓；**v3 的 adapter 與 loss 歷史已分別上 HF 與 `results/v3/trainer_state.json`，不會遺失** |
-| `release/` | 5.1 GB | Hugging Face（見[發布](#發布)） |
-| `results/hyp/` | 35 MB | `evaluate.py --tag <tag>` 重跑 |
-| `logs/` | 3 MB | 純執行紀錄；其中有價值的數字（loss、peak VRAM、wall-clock、8GB 選型）已全數提煉進 `results/` 與 `docs/REPORT.md` |
+| `data/` | ~2 GB | `download_data.py` + `prepare_data.py` 重建（語料授權各異，不 re-host） |
+| `outputs/` | ~10 GB | 重訓；v5e adapter 在 `outputs/sft-v5e`，loss 歷史在 `results/v5/v5e-trainer_state.json` |
+| `release/` | 4.5 GB | HF model repo 鏡像（見[發布](#發布)） |
+| `results/hyp/` | ~35 MB | `evaluate.py --tag <tag>` 重跑 |
+| `logs/` | 3 MB | 純執行紀錄；有價值的數字已全數提煉進 `results/` 與 `docs/REPORT.md` |
 
 ## 資料
 
-v3 六方向各 ~130k、合計 **773,389** 句（dev 每方向 200）。每來源設佔比上限並標領域，避免單一語料壟斷某方向。
+v5e 六方向各 ~80,000、合計 **502,993** 句，外加通用指令 replay 35,177 筆（dev 1,200，跨版凍結）。
+每來源設佔比上限並標領域，避免單一語料壟斷某方向。
 
 | 來源 | 用於 | 說明 |
 |---|---|---|
 | COCT（Taiwan Panorama） | en↔zhtw | 原生臺灣正體，品質最佳 |
 | TED2020 | en↔zhtw、ja↔zhtw、en↔ja | 演講字幕，乾淨完整句 |
 | WikiMatrix / JParaCrawl / KFTT / Tatoeba / News-Commentary | en↔ja | 書面體乾淨語料 |
-| GlobalVoices（原生繁新聞）/ KDE4（原生繁 IT） | en↔zhtw、ja↔zhtw | v3 新增，補新聞與在地化語域 |
-| OpenSubtitles / MTNT | 僅 →en 的源側 | v3 新增，救 into-English；只進源側以護洩漏戰果 |
+| GlobalVoices（原生繁新聞）/ KDE4（原生繁 IT） | en↔zhtw、ja↔zhtw | 補新聞與在地化語域 |
+| OpenSubtitles / MTNT | 僅 →en 的源側 | 救 into-English；只進源側以護洩漏戰果 |
 | OPUS-100 | en↔zhtw | 量大但雜訊較多 |
+| oasst2 / aya_dataset（Apache-2.0） | replay | 通用指令，防災難性遺忘 |
 
-> en↔ja 初版用 OPUS-100，其口語/雜訊拖累日文方向；改用上列乾淨書面語料重訓後全面提升。
+清洗流程：控制字元正規化 → 字幕雜訊剝除 → 長度與長度比過濾 → 語言驗證 →
+**LaBSE 雙語語意過濾（≥0.65）** → **OpenCC `s2twp` 統一臺灣正體** → CJK 間空白／全形標點修正 →
+去重 → **免污染閘**（hash 5 個評測基準的個別語言行共 33,984 行，訓練對任一側命中即丟）→
+**注水式來源配額**（句級與文件級共用預算，小池子取不滿的餘額讓給大池子）。
+每來源統計與方向/領域實際配比寫入 `results/data_stats.json`。
 
-清洗流程：控制字元正規化 → 字幕雜訊剝除（講者標記、歌詞符號、對齊錯誤的重複句）→ 長度與長度比過濾 → 語言驗證（假名／漢字／ASCII 比例）→ **OpenCC `s2twp` 統一臺灣正體** → 去重 → **免污染閘**（hash 5 個評測基準的個別語言行共 33,984 行，訓練對任一側命中即丟）。每來源統計與方向/領域實際配比寫入 `results/data_stats.json`。
-
-## 評測
-
-FLORES-200 devtest，六方向各 500 句，三項指標：
-
-- **chrF++ / BLEU**（sacrebleu，日文用 `ja-mecab`、中文用 `zh` tokenizer）
-- **COMET**（`Unbabel/wmt22-comet-da`）
-- **簡體洩漏率**（OpenCC `s2t` round-trip 檢測）
-
-### 發布版 v3（0.8B）vs 官方零樣本
-
-| 方向 | chrF++ (base→v3) | BLEU (base→v3) | COMET (base→v3) | 簡體洩漏 (base→v3) |
-|---|---|---|---|---|
-| en→zhtw | 20.92 → 19.28 | 24.98 → 25.91 | 85.92 → 85.08 | **20.8% → 5.2%** |
-| zhtw→en | 47.94 → 48.82 | 19.33 → 21.09 | 84.40 → 84.47 | — |
-| en→ja | 18.79 → 20.96 | 17.43 → 19.31 | 83.20 → **85.55** | — |
-| ja→en | 45.37 → 48.06 | 16.01 → 19.80 | 83.82 → 84.89 | — |
-| ja→zhtw | 11.66 → 15.32 | 10.42 → 20.83 | 82.69 → **84.74** | **45.6% → 6.0%** |
-| zhtw→ja | 14.95 → 17.12 | 12.05 → 15.41 | 83.07 → 84.09 | — |
-
-核心目標達成——簡體洩漏暴跌，COMET 語意均分 **83.85 → 84.80 反超基線**（六方向 5 升 1 微降），
-en→ja +2.35。唯一 tradeoff 是 en→zhtw：輸出台灣用語與 FLORES 參考的特定字詞有落差，
-表面分略降，換來洩漏 20.8%→5.2%。
-
-### v3 多領域強化與 2B 對照（最終定案）
-
-v3 擴充到 5 個基準（FLORES／NTREX／WMT22／ALT／TICO-19，涵蓋維基／新聞／字幕／醫療），
-資料多元化到 77 萬句並加污染閘，並行訓練 0.8B（r64+NEFTune）與 2B QLoRA。**完整分數表見
-[`results/scoreboard.md`](results/scoreboard.md)**。三個結論：
-
-1. **0.8B 微調有正價值**：v3 簡體洩漏再降（FLORES en→zhtw 5.2%、ja→zhtw 6.0%），
-   最弱的 zhtw→ja 跨三領域一致上升，六方向回歸守門全過。
-2. **2B 的最佳解不是微調，而是官方 + 後處理**：補測官方 Qwen3.5-2B 零樣本後發現它的 COMET
-   每個基準都高於我們的 QLoRA 微調版，只是簡體洩漏 16～51%。套上既有的 OpenCC `s2twp`
-   輸出後處理即可壓到 ≤5.4%（過閘）→ **「官方 Qwen3.5-2B + s2twp」是品質最高、零訓練的出貨組合**
-   （FLORES en→zhtw COMET 88.21）。
-3. **8GB 的量化稅**：2B 微調版看似落後，NF4 2×2 對照顯示同精度下微調≈中性，落差大半來自
-   被 8GB 顯存逼用的 4-bit QLoRA 量化損失，非微調本身。真正判定需雲端全精度 bf16 重訓 2B。
-
-> COMET 對簡繁不敏感（會獎勵洩漏簡體卻流暢的輸出），故 COMET 與簡體洩漏率必須並看。
+> 規則式清洗抓不到「兩句根本沒關係」：LaBSE 掃全 20 份語料發現 `globalvoices.ja-zhtw`
+> 有 64.7% 的行相似度低於 0.60（`jparacrawl` 只有 0.8%），而錯位率與各方向成績完全單調對應。
 
 ## 訓練設定
 
-LoRA target 涵蓋標準注意力與 Qwen3.5 的線性注意力層（`in_proj_qkv/z/a/b`、`out_proj`）；bf16、packing、lr 1e-4 cosine。三份 config：
+LoRA target 涵蓋標準注意力、MLP 與 Qwen3.5 的**線性注意力層**（`in_proj_qkv/z/a/b`、`out_proj`）；
+bf16、**不用 packing**、token 預算組批、`max_length` 1408、lr 1e-4 cosine、單 epoch。
 
-| config | 模型 | 設定 | adapter |
+| config | 模型 | 設定 | 產出 |
 |---|---|---|---|
-| `sft_lora.yaml` | 0.8B | r32/α64、2 epoch（v1/v2） | `outputs/sft`、`outputs/sft-v2` |
-| `sft_lora_v3.yaml` | 0.8B | r64/α128 + NEFTune=5、1 epoch | `outputs/sft-v3` |
-| `sft_qlora_2b.yaml` | 2B | NF4 4-bit QLoRA、bs1×768+ga32 | `outputs/sft-2b-qlora` |
+| **`sft_lora_v5e.yaml`** | 0.8B | **r64/α128、1 epoch、503k 筆** | `outputs/sft-v5e`（**出貨**） |
+| `sft_lora_v5f.yaml` | 0.8B | r128/α256（COMET +0.18 但踩硬閘） | `outputs/sft-v5f` |
+| `sft_lora_v3.yaml` | 0.8B | r64/α128 + NEFTune、1 epoch | `outputs/sft-v3` |
+| `sft_qlora_2b.yaml` | 2B | NF4 4-bit QLoRA | `outputs/sft-2b-qlora` |
 
-實際成本（單張 RTX 3070 Ti 8GB）：v3-0.8B **peak VRAM 4.01GB、8.0 小時**（2390 步 / 57.9M tokens，final eval_loss 1.988）；2B NF4 QLoRA 5.10GB / 17.3 小時。
+實際成本（v5e，單張 RTX 5060 Ti 16GB）：**peak VRAM 4.00GB、10.5 小時**、5,677 步、final eval_loss **1.7708**。
 
-![v3 SFT loss](docs/assets/loss_curve.png)
+![v5e SFT loss](docs/assets/loss_curve.png)
 
-> **8GB 顯存陷阱**：Qwen3.5 的 vocab 高達 248K，logits 物化使 VRAM 隨 batch×seq 暴增；2B 只能靠 NF4 塞進 8GB。Windows 超顯存不會 OOM，NVIDIA 驅動會靜默 fallback 到系統記憶體、速度掉到 1/5 且無警告——訓練前務必用 `scripts/bench_step.py` 量 VRAM <8GB。
-> 另 Windows 上 **必裝** `triton-windows` + `flash-linear-attention`：沒裝時線性注意力退回 `torch_chunk_gated_delta_rule`，bs8×seq1024 會直接要 38GB 而 OOM，裝上後同設定只用 7.8GB。啟動時那句 `fast path is not available` 只是在講 `causal_conv1d`（PyPI 無任何 wheel，且需與 torch 同版的 CUDA toolkit 才編得起來），影響僅止於 depthwise conv 與解碼多幾個 kernel launch，可忽略。
+> **顯存陷阱**：Qwen3.5 的 vocab 高達 248K，logits 物化使 VRAM 隨 batch×seq 暴增
+> （~3.3MB/token）。Windows 超顯存**不會 OOM**，NVIDIA 驅動會靜默 fallback 到系統記憶體、
+> 速度掉到 1/5 且無警告——長跑前務必用 `scripts/bench_step.py` 量實際 VRAM。
+> 同理，任何只要最後一格 logits 的 forward 都要設 `logits_to_keep=1`（實測峰值 15.85 → 2.29GB）。
 
 ## 發布
 
-開源 **0.8B v3**，大檔上 Hugging Face、程式碼留 GitHub（本倉庫）：
+出貨 **0.8B v5e**。程式碼與實驗證據在 GitHub；權重與模型卡在 Hugging Face
+（目前皆為**私人**倉庫）。兩邊互相連結：
 
 | 位置 | 內容 |
 |---|---|
-| [**Hugging Face**](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | LoRA adapter、合併 bf16 全模型、GGUF（Q8_0 / Q4_K_M / f16 / MTP draft）、模型卡、loss 曲線 |
-| [**GitHub（本倉庫）**](https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | 核心程式碼、config、評測結果、`docs/REPORT.md`；語料不 re-host，用 `download_data.py` + `prepare_data.py` 重建 |
+| [**Hugging Face**](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | LoRA adapter、合併 bf16、GGUF、[模型卡 README](https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja/blob/main/README.md) |
+| [**GitHub（本倉庫）**](https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja) | 訓練／評測程式、config、`results/`、[`docs/REPORT.md`](docs/REPORT.md)；語料不 re-host |
+| 本機 `release/` | 與 HF model repo 同結構的上傳鏡像（gitignored） |
 
-`release/` 就是 HF model repo 的完整鏡像，目錄結構即上傳後的樣子——adapter 放根目錄（`library_name: peft` 要求），模型卡是 **`README.md`**（HF 只渲染這個檔名，且需 YAML frontmatter）：
+`release/` 就是 HF model repo 的完整鏡像，目錄結構即上傳後的樣子——adapter 放根目錄
+（`library_name: peft` 要求），模型卡是 **`README.md`**（HF 只渲染這個檔名，且需 YAML frontmatter）：
 
 ```
 release/
@@ -195,21 +223,24 @@ release/
 ├─ adapter_config.json           base = Qwen/Qwen3.5-0.8B
 ├─ tokenizer.json / tokenizer_config.json / chat_template.jinja
 ├─ assets/loss_curve.png         模型卡內嵌
-├─ merged-bf16/                  合併全模型 1.7GB（免裝 peft，可直接轉檔）
-└─ gguf/                         Q8_0 775M / Q4_K_M 505M / f16 1.5G / mtp-f16 496M
+├─ merged-bf16-v5e/              合併全模型 1.7GB（免裝 peft，可直接轉檔）
+└─ gguf-v5e/                     Q8_0 812M / Q4_K_M 529M / f16 1.5G
 ```
 
 打包流程：
 
 ```powershell
-uv run python scripts/export_model.py --adapter outputs/sft-v3 --out release/merged-bf16   # 合併 bf16
-uv run python scripts/export_gguf.py --llama-cpp <llama.cpp> --quantize-bin <llama-quantize> --mtp
+uv run python scripts/export_model.py --adapter outputs/sft-v5e --out release/merged-bf16-v5e
+uv run python scripts/export_gguf.py --llama-cpp <llama.cpp> --quantize-bin <llama-quantize>
 uv run --with matplotlib python scripts/plot_loss.py --out release/assets/loss_curve.png
-hf upload <repo-id> release/ .                                                             # 上傳
+hf upload <repo-id> release/ .
 ```
 
-GGUF 實測（RTX 3070 Ti，Q8_0）：GPU `-ngl 99` ~128–190 t/s、CPU ~29 t/s，皆輸出正確台灣正體。
-推論範例與 `eos_token_id=[248046,248044]`、`enable_thinking:false` 等關鍵旗標詳見 `release/README.md`。
+GGUF 實測（RTX 5060 Ti）：Q8_0 **186 t/s**、Q4_K_M 171–217 t/s（`-ngl 99`）。
+**llama-cli 必須加 `--reasoning off --reasoning-budget 0`**（舊的 `--chat-template-kwargs
+enable_thinking` 已被靜默忽略，thinking 會以雜訊前綴洩進譯文），CJK 提示詞用 `-f prompt.txt`
+不要用 `-p`（cp950 會打壞）。GGUF 走 greedy，**務必補 OpenCC `s2twp` 後處理**——
+實測簡體洩漏 2.00% → 0.00%。推論範例與 `eos_token_id=[248046,248044]` 等關鍵旗標詳見 `release/README.md`。
 
 ## 授權
 

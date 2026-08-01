@@ -24,6 +24,7 @@ ROOT = Path(__file__).parent.parent
 BIN = Path("D:/Workspace/AI_inference/Qwen-35BA3B-RTX3070Ti/bin/llama-cli.exe")
 GGUF_DIR = ROOT / "release" / "gguf-v5e"
 HYP_DIR = ROOT / "results" / "hyp" / "v5e-flores"
+OUT_DIR = ROOT / "results" / "hyp" / "gguf-v5e"   # 譯文不寫回 release/，那是要上傳的目錄
 SYSTEM = "You are a professional translator."
 INSTR = {"zhtw": "翻譯成繁體中文：", "en": "Translate to English:", "ja": "翻譯成日文："}
 
@@ -95,7 +96,8 @@ def main():
             if i % 20 == 0:
                 print(f"  [{q}] {i}/{len(src)}", flush=True)
         rows[q] = hyps
-        (GGUF_DIR / f"{args.direction}.{q}.hyp.txt").write_text(
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+        (OUT_DIR / f"{args.direction}.{q}.hyp.txt").write_text(
             "\n".join(hyps), encoding="utf-8", newline="\n")
     tmp.unlink(missing_ok=True)
 

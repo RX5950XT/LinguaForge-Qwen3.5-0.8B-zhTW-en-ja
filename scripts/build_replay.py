@@ -2,7 +2,7 @@
 
 為什麼需要：v2/v3 訓練集 100% 是翻譯任務，模型學到的不是「翻譯」這個任務，
 而是「chat 模板下的 user 內容一律翻譯」——問它「台灣最高山是哪座」它會把問題翻譯掉。
-詳見 docs/RESEARCH-v4.md。Tower+ 的 SFT 配比是 22% 翻譯 / 78% 通用指令。
+詳見 docs/REPORT.md §2.2（v4 災難性遺忘）。Tower+ 的 SFT 配比是 22% 翻譯 / 78% 通用指令。
 
 只收授權乾淨（Apache-2.0）且非機器翻譯的來源：
   OpenAssistant/oasst2   en/zh/ja 人工撰寫對話樹，取最高分的助理回覆

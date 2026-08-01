@@ -1,0 +1,50 @@
+# v5e＝出貨版。這份是把實際跑出 outputs/sft-v5e 的設定凍結下來（不再改）。
+# 與 sft_lora.yaml 的差別只有兩處：epoch 1（v5e 是 CLI --epochs 1 覆寫的）與 output_dir。
+# 資料：uv run python scripts/prepare_data.py --limit 80000 --dev-from data/sft/dev.jsonl
+#       → 502,993 筆（六方向各 ~80k，含文件級）＋ replay 35,177
+# 實跑：5,677 steps / 10h30m / peak VRAM 4.00GB / final eval_loss 1.7708（RTX 5060 Ti 16GB）
+model_id: Qwen/Qwen3.5-0.8B
+train_file: data/sft/train.jsonl
+dev_file: data/sft/dev.jsonl
+output_dir: outputs/sft-v5e
+
+# r=64 是上界：v5f 把 r 拉到 128，COMET 只 +0.18，但 BELEBELE 中／日文掉 4.53／7.84
+# （門檻 base−3.0）→ 硬閘攔下。r 是斷崖不是斜坡，見 tasks/todo.md F49。
+lora:
+  r: 64
+  alpha: 128
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+
+# 記憶體與速度只跟「每個 micro-batch 的總 token 數」有關，跟 bs×seq 怎麼拆無關
+# （vocab 248K 的 logits 吃 ~3.3MB/token）。packing 必須關：sdpa 下會跨樣本汙染。
+train:
+  num_train_epochs: 1        # 資料夠時要的是 1 epoch 全新樣本，不是同一批看兩次（v5c 證偽）
+  token_budget: 1450         # 每個 micro-batch 的 token 上限（batch size 動態，平均 ~10 筆/批）
+  per_device_train_batch_size: 2   # 只影響日誌統計，實際組批看 token_budget
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  max_length: 1408           # 文件級樣本 DOC_MAX=16 之後的實際上限
+  packing: false
+  gradient_checkpointing: true
+  optim: adamw_torch_fused
+  logging_steps: 20
+  eval_steps: 300
+  save_steps: 100            # 背景訓練會隨 session 死，壓低單次斷線代價（≈11 分鐘）
+  save_total_limit: 3
+  seed: 42
