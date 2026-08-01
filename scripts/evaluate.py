@@ -196,10 +196,11 @@ def stop_token_ids(tok) -> list[int]:
 # 依目標語言分流的解碼預設。beam width 在 --beams（預設 4，見 main）。
 # no_repeat_ngram_size=4：F11 量到 beam 修好漏譯的同時放大了重複尾巴，
 # 加上它之後 en→zhtw +0.44、en→ja +1.24、ja→zhtw +0.38、zhtw→ja +0.77，
-# 但 zhtw→en −0.34——英文的合法 4-gram token 重複（冠詞、介系詞組合）比中日文多，
-# 硬封鎖會誤傷，所以 en 不開。
+# zhtw→en 曾 −0.34（合法英文 4-gram 被誤傷），所以 en 一度不開。
+# 2026-08-01 F57：v5e 長口語→en 在無 nrng 時句級刷屏（ship/greedy 皆）；
+# 開 en nrng=3/4/6 本機 x_repeat 全止血，FLORES 小幅成本可接受 → en 也開 4。
 DECODE = {"ja": {"repetition_penalty": 1.1, "no_repeat_ngram_size": 4},
-          "en": {"repetition_penalty": 1.1},
+          "en": {"repetition_penalty": 1.1, "no_repeat_ngram_size": 4},
           "zhtw": {"no_repeat_ngram_size": 4}}
 
 

@@ -14,6 +14,20 @@
 - [x] **上傳 HF / push GitHub**（2026-08-01）：權重上 HF、程式上 GitHub。
 - [x] **可見度**：曾轉公開後改回**私人**（GitHub + HF）。未經指示不得再轉公開。
 
+## 未解問題（行為退化／下一版訓練）
+
+- [x] **F57 長口語／社群文譯 en·ja 句級無限重複**（2026-08-01）— **A 方案已過，暫不開 B**
+      - 案例：`data/manual_tests/x_repeat/`（gitignored）；`scripts/exp_a_x_repeat_fix.py`
+      - 現象：v5e 長簡中→en 在舊 DECODE（en 無 nrng）ship/greedy 皆 LOOP；→ja 在 greedy LOOP、
+        ship（已有 ja nrng=4）通常 ok。base 無刷屏。
+      - **A 消融結果**：
+        · 單靠分段 **不夠**（ship_chunk280 →en 仍 LOOP）
+        · **en 加 `no_repeat_ngram_size=3/4/6` 全止血**；4 與 ja/zhtw 對齊
+        · greedy/GGUF 無 nrng 仍會炸 → 必須用 PEFT/bf16+DECODE，或 GGUF 加
+          `--repeat-penalty` + 後處理去重／更短分段
+      - **已落地**：`evaluate.DECODE["en"]` 加上 `no_repeat_ngram_size=4`（模型卡同步）
+      - **B 訓練**：暫不排程。若未來 GGUF 裸 greedy 也要穩，再考慮長文資料／EOS 校準
+
 ## 未解問題（有語料才動得了）
 
 - [ ] **F38 en→zhtw 從頭到尾跟 base 打平**（其餘五向 +0.48~+4.66）。資料 ×3.6、容量 ×2

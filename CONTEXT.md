@@ -105,6 +105,9 @@ release/   (gitignored) HF repo 鏡像，**只留 v5e**（根目錄 adapter + me
 
 ## 下一步
 
-1. 想再往上只剩「找到新的 Apache-2.0 相容 zh-TW 書面語／通用指令語料」一條路。
+1. **F57（已 A 止血）**：長口語→en 刷屏。根因是舊 DECODE 對 en **沒開**
+   `no_repeat_ngram`；本機消融後 en 也開 4（見 `evaluate.DECODE`）。分段 alone 不夠。
+   案例 `data/manual_tests/x_repeat/`；GGUF greedy 仍弱，勿當對等路徑。
+2. 想再往上還是缺「Apache-2.0 相容 zh-TW 書面語／通用指令語料」。
    **有語料才有下一版訓練**，反過來不成立。
-2. 非阻塞待辦見 `tasks/todo.md`。
+3. 非阻塞待辦見 `tasks/todo.md`。
