@@ -20,6 +20,8 @@ uv run python scripts/eval_capability.py --tag <tag> [--adapter <dir>] --axis al
 uv run python scripts/eval_bench.py --tag <tag> [--adapter <dir>]   # BELEBELE + 知識
 uv run python scripts/train_sft.py [--config configs/sft_lora_v5e.yaml] [--max-steps N]
 uv run python scripts/regression_guard.py --candidate <tag>   # 出貨硬閘，exit 0 才可出
+uv run python scripts/bench_defects.py --label <tag>          # 下游 30 句客觀缺陷（A/B/C/D）
+uv run python scripts/audit_corpus.py --samples 3             # 訓練集 target 側污染稽核
 ```
 
 ## 出貨標準
@@ -66,6 +68,13 @@ doc 軸的閘用**絕對值不跟 base 比**：base 自己尾段會超譯（tail
   要編就得補 CUDA 12.8 toolkit（本機是 13.3，跟 torch cu128 不同大版本，`_check_cuda_version` 會擋）
 - **推論務必設 `eos_token_id=[248046, 248044]`**（im_end + endoftext）：SFT 版學會用 im_end 收尾，
   但 config 預設 eos 是 endoftext，不設會失控重複。見 evaluate.py `stop_token_ids`
+- **generation prompt 必須以 `<think>\n\n</think>\n\n` 收尾**（token `248068,271,248069,271`）。
+  `chat_template.jinja` 在未開 thinking 時走 else 分支固定補這段，訓練與評測全程帶著它。
+  transformers 的 `apply_chat_template(add_generation_prompt=True)` 會自動補；
+  **llama.cpp 系不會**（node-llama-cpp 內建 `QwenChatWrapper` 的 `thoughts` 六個選項都不補、
+  `llama-cli` 要加 `--jinja`）。少這 4 個 token 就掉出分布：憑空標籤前綴 9 句、
+  拉丁專名保留率 73.3%（補上 93.3%）、憑空年份 2 句。跟 `--reasoning off` 是兩件事，兩者都要。
+  驗收 `scripts/bench_defects.py`，證據 `docs/DEFECT-AUDIT-2026-08-03.md`
 - **只要最後一格 logits 就一定要 `logits_to_keep=1`**：vocab 248K，不設會實體化
   `[B, L, 248064]` 整張（B=16、L=800 → 6.3GB，實測 15.85/16.31 GB 貼著 OOM）。
   訓練沒踩到是因為 `token_budget` 早就壓死每個 micro-batch 的 token 數

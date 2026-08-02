@@ -118,15 +118,38 @@ release/   (gitignored) HF repo 鏡像，**只留 v5e**（根目錄 adapter + me
 
 | 症狀 | 主因 |
 |---|---|
+| **憑空標籤前綴／專名消失／年份幻覺（僅 llama.cpp 路徑）** | **generation prompt 少了 `<think>\n\n</think>\n\n`**（見下） |
 | 譯完灌水 | 缺雙 EOS |
 | 長口語→en 刷屏 | 缺 en nrng；GGUF greedy 仍弱（F57） |
 | 譯文前綴雜訊 | thinking 未關（`--reasoning off`） |
 | GGUF 繁中夾簡 | greedy 無 beam → 必 `s2twp` |
 | en→zhtw 分數打平 base | 語域／語料上限（F38），不是 decode 沒調 |
 
+### F58 空 think 區塊（2026-08-03，最高優先）
+
+`chat_template.jinja` 在 `add_generation_prompt` 且未開 thinking 時，固定在
+`<|im_start|>assistant\n` 後補 `<think>\n\n</think>\n\n`（token `248068,271,248069,271`）。
+**訓練與評測全程帶著它**，而 llama.cpp 系（node-llama-cpp 內建 `QwenChatWrapper`、
+未加 `--jinja` 的 `llama-cli`）不會補。少這 4 個 token 就掉出分布：
+
+| 30 句樣本 | 缺 think | 補 think |
+|---|---|---|
+| 憑空標籤前綴（`說明：`／`問：`／`1. `／`選擇：`） | 9 | **0** |
+| 拉丁專名保留率（Q8_0） | 73.3% | **93.3%** |
+| 憑空年份 | 2 | **0** |
+| 缺陷總數（Q4_K_M） | 20 | **5** |
+
+transformers 兩種解碼（beam4／greedy）都復現不出這些缺陷 → **不是語料問題**。
+語料稽核（`scripts/audit_corpus.py`）另證：`選擇：` 全庫零命中、`說明：` 僅 1 筆、
+多行壓扁六向皆 0.00%；唯一真污染是 opus100 的段落編號 7.876%，但正確 prompt 下輸出率 0。
+復現／驗收：`scripts/bench_defects.py`；完整報告 `docs/DEFECT-AUDIT-2026-08-03.md`。
+文件已同步：`README.md`（GitHub）、`release/README.md`（HF 模型卡）、`docs/INTEGRATION.md` §1/§3
+四處都有警示區塊與 `Qwen35ChatWrapper` 修法；HF 模型卡「限制」另補上 D／E 兩項能力邊界。
+
 ## 下一步
 
-1. **F57（已 A 止血）** + **decode_search（已定案 lp=1.2）** — 見上表與 `docs/INTEGRATION.md`。
-2. 想再往上還是缺「Apache-2.0 相容 zh-TW 書面語／通用指令語料」。
-   **有語料才有下一版訓練**，反過來不成立。
-3. 非阻塞待辦見 `tasks/todo.md`。
+1. **F58 空 think 區塊**（上）— 接入端必修，`docs/INTEGRATION.md` §1 有 wrapper 程式碼。
+2. **F57（已 A 止血）** + **decode_search（已定案 lp=1.2）** — 見上表與 `docs/INTEGRATION.md`。
+3. 剩下的真缺陷是 **D 多行不連貫短行** 與 **E AI 領域術語**，兩者都缺語料，
+   估 17k–26k 新樣本（`DEFECT-AUDIT` §6）。**有語料才有下一版訓練**，反過來不成立。
+4. 非阻塞待辦見 `tasks/todo.md`。

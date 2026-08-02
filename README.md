@@ -34,6 +34,31 @@ LinguaForge 是以 `Qwen/Qwen3.5-0.8B`（約 873M 參數）為基底、經 LoRA 
 
 ## 推論參數與接入注意
 
+> ### ⚠ generation prompt 必須以空 think 區塊收尾
+>
+> `chat_template.jinja` 在未開 thinking 時，會固定在 `<|im_start|>assistant\n` 之後補上
+> `<think>\n\n</think>\n\n`（token `248068, 271, 248069, 271`）。**訓練與評測全程帶著這 4 個 token**，
+> 少了就會掉出分布。
+>
+> - **transformers**：`apply_chat_template(..., add_generation_prompt=True)` 會自動補，不必額外處理。
+> - **llama.cpp 系**：預設**不補**。`llama-cli` 需加 `--jinja`；node-llama-cpp 內建的 `QwenChatWrapper`
+>   是照 Qwen3 撰寫，其 `thoughts` 選項沒有任何一個會補上這段，需自行覆寫 `generateContextState`。
+>
+> 缺這 4 個 token 的實測後果（同一組 30 句、f16 全精度、greedy）：
+>
+> | 指標 | 缺 think | 補 think |
+> |---|---|---|
+> | 憑空標籤前綴（`說明：`／`問：`／`1. `／`選擇：`） | 9 句 | **0** |
+> | 拉丁專名保留率（Q8_0） | 73.3% | **93.3%** |
+> | 原文無年份卻生出年份 | 2 句 | **0** |
+> | 客觀缺陷總數（Q4_K_M） | 20 | **5** |
+>
+> 例：`The NVIDIA H200 has 141GB of HBM3e memory.` 缺 think 時譯為「141GB HBM3e 記憶體。」
+> （NVIDIA、H200 整個消失），補上後為「NVIDIA H200 擁有 141GB HBM3e 記憶體。」
+>
+> 這與 `--reasoning off` 是兩件事：後者關的是「解析／生成 thinking 輸出」，**補不了這 4 個 token**，兩者都要做。
+> 復現與驗收腳本 `scripts/bench_defects.py`，完整證據 [`docs/DEFECT-AUDIT-2026-08-03.md`](docs/DEFECT-AUDIT-2026-08-03.md)。
+
 正式評測與建議的 transformers 推論設定如下（實作參考 `scripts/evaluate.py`）：
 
 | 參數 | 建議值 | 說明 |
@@ -49,11 +74,14 @@ LinguaForge 是以 `Qwen/Qwen3.5-0.8B`（約 873M 參數）為基底、經 LoRA 
 
 | 現象 | 常見原因 | 處理 |
 |---|---|---|
+| **譯文憑空多出「說明：」「問：」「1. 」等前綴／專名被吃掉／生出原文沒有的年份** | **generation prompt 少了 `<think>\n\n</think>\n\n`**（僅 llama.cpp 系會發生） | 見上方警示；**不要用後處理 regex 剝前綴**，那只遮住最顯眼的症狀 |
 | 譯完後灌水至 `max_new_tokens` | 只設定單一 EOS | 使用雙 EOS |
 | 長口語／社群文 → 英文同一句重複 | 未開 `no_repeat_ngram_size`；或 GGUF 僅 greedy | transformers 依上表；GGUF 可加 `--repeat-penalty` 並分段 |
 | 譯文前綴出現思考句、選項字母等雜訊 | 未關閉 thinking | llama.cpp：`--reasoning off --reasoning-budget 0` |
 | GGUF 繁中夾簡體 | 無 beam，逐 token 選字 | 輸出後以 OpenCC `s2twp` 後處理 |
 | 長文尾段不完整 | 超過 context 或 `max_new_tokens` 不足 | 分段翻譯後串接 |
+
+**已知能力邊界**（非設定問題，調參無效）：多行且各行互不相關的輸入（規格表、清單、UI 字串）常只譯出第一行——訓練語料的多行樣本皆為連貫段落，請逐行送入；2023 年後的 AI 領域術語（`open weight`、`agentic coding` 等）未學到，會被逐字直譯。
 
 完整接入說明、GGUF 與 transformers 路徑差異，以及可交給外部工程師／agent 的檢查清單，見 [`docs/INTEGRATION.md`](docs/INTEGRATION.md)。解碼搜尋腳本與結果：`scripts/decode_search.py`、`results/decode_search/`。
 
@@ -213,7 +241,7 @@ uv run python scripts/export_gguf.py --llama-cpp <llama.cpp> --quantize-bin <lla
 hf upload <repo-id> release/ .
 ```
 
-GGUF 實測（RTX 5060 Ti，`-ngl 99`）：Q8_0 約 **186 t/s**，Q4_K_M 約 171–217 t/s。使用 llama-cli 時應加上 `--reasoning off --reasoning-budget 0`；CJK 提示詞建議以 `-f prompt.txt`（UTF-8）餵入，避免 Windows 主控台編碼問題。GGUF 路徑為 greedy，建議對繁中輸出做 OpenCC `s2twp`。轉檔若遇 `blk.24` 缺失，主檔轉換需加 `--no-mtp`。細節見 HF 模型卡與 [`docs/INTEGRATION.md`](docs/INTEGRATION.md)。
+GGUF 實測（RTX 5060 Ti，`-ngl 99`）：Q8_0 約 **186 t/s**，Q4_K_M 約 171–217 t/s。使用 llama-cli 時應加上 `--jinja`（否則不會補空 think 區塊，見上方警示）與 `--reasoning off --reasoning-budget 0`；CJK 提示詞建議以 `-f prompt.txt`（UTF-8）餵入，避免 Windows 主控台編碼問題。精度建議選 **Q8_0**：Q4_K_M 實測會把罕見專名音譯掉（`Kimi`→金剛、`Sol`→索爾），f16 與 Q8_0 則保留。GGUF 路徑為 greedy，建議對繁中輸出做 OpenCC `s2twp`。轉檔若遇 `blk.24` 缺失，主檔轉換需加 `--no-mtp`。細節見 HF 模型卡與 [`docs/INTEGRATION.md`](docs/INTEGRATION.md)。
 
 ## 授權
 

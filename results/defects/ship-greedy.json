@@ -1,0 +1,266 @@
+{
+  "summary": {
+    "label": "ship-greedy",
+    "beams": 1,
+    "length_penalty": null,
+    "n": 30,
+    "有缺陷句": 16,
+    "缺陷總數": 21,
+    "A_標籤前綴": 0,
+    "B_專名遺失": 6,
+    "C_憑空年份": 2,
+    "D_行數遺失": 1,
+    "退化迴圈": 0,
+    "長度異常": 12,
+    "B_專名保留率": 75.0
+  },
+  "rows": [
+    {
+      "id": "n1",
+      "target": "zhtw",
+      "src": "JPMorgan/Reuters forecast an August release.",
+      "out": "JPMorgan／Reuters預測8月將有報導。",
+      "defects": []
+    },
+    {
+      "id": "n2",
+      "target": "zhtw",
+      "src": "Im predicting it to beat Kimi k3 and maybe be around Sol level.",
+      "out": "我預測它會超越Kimi k3，可能和Sol一樣。",
+      "defects": []
+    },
+    {
+      "id": "n3",
+      "target": "zhtw",
+      "src": "GLM 5.5 will launch in August with 1T+ total parameters.",
+      "out": "GLM 2.5 將於 8 月推出，總參數為 1T。",
+      "defects": []
+    },
+    {
+      "id": "n4",
+      "target": "zhtw",
+      "src": "The NVIDIA H200 has 141GB of HBM3e memory.",
+      "out": "NVIDIA H20 擁有 140GB 的 HBM3 記憶體。",
+      "defects": [
+        "keep:H200",
+        "keep:141"
+      ]
+    },
+    {
+      "id": "n5",
+      "target": "zhtw",
+      "src": "Anthropic released Claude Opus 4.5 on November 24, 2025.",
+      "out": "Anthropic 在 2019 年 11 月 24 日發布了 Claude Opus.",
+      "defects": [
+        "year:2019"
+      ]
+    },
+    {
+      "id": "n6",
+      "target": "zhtw",
+      "src": "TSMC will start 2nm mass production in Hsinchu next year.",
+      "out": "2012 年，TSMC 將在新竹開始 2nm 的批量生產。",
+      "defects": [
+        "year:2012"
+      ]
+    },
+    {
+      "id": "n7",
+      "target": "zhtw",
+      "src": "The flight from Taipei to Tokyo takes 3 hours and 20 minutes.",
+      "out": "從臺北到東京的航程是3小時20分鐘。",
+      "defects": [
+        "len:0.3"
+      ]
+    },
+    {
+      "id": "n8",
+      "target": "zhtw",
+      "src": "Revenue grew 47% to $1.2 billion in Q3.",
+      "out": "收入在第三季達到12億美元，增長47%。",
+      "defects": [
+        "keep:1.2"
+      ]
+    },
+    {
+      "id": "p1",
+      "target": "zhtw",
+      "src": "This is an 80,000-tonne hydraulic forging press, one of the largest metal-forming machines ever built.",
+      "out": "這是一臺 8 萬噸的壓鑄機，是歷史上最大的金屬成形機械之一。",
+      "defects": [
+        "keep:80,000",
+        "len:0.3"
+      ]
+    },
+    {
+      "id": "p2",
+      "target": "zhtw",
+      "src": "At this scale, forging is about changing the internal structure of the material itself.",
+      "out": "在這種規模下，鑄造是改變材料本身的內部結構。",
+      "defects": [
+        "len:0.3"
+      ]
+    },
+    {
+      "id": "p3",
+      "target": "zhtw",
+      "src": "A pig would break through the fence at night and wander off into the woods.",
+      "out": "豬會在晚上透過柵欄逃進森林。",
+      "defects": [
+        "len:0.2"
+      ]
+    },
+    {
+      "id": "p4",
+      "target": "zhtw",
+      "src": "The patient should take this medication twice a day after meals.",
+      "out": "病人應在飯後服用此藥兩次。",
+      "defects": [
+        "len:0.2"
+      ]
+    },
+    {
+      "id": "p5",
+      "target": "zhtw",
+      "src": "She opened the window and listened to the sound of the rain.",
+      "out": "她打開窗戶，聆聽著雨聲。",
+      "defects": [
+        "len:0.2"
+      ]
+    },
+    {
+      "id": "p6",
+      "target": "zhtw",
+      "src": "We could not always tell who had already been fed and who had not.",
+      "out": "我們無法總是分辨出誰已經被餵飽了，誰還未餵飽。",
+      "defects": []
+    },
+    {
+      "id": "s1",
+      "target": "zhtw",
+      "src": "Open weight release",
+      "out": "開啟重量釋放",
+      "defects": []
+    },
+    {
+      "id": "s2",
+      "target": "zhtw",
+      "src": "Up to 1M context",
+      "out": "最大 1M 上下文",
+      "defects": []
+    },
+    {
+      "id": "s3",
+      "target": "zhtw",
+      "src": "Free shipping on all orders",
+      "out": "所有訂單免費運費",
+      "defects": [
+        "len:0.3"
+      ]
+    },
+    {
+      "id": "s4",
+      "target": "zhtw",
+      "src": "Battery life: 18 hours",
+      "out": "電池壽命： 18 小時",
+      "defects": []
+    },
+    {
+      "id": "m1",
+      "target": "zhtw",
+      "src": "Total parameters: 1T+\nOpen weight release\nUp to 1M context",
+      "out": "總參數： 1T +",
+      "defects": [
+        "keep:1M",
+        "lines",
+        "len:0.2"
+      ]
+    },
+    {
+      "id": "m2",
+      "target": "zhtw",
+      "src": "First, boil the water.\nSecond, add the noodles.\nThird, wait three minutes.",
+      "out": "第一，煮水。\n第二，加入麵條。\n第三，等三分鐘。",
+      "defects": []
+    },
+    {
+      "id": "c1",
+      "target": "zhtw",
+      "src": "I mean, I went to the night market yesterday and it was packed.",
+      "out": "我昨天去夜市，裡面人滿為患。",
+      "defects": [
+        "len:0.2"
+      ]
+    },
+    {
+      "id": "c2",
+      "target": "zhtw",
+      "src": "Sounds small-time, but at an average of $200-300 per adult pig, every loss hurts.",
+      "out": "聽起來小，但每隻豬平均損失 200~300 元，損失不小。",
+      "defects": []
+    },
+    {
+      "id": "c3",
+      "target": "zhtw",
+      "src": "What are your predictions for GLM 5.5?",
+      "out": "您對GLM 5．5有什麼預測？",
+      "defects": []
+    },
+    {
+      "id": "e1",
+      "target": "en",
+      "src": "週末的夜市人聲鼎沸。",
+      "out": "The night market is bustling on weekends.",
+      "defects": [
+        "len:4.1"
+      ]
+    },
+    {
+      "id": "e2",
+      "target": "en",
+      "src": "請把窗戶打開，讓新鮮空氣進來。",
+      "out": "Please open the window and let in fresh air.",
+      "defects": []
+    },
+    {
+      "id": "e3",
+      "target": "en",
+      "src": "台積電明年將在新竹量產 2 奈米製程。",
+      "out": "TSMC will produce its second generation of nanoscale chips in Hsinchu next year.",
+      "defects": [
+        "keep:2",
+        "len:4.2"
+      ]
+    },
+    {
+      "id": "e4",
+      "target": "en",
+      "src": "這台機器重達八萬噸，是全球最大的金屬成形設備之一。",
+      "out": "This machine weighs 80,000 tons and is one of the largest metal forming equipment in the world.",
+      "defects": [
+        "len:3.8"
+      ]
+    },
+    {
+      "id": "j1",
+      "target": "zhtw",
+      "src": "週末の夜市はとても賑やかです。",
+      "out": "週末的夜市非常熱鬧。",
+      "defects": []
+    },
+    {
+      "id": "j2",
+      "target": "ja",
+      "src": "The night market is crowded on weekends.",
+      "out": "週末の夜市場は人混みだ。",
+      "defects": []
+    },
+    {
+      "id": "j3",
+      "target": "en",
+      "src": "明日は友達と映画を見に行きます。",
+      "out": "I'll go to the movies with my friends tomorrow.",
+      "defects": []
+    }
+  ]
+}

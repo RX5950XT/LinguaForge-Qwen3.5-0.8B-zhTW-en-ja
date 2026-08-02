@@ -1,0 +1,265 @@
+{
+  "totals": {
+    "en->zhtw": 79602,
+    "zhtw->ja": 74707,
+    "ja->en": 79600,
+    "zhtw->en": 79601,
+    "ja->zhtw": 74705,
+    "en->ja": 79601
+  },
+  "counts": {
+    "en->zhtw": {
+      "B/專名全失": 48859,
+      "B/型名遺失": 4984,
+      "A/enum:數字": 2188,
+      "C/憑空年份": 209,
+      "A/label:問答": 216,
+      "A/label:註": 13,
+      "A/narrate:據報導": 2,
+      "A/figure:圖為": 9,
+      "A/narrate:故事說": 1,
+      "A/label:說明": 1,
+      "A/figure:圖N": 2
+    },
+    "ja->en": {
+      "C/憑空年份": 377,
+      "A/enum:數字": 14,
+      "B/專名全失": 297,
+      "B/型名遺失": 244
+    },
+    "en->ja": {
+      "B/專名全失": 42044,
+      "B/型名遺失": 4877,
+      "C/憑空年份": 359,
+      "A/enum:數字": 14,
+      "A/label:註": 8
+    },
+    "zhtw->ja": {
+      "B/專名全失": 2261,
+      "B/型名遺失": 414,
+      "C/憑空年份": 436,
+      "A/enum:數字": 3
+    },
+    "zhtw->en": {
+      "C/憑空年份": 782,
+      "B/型名遺失": 380,
+      "B/專名全失": 448,
+      "A/enum:數字": 15
+    },
+    "ja->zhtw": {
+      "B/專名全失": 924,
+      "B/型名遺失": 532,
+      "C/憑空年份": 401,
+      "A/label:註": 7,
+      "A/enum:數字": 7,
+      "A/narrate:據報導": 3,
+      "A/label:結構": 1
+    }
+  },
+  "proper": {
+    "en->zhtw:有專名": 56803,
+    "zhtw->ja:有專名": 7082,
+    "en->zhtw:全失": 48859,
+    "zhtw->en:有專名": 6859,
+    "en->ja:有專名": 50913,
+    "en->ja:全失": 42044,
+    "en->ja:有型名": 10050,
+    "ja->zhtw:有專名": 5161,
+    "ja->zhtw:有型名": 2672,
+    "en->ja:型名失": 4877,
+    "zhtw->ja:有型名": 2897,
+    "zhtw->ja:全失": 2261,
+    "zhtw->ja:型名失": 414,
+    "zhtw->en:有型名": 2969,
+    "en->zhtw:有型名": 8008,
+    "en->zhtw:型名失": 4984,
+    "ja->zhtw:全失": 924,
+    "ja->zhtw:型名失": 532,
+    "ja->en:有專名": 4422,
+    "ja->en:有型名": 2172,
+    "zhtw->en:型名失": 380,
+    "zhtw->en:全失": 448,
+    "ja->en:全失": 297,
+    "ja->en:型名失": 244
+  },
+  "multiline": {
+    "zhtw->en:多行來源": 11945,
+    "zhtw->ja:多行來源": 7061,
+    "ja->en:多行來源": 11947,
+    "en->zhtw:多行來源": 11939,
+    "en->ja:多行來源": 11940,
+    "ja->zhtw:多行來源": 7058
+  },
+  "samples": {
+    "B/專名全失": [
+      {
+        "direction": "en->zhtw",
+        "src": "The Law was supplemented by a new concept of the financing of terrorism, defined as activities aimed at using the proceeds derived from criminal activities or otherwise and other assets for direct or indirect financing of terrorism.",
+        "tgt": "該法被增補了一項關於資助恐怖主義行為的新概念，其定義為旨在將得自犯罪活動或其他活動的收益和其他資產用於直接或間接資助恐怖主義行為的活動。"
+      },
+      {
+        "direction": "en->ja",
+        "src": "At the back of the Daigokuden, the Konro (roofed corridor with open sides) connected a building called 'Koadono' where the Emperor took a rest when he went out.",
+        "tgt": "大極殿の後背には「小安殿」（こあどの）と呼ばれる殿舎が軒廊（こんろう）でつながり、天皇出御の際に休憩所として利用された。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "So I went over and talked to him about the long-term benefits of riding without training wheels.\nThen I remembered that he was four and barely spoke English.\nSo I reverted to two words he definitely knew: ice cream.\nYou try without training wheels, I'll buy you ice cream.\nHere's what happened next.\n",
+        "tgt": "於是我走過去與他談關於騎兩輪的長遠利益。\n然後我想起他只有四歲，才勉強能講點英語。\n所以我不講大道理了，只回歸到他肯定懂的幾個字：冰淇淋。\n你試試不要訓練輪子，我就給你買冰淇淋。\n接下來發生的是這樣。\n好。很好！\n孩子：我試看看。\n噢，我的天！看看你騎的！\n看看你騎的！你自己會騎了！\n幹得好！\n所以這是一種人類已經進化到可以享受的助人行為，但有 40 年之久，加拿大是世界上唯一允許公民私人贊助難民的國家。"
+      }
+    ],
+    "C/憑空年份": [
+      {
+        "direction": "ja->en",
+        "src": "1861年に設立された頃、ポニー・エクスプレスの経路沿いリース川付近での鉱山ブームで成長し、現在のチャーチル郡とハンボルト郡のかなりの部分も取り込んでいた。",
+        "tgt": "Created in 1862, Lander County sprang forth as the result of a mining boom on the Reese River, along the old pony express line; taking a considerable portion of Churchill and Humboldt counties with it."
+      },
+      {
+        "direction": "zhtw->en",
+        "src": "意識到關於聯合國環境與發展會議成果執行進度十年審查的大會2000年12月20日第55/199號決議，",
+        "tgt": "Conscious of General Assembly resolution 55/199 of 20 December 2000 on the 10-year review of progress achieved in the implementation of the outcome of the United Nations Conference on Environment and Development, held at Rio de Janeiro in June 1992,"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Over a period of four years, almost 8,000 families were trained and more than 3,000 hectares of corn developed as average per-hectare production more than tripled, swelling from 1,200 to 5,000 kilograms per hectare.",
+        "tgt": "在作者派駐的 1999 至 2003 年間，共推廣三千多公頃面積的玉米，平均每公頃年產量由 1200 公斤提高到 5000 公斤，增產 3 倍以上，輔導農民將近八千戶，目前此一計畫仍持續進行中。"
+      }
+    ],
+    "B/型名遺失": [
+      {
+        "direction": "en->ja",
+        "src": "Thank you so much.RT: Thank you. (Applause)\nI've actually been waiting by the phone for a call from TED for years.\nAnd in fact, in 2000, I was ready to talk about eBay, but no call.\nIn 2003, I was ready to do a talk about the Skoll Foundation and social entrepreneurship. No call.\nIn 2004, I started ",
+        "tgt": "どうもありがとうありがとうございます（拍手）\n実のところ私はTEDからの電話を何年も待っていました。\n2000年にはeBayのことを話す用意がありました…しかし電話はきません。\n2003年にはSkoll基金と社会起業についてしかし電話は来ません。\n2004年にはParticipantプロダクションを設立しました最初の年は実によい滑り出しでしたしかし電話はきません。\nそして去年、ついに電話が来ましたがその時は出番がJJエイブラムスの後でした。"
+      },
+      {
+        "direction": "zhtw->ja",
+        "src": "LEAP 使用者名稱",
+        "tgt": "ユーザ名"
+      },
+      {
+        "direction": "en->ja",
+        "src": "With the outbreak of World War II in 1939, the GWR returned to direct government control, and by the end of the war a Labour government was in power and again planning to nationalise the railways.",
+        "tgt": "1939年の第二次世界大戦の勃発とともに、GWRは再び政府の管理下に入り、戦争が終わるころには労働党が政権についていて、再度鉄道網の国有化を計画し始めた。"
+      }
+    ],
+    "A/enum:數字": [
+      {
+        "direction": "en->zhtw",
+        "src": "While highlighting that in Japan the private sector is working actively on many international cooperation projects, this panel member pointed out two important aspects relating to private-sector participation that need to be addressed: ensuring the continuity of private sector R&D on ESTs; and promo",
+        "tgt": "12. 在強調日本私營部門正積極從事多項國際合作專案的同時，這位小組成員指出，需要處理與私營部門的參與相關的兩個重要方面：確保私營部門在無害環境技術方面的研發活動的連續性；以及促進既使用創新技術又使用傳統技術、適合發展中國家的小專案。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Mr. Ovia (Papua New Guinea) said that the item under discussion was of a very delicate nature.",
+        "tgt": "40. 奧維亞先生（巴布亞紐幾內亞）說，正在討論的問題十分敏感。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Article V and section 25, paragraphs 1 and 2 (I), of article VII of the Convention shall extend to the representatives of Associate Members participating in the work of the Organization in accordance with the Statutes of the World Tourism Organization (hereinafter referred to as “the Statutes”).",
+        "tgt": "1. 應擴大《公約》第五條和第七條第二十五節第一款和二㈠款的適用範圍，包括根據《世界旅遊組織章程》(下稱“章程”)參加本組織活動的聯絡成員代表。"
+      }
+    ],
+    "A/label:問答": [
+      {
+        "direction": "en->zhtw",
+        "src": "None at all.",
+        "tgt": "答：一點都沒有。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "So what can Taiwan's government do right now?",
+        "tgt": "問：臺灣政府目前能做什麼？"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Wireless technology is developing at a very rapid pace. What's been the trend over the past couple of years?",
+        "tgt": "問：無線科技進展很快，這 2 年的趨勢為何？"
+      }
+    ],
+    "A/label:註": [
+      {
+        "direction": "ja->zhtw",
+        "src": "大部分のウィンドウマネージャには独自の設定があり、KDE の設定には従いません。NAME OF TRANSLATORS",
+        "tgt": "注意：大部份的視窗管理員都有自己的設定，而非使用 KDE 的設定。 NAME OF TRANSLATORS"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Files are read using the order of this list. Compressed and plain text files are accepted (*. log, *. gz, *. bz2,...). Use the '* 'wildcard to select multiple log files when adding files.",
+        "tgt": "注意：檔案會依據此清單的順序來讀取。可以接受純文字檔或壓縮檔（*. log, *. gz, *. bz2 等等,...）。要新增檔案時可以使用 '*' 來選取多個檔案。"
+      },
+      {
+        "direction": "en->ja",
+        "src": "A warning: If you forget to do this, the edit histories of both articles will get fused!",
+        "tgt": "注意:名前を変更し忘れると、両方の記事の編集履歴が混合する可能性があります。"
+      }
+    ],
+    "A/narrate:據報導": [
+      {
+        "direction": "ja->zhtw",
+        "src": "デイヴィスとバドリーは「全ての英語圏の国々」を旅してオリーヴ・フーヴァー役の女優を探し、当時6歳であったアビゲイル・ブレスリンが選ばれた。",
+        "tgt": "據報道稱，戴維斯和巴德利走遍了“每一個英語國家”來尋找合適的小演員出演奧莉弗·胡佛，最終入選的阿比蓋爾·布蕾斯琳參加試鏡時還只有6歲。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Those communities that attempt to acquire property for religious practice, such as the Krishna Consciousness Society or some Protestant Churches, reportedly face insurmountable administrative obstacles at central Government and local levels.",
+        "tgt": "據報道，那些試圖獲得舉辦宗教儀式所用房地產的社團，諸如克利須那意識教友會或一些新教教會，在中央政府和地方各級政府那裡都會遇到無法逾越的障礙。"
+      },
+      {
+        "direction": "ja->zhtw",
+        "src": "報告によると海洋プラスチックごみの80％は極度の貧困を抱える国々からのものです。\nもし貧困から抜け出せない状態であれば心配事はいつだって食物や住処や安心感を得ることであり再生利用などというものは全く想像もつきません。\nそれこそ私がプラスチックバンクを創設した理由です。\n最貧困層向けの世界最大のチェーン店です店内の全てのものをプラスチックごみと引き換えに購入することができます。\n全てです。",
+        "tgt": "據報導，海洋塑膠有 80% 是來自極度貧窮的那些國家。\n如果你的生活十分貧窮，總是要擔心食物、避風遮雨的地方或安全感，那麼回收完全在你想像之外。\n那正是為什麼我創立了「塑膠銀行」。\n我們是世界上為赤貧者開設的最大連鎖店，店中的所有商品，都可以用塑膠垃圾購買。\n所有商品。"
+      }
+    ],
+    "A/figure:圖為": [
+      {
+        "direction": "en->zhtw",
+        "src": "The photo shows superconductivity specialist Dr. Paul Chu, a classic \"suburban Chinese,\" at his home in Houston.",
+        "tgt": "圖為高溫超導專家朱經武博士位於休斯頓的自宅，他也是典型的美國「郊區華人」。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Shown here is the fighter plane that will be the mainstay of our air defenses for the 1990s: the Ching-kuo IDF, designed and manufactured in the R.O.C.",
+        "tgt": "圖為我們一九九○年代空防的主力戰機：自製的 IDF 經國號戰鬥機。"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Svetlana Tynybekova, 78, in her apartment in Astana, Kazakhstan.",
+        "tgt": "圖為78歲的Svetlana Tynybekova在她位於哈薩克首都阿斯塔納的公寓中。"
+      }
+    ],
+    "A/label:結構": [
+      {
+        "direction": "ja->zhtw",
+        "src": "ナイトウィザード（英:Night Wizard!",
+        "tgt": "標題：Night Wizard!"
+      }
+    ],
+    "A/narrate:故事說": [
+      {
+        "direction": "en->zhtw",
+        "src": "Tradition has it that during the Dao-guang reign period of the Qing dynasty, a man named Lin Fengchi from the earliest village in the Luku area went to mainland China to take the imperial examinations. Returning home after having passed the provincial level exams, along the way he brought back 36 se",
+        "tgt": "相傳，清道光年間，鹿谷鄉初鄉村的林鳳池先生到大陸應試，得中舉人，衣錦返鄉，順道自福建武夷山攜回青心烏龍茶苗三十六株，其中十二株由凍頂山的林三顯栽植成功，從此繁殖成園。"
+      }
+    ],
+    "A/label:說明": [
+      {
+        "direction": "en->zhtw",
+        "src": "This button takes you to the complete KDEPrint Manual.",
+        "tgt": "說明：這個按鈕會帶您到「KDEPrint 手冊」。"
+      }
+    ],
+    "A/figure:圖N": [
+      {
+        "direction": "en->zhtw",
+        "src": "Jean Guerrero",
+        "tgt": "圖：Jean Guerrero"
+      },
+      {
+        "direction": "en->zhtw",
+        "src": "Figure 8 Reporting pattern for Eastern Europe 1992-2002",
+        "tgt": "圖8. 1992至2002歷年東歐報告格局"
+      }
+    ]
+  },
+  "replay_skipped": 35177
+}

@@ -21,3 +21,6 @@
   也不要據此以為 linear attention 在跑 torch fallback
 - 發布：程式 GitHub、權重 HF（`release/` 為上傳鏡像，gitignored）；**兩邊皆公開**（2026-08-02）
 - GGUF 轉換須 `--no-mtp`（否則 runtime 缺 `blk.24` tensor）
+- **generation prompt 必須以 `<think>\n\n</think>\n\n` 收尾**：transformers 自動補，
+  llama.cpp 系不補，少了會憑空長出標籤前綴／吃掉專名／生假年份。
+  接入端修法見 `docs/INTEGRATION.md` §1，證據見 `docs/DEFECT-AUDIT-2026-08-03.md`
