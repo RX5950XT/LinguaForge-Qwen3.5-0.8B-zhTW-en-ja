@@ -19,5 +19,5 @@
   transformers 開場那句 "fast path is not available" 只是在講 `causal_conv1d` 沒裝
   （逐 op fallback，影響僅止於 depthwise conv 與解碼時多幾個 kernel launch），**不必理會**，
   也不要據此以為 linear attention 在跑 torch fallback
-- 發布：程式 GitHub、權重 HF（`release/` 為上傳鏡像，gitignored）；**兩邊皆私人**（未經指示不得轉公開）
+- 發布：程式 GitHub、權重 HF（`release/` 為上傳鏡像，gitignored）；**兩邊皆公開**（2026-08-02）
 - GGUF 轉換須 `--no-mtp`（否則 runtime 缺 `blk.24` tensor）

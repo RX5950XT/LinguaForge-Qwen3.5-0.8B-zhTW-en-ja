@@ -9,7 +9,7 @@
 純開源語料、本機單卡（RTX 5060 Ti 16GB）。
 
 **狀態：訓練線已收工（2026-07-31）。出貨版 = `outputs/sft-v5e`，已打包 `release/`，
-已推 GitHub（code）與 HF（權重）；**兩邊皆私人（2026-08-01 曾公開後改回）**。**
+已推 GitHub（code）與 HF（權重）；**兩邊皆公開（2026-08-02）**。**
 
 ## 為什麼收工
 
@@ -100,8 +100,8 @@ release/   (gitignored) HF repo 鏡像，**只留 v5e**（根目錄 adapter + me
 
 | | |
 |---|---|
-| GitHub（程式，私人） | https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
-| HF（權重 v5e，私人） | https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
+| GitHub（程式，公開） | https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
+| HF（權重 v5e，公開） | https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
 
 ## 出貨解碼（應用必對齊）
 
