@@ -1,0 +1,94 @@
+{
+  "n": 500,
+  "winner_tag": "v5e-decode-winner-flores",
+  "lp10_tag": "v5e-decode-lp10-flores",
+  "winner_gen": {
+    "num_beams": 4,
+    "length_penalty": 1.2
+  },
+  "lp10_gen": {
+    "num_beams": 4,
+    "length_penalty": 1.0
+  },
+  "winner_decode_defaults": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "winner_chrf_avg": 29.6417,
+  "lp10_chrf_avg": 29.5217,
+  "delta": 0.12,
+  "winner_results": {
+    "en->zhtw": {
+      "chrf++": 20.24,
+      "bleu": 28.88,
+      "simplified_leak_pct": 1.6
+    },
+    "zhtw->en": {
+      "chrf++": 49.55,
+      "bleu": 21.75,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.93,
+      "bleu": 21.94,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.9,
+      "bleu": 21.51,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.42,
+      "bleu": 23.14,
+      "simplified_leak_pct": 0.8
+    },
+    "zhtw->ja": {
+      "chrf++": 18.81,
+      "bleu": 17.32,
+      "simplified_leak_pct": null
+    }
+  },
+  "lp10_results": {
+    "en->zhtw": {
+      "chrf++": 20.16,
+      "bleu": 28.62,
+      "simplified_leak_pct": 1.6
+    },
+    "zhtw->en": {
+      "chrf++": 49.42,
+      "bleu": 21.93,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.76,
+      "bleu": 21.78,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.78,
+      "bleu": 21.73,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.31,
+      "bleu": 22.94,
+      "simplified_leak_pct": 0.8
+    },
+    "zhtw->ja": {
+      "chrf++": 18.7,
+      "bleu": 17.11,
+      "simplified_leak_pct": null
+    }
+  },
+  "confirm": "winner_lp1.2_ge_lp1.0"
+}

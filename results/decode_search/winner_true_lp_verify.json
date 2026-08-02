@@ -1,0 +1,19 @@
+{
+  "winner_loop_flag": false,
+  "winner_sha256": "33dbe0d424681a0a2a59d2a6a22c008b0e04f04ddef457bf4951a96b7a133d5f",
+  "control_sha256": "33dbe0d424681a0a2a59d2a6a22c008b0e04f04ddef457bf4951a96b7a133d5f",
+  "hyps_identical": true,
+  "winner_gen_kwargs": {
+    "repetition_penalty": 1.1,
+    "no_repeat_ngram_size": 4,
+    "num_beams": 4,
+    "length_penalty": 1.2
+  },
+  "control_gen_kwargs": {
+    "repetition_penalty": 1.1,
+    "no_repeat_ngram_size": 4,
+    "num_beams": 4,
+    "length_penalty": 1.0
+  },
+  "fix": "long_oral_loop_flag now passes length_penalty"
+}

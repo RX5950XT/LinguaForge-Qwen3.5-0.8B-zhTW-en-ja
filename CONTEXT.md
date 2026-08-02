@@ -103,11 +103,30 @@ release/   (gitignored) HF repo 鏡像，**只留 v5e**（根目錄 adapter + me
 | GitHub（程式，私人） | https://github.com/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
 | HF（權重 v5e，私人） | https://huggingface.co/RX5950XT/LinguaForge-Qwen3.5-0.8B-zhTW-en-ja |
 
+## 出貨解碼（應用必對齊）
+
+| 常數 | 值 |
+|---|---|
+| `NUM_BEAMS` | 4 |
+| `LENGTH_PENALTY` | **1.2** |
+| `DECODE` | ja/en：`rep=1.1`+`nrng=4`；zhtw：**僅** `nrng=4`（**禁** zhtw rep-penalty） |
+| EOS | `[248046, 248044]`（im_end + endoftext） |
+
+接入說明與「修復翻譯 app」提示詞：`docs/INTEGRATION.md`。
+
+### 已知怪行為（非「只有截斷才壞」）
+
+| 症狀 | 主因 |
+|---|---|
+| 譯完灌水 | 缺雙 EOS |
+| 長口語→en 刷屏 | 缺 en nrng；GGUF greedy 仍弱（F57） |
+| 譯文前綴雜訊 | thinking 未關（`--reasoning off`） |
+| GGUF 繁中夾簡 | greedy 無 beam → 必 `s2twp` |
+| en→zhtw 分數打平 base | 語域／語料上限（F38），不是 decode 沒調 |
+
 ## 下一步
 
-1. **F57（已 A 止血）**：長口語→en 刷屏。根因是舊 DECODE 對 en **沒開**
-   `no_repeat_ngram`；本機消融後 en 也開 4（見 `evaluate.DECODE`）。分段 alone 不夠。
-   案例 `data/manual_tests/x_repeat/`；GGUF greedy 仍弱，勿當對等路徑。
+1. **F57（已 A 止血）** + **decode_search（已定案 lp=1.2）** — 見上表與 `docs/INTEGRATION.md`。
 2. 想再往上還是缺「Apache-2.0 相容 zh-TW 書面語／通用指令語料」。
    **有語料才有下一版訓練**，反過來不成立。
 3. 非阻塞待辦見 `tasks/todo.md`。

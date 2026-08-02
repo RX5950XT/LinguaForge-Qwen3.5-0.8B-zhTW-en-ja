@@ -1,0 +1,74 @@
+{
+  "id": "b4_all_nrng6",
+  "tag": "v5e-decode-b4_all_nrng6",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 4,
+  "decode": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 6
+    },
+    "en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 6
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 6
+    }
+  },
+  "length_penalty": null,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 4,
+    "length_penalty": null
+  },
+  "notes": "nrng=6 all targets",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 22.23,
+      "bleu": 29.28,
+      "simplified_leak_pct": 2.0
+    },
+    "zhtw->en": {
+      "chrf++": 50.52,
+      "bleu": 23.83,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 24.68,
+      "bleu": 23.08,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.98,
+      "bleu": 22.56,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 17.86,
+      "bleu": 23.96,
+      "simplified_leak_pct": 0.0
+    },
+    "zhtw->ja": {
+      "chrf++": 18.67,
+      "bleu": 17.2,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 30.6567,
+  "loop_flag_en": false,
+  "long_oral": {
+    "max_phrase_count": 3,
+    "worst_phrase": " the most important ",
+    "unique_line_ratio": 1.0,
+    "loop_flag": false,
+    "chars": 3196,
+    "max_sentence_count": 1,
+    "max_window20_count": 3,
+    "regex_multi_repeat": 0,
+    "hyp_chars": 3196
+  }
+}

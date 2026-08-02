@@ -1,0 +1,15 @@
+{
+  "winner": "b4_lp1.2",
+  "promoted": true,
+  "shipped": {
+    "DECODE": {
+      "ja": {"repetition_penalty": 1.1, "no_repeat_ngram_size": 4},
+      "en": {"repetition_penalty": 1.1, "no_repeat_ngram_size": 4},
+      "zhtw": {"no_repeat_ngram_size": 4}
+    },
+    "NUM_BEAMS": 4,
+    "LENGTH_PENALTY": 1.2
+  },
+  "grid": {"n": 200, "benchmark": "flores", "adapter": "outputs/sft-v5e"},
+  "note": "DECODE unchanged from F57 ship; length_penalty 1.0->1.2 is the only default change. Higher chrF configs without nrng failed long-oral loop; nrng6 failed leak gate."
+}

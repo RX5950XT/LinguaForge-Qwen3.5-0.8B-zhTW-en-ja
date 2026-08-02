@@ -16,6 +16,9 @@
 
 ## 未解問題（行為退化／下一版訓練）
 
+- [x] **decode_search 出貨解碼最優**（2026-08-02）— winner `b4_lp1.2`：
+      DECODE 不變；`LENGTH_PENALTY` 1.0→**1.2**（`evaluate.NUM_BEAMS/LENGTH_PENALTY`）。
+      證據 `results/decode_search/`、`scripts/decode_search.py`。
 - [x] **F57 長口語／社群文譯 en·ja 句級無限重複**（2026-08-01）— **A 方案已過，暫不開 B**
       - 案例：`data/manual_tests/x_repeat/`（gitignored）；`scripts/exp_a_x_repeat_fix.py`
       - 現象：v5e 長簡中→en 在舊 DECODE（en 無 nrng）ship/greedy 皆 LOOP；→ja 在 greedy LOOP、
@@ -47,6 +50,8 @@
 
 ## 非阻塞待辦
 
+- [x] **文件／README 同步 F57 + decode_search + 接入指南**（2026-08-02）：
+      `docs/INTEGRATION.md`、`docs/REPORT.md` §3.5、`CONTEXT.md`、repo `README.md`、`release/README.md`（HF）。
 - [ ] `eval_gguf.py` 只量過 en→zhtw（n=100），模型卡的 GGUF 落差表只有這一個方向撐著。
       要更硬就把其餘五向補齊（每向約 10 分鐘）。
 - [ ] v5a 的能力面板不完整（當時面板還在改版），沒補的價值不高，記著以免誤讀 `results/capability/v5a/`。

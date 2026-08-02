@@ -220,6 +220,27 @@ v4 的修法：
   （`美國國家体操隊`），beam=4 比整條路徑總分才壓得住 → **GGUF 路徑務必補 `s2twp` 後處理**
   （實測 2.00% → 0.00%，chrF++ 只掉 0.04）。
 
+### 3.5 F57 長口語刷屏與 decode_search（2026-08）
+
+**F57**：長口語／社群文 →en 句級無限重複。根因不是「只有 context 不夠」，而是舊
+`DECODE` 對 **en 未開** `no_repeat_ngram_size`（ja/zhtw 已是 4）。消融：
+單靠分段不夠；en 開 nrng=3/4/6 全止血。已落地 `DECODE["en"]` 與 ja 對齊
+（`repetition_penalty=1.1` + `no_repeat_ngram_size=4`）。**GGUF／裸 greedy 仍會炸**，
+勿當對等路徑。
+
+**decode_search**（`scripts/decode_search.py`，`results/decode_search/`）：在 **只動
+v5e 解碼、不重訓** 下 grid 10 候選 × FLORES n=200，硬閘含 long-oral loop、zhtw 洩漏、
+方向 chrF 不得大崩。winner **`b4_lp1.2`**：
+
+| 項 | 出貨 |
+|---|---|
+| beams | 4 |
+| `length_penalty` | **1.2**（原 1.0） |
+| DECODE | 三語 nrng=4；en/ja + rep 1.1 |
+
+無 nrng 的高 chrF 被 long-oral 打掉；`nrng=6` 被洩漏閘打掉。n=500 確認
+lp1.2 vs 1.0 的 chrF++ AVG **Δ≈+0.12**。應用接入清單見 [`INTEGRATION.md`](INTEGRATION.md)。
+
 ## 4. 方法論：本專案自己抓到的量測錯誤
 
 寫在這裡是因為每一條都曾經產出過「看起來很合理但錯的結論」。

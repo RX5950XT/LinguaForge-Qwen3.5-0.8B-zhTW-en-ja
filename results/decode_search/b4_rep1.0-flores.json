@@ -1,0 +1,72 @@
+{
+  "id": "b4_rep1.0",
+  "tag": "v5e-decode-b4_rep1.0",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 4,
+  "decode": {
+    "ja": {
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "no_repeat_ngram_size": 4
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "length_penalty": null,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 4,
+    "length_penalty": null
+  },
+  "notes": "nrng=4, no repetition_penalty",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.48,
+      "bleu": 28.77,
+      "simplified_leak_pct": 1.5
+    },
+    "zhtw->en": {
+      "chrf++": 49.88,
+      "bleu": 22.52,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.74,
+      "bleu": 21.71,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.69,
+      "bleu": 21.6,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.85,
+      "bleu": 23.72,
+      "simplified_leak_pct": 0.5
+    },
+    "zhtw->ja": {
+      "chrf++": 18.37,
+      "bleu": 16.72,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 29.6683,
+  "loop_flag_en": false,
+  "long_oral": {
+    "max_phrase_count": 2,
+    "worst_phrase": " sense of goodwill t",
+    "unique_line_ratio": 1.0,
+    "loop_flag": false,
+    "chars": 3193,
+    "max_sentence_count": 1,
+    "max_window20_count": 2,
+    "regex_multi_repeat": 0,
+    "hyp_chars": 3193
+  }
+}

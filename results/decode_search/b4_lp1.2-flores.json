@@ -1,0 +1,88 @@
+{
+  "id": "b4_lp1.2",
+  "tag": "v5e-decode-b4_lp1.2",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 4,
+  "decode": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "length_penalty": 1.2,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 4,
+    "length_penalty": 1.2
+  },
+  "notes": "ship DECODE + length_penalty 1.2",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.44,
+      "bleu": 28.81,
+      "simplified_leak_pct": 1.5
+    },
+    "zhtw->en": {
+      "chrf++": 50.05,
+      "bleu": 22.74,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.99,
+      "bleu": 21.55,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.8,
+      "bleu": 21.38,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.82,
+      "bleu": 23.78,
+      "simplified_leak_pct": 0.5
+    },
+    "zhtw->ja": {
+      "chrf++": 18.28,
+      "bleu": 16.59,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 29.73,
+  "loop_flag_en": false,
+  "long_oral": {
+    "max_phrase_count": 2,
+    "worst_phrase": " the most important ",
+    "unique_line_ratio": 1.0,
+    "loop_flag": false,
+    "chars": 3181,
+    "max_sentence_count": 1,
+    "max_window20_count": 2,
+    "regex_multi_repeat": 0,
+    "gen_kwargs": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4,
+      "num_beams": 4,
+      "length_penalty": 1.2
+    },
+    "sha256": "33dbe0d424681a0a2a59d2a6a22c008b0e04f04ddef457bf4951a96b7a133d5f",
+    "length_penalty": 1.2,
+    "beams": 4,
+    "decode_en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "hyp_chars": 3181
+  },
+  "long_oral_note": "re-captured with length_penalty=1.2 after long_oral_loop_flag fix"
+}

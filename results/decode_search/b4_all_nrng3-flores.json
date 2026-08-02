@@ -1,0 +1,74 @@
+{
+  "id": "b4_all_nrng3",
+  "tag": "v5e-decode-b4_all_nrng3",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 4,
+  "decode": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 3
+    },
+    "en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 3
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 3
+    }
+  },
+  "length_penalty": null,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 4,
+    "length_penalty": null
+  },
+  "notes": "nrng=3 all targets",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.96,
+      "bleu": 28.82,
+      "simplified_leak_pct": 1.5
+    },
+    "zhtw->en": {
+      "chrf++": 49.46,
+      "bleu": 21.69,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.89,
+      "bleu": 21.76,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 49.52,
+      "bleu": 21.18,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.14,
+      "bleu": 23.03,
+      "simplified_leak_pct": 0.5
+    },
+    "zhtw->ja": {
+      "chrf++": 17.96,
+      "bleu": 16.36,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 29.3217,
+  "loop_flag_en": false,
+  "long_oral": {
+    "max_phrase_count": 1,
+    "worst_phrase": "Liang Wen-feng: Welcome to the investors.",
+    "unique_line_ratio": 1.0,
+    "loop_flag": false,
+    "chars": 3319,
+    "max_sentence_count": 1,
+    "max_window20_count": 1,
+    "regex_multi_repeat": 0,
+    "hyp_chars": 3319
+  }
+}

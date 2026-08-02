@@ -1,0 +1,74 @@
+{
+  "id": "greedy_ship_decode",
+  "tag": "v5e-decode-greedy_ship_decode",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 1,
+  "decode": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "length_penalty": null,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 1,
+    "length_penalty": null
+  },
+  "notes": "same per-lang DECODE, greedy",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 19.01,
+      "bleu": 26.76,
+      "simplified_leak_pct": 2.5
+    },
+    "zhtw->en": {
+      "chrf++": 47.51,
+      "bleu": 19.24,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 21.06,
+      "bleu": 19.3,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 46.81,
+      "bleu": 17.66,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 15.69,
+      "bleu": 21.67,
+      "simplified_leak_pct": 0.0
+    },
+    "zhtw->ja": {
+      "chrf++": 16.43,
+      "bleu": 13.57,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 27.7517,
+  "loop_flag_en": false,
+  "long_oral": {
+    "max_phrase_count": 2,
+    "worst_phrase": "will towards the wor",
+    "unique_line_ratio": 1.0,
+    "loop_flag": false,
+    "chars": 3429,
+    "max_sentence_count": 1,
+    "max_window20_count": 2,
+    "regex_multi_repeat": 0,
+    "hyp_chars": 3429
+  }
+}

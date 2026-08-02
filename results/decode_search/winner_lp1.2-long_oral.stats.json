@@ -1,0 +1,24 @@
+{
+  "max_phrase_count": 2,
+  "worst_phrase": " the most important ",
+  "unique_line_ratio": 1.0,
+  "loop_flag": false,
+  "chars": 3181,
+  "max_sentence_count": 1,
+  "max_window20_count": 2,
+  "regex_multi_repeat": 0,
+  "gen_kwargs": {
+    "repetition_penalty": 1.1,
+    "no_repeat_ngram_size": 4,
+    "num_beams": 4,
+    "length_penalty": 1.2
+  },
+  "sha256": "33dbe0d424681a0a2a59d2a6a22c008b0e04f04ddef457bf4951a96b7a133d5f",
+  "length_penalty": 1.2,
+  "beams": 4,
+  "decode_en": {
+    "repetition_penalty": 1.1,
+    "no_repeat_ngram_size": 4
+  },
+  "hyp_chars": 3181
+}

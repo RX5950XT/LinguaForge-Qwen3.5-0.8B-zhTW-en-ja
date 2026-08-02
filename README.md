@@ -33,6 +33,29 @@ FLORES-200 devtest **全量 n=1012**，beam=4 + 逐目標語言解碼；對照�
 
 完整分析（含 v1→v5f 每一版做了什麼、被推翻的假設、量測方法論）見 **[`docs/REPORT.md`](docs/REPORT.md)**。
 
+## 出貨解碼與接入應用（必讀）
+
+評測與正式推論的**唯一真相來源**是 `scripts/evaluate.py`：
+
+| 參數 | 出貨值 | 備註 |
+|---|---|---|
+| `num_beams` | **4** | greedy 僅供快速迭代 |
+| `length_penalty` | **1.2** | decode_search 2026-08-02 winner（n=500 仍 +0.12 chrF） |
+| `eos_token_id` | **`[248046, 248044]`** | im_end + endoftext；缺一就灌水 |
+| 目標 en / ja | `repetition_penalty=1.1` + `no_repeat_ngram_size=4` | F57：en 無 nrng → 長口語刷屏 |
+| 目標 zhtw | **僅** `no_repeat_ngram_size=4` | **禁止**對繁中開 rep-penalty（洩漏會飆） |
+
+**已知怪行為多半是設定問題，不是「只有 context 截斷才壞」：**
+
+- 缺雙 EOS → 譯完繼續吐到 max tokens  
+- 長口語→en 無 nrng（或 GGUF greedy）→ 句級無限重複  
+- thinking 沒關 → 譯文前綴雜訊  
+- GGUF 無 beam → 繁中約 2% 簡體混用，**必加 OpenCC `s2twp`**  
+- en→zhtw 語意與 base **統計持平**（字形／正體仍明顯較好）
+
+完整參數、GGUF 落差、以及給外部工程師／agent 的**「修復翻譯功能」提示詞**見  
+**[`docs/INTEGRATION.md`](docs/INTEGRATION.md)**。可重現解碼搜尋：`scripts/decode_search.py`、`results/decode_search/`。
+
 ## 環境需求
 
 - Windows 11 / Python 3.12 / [uv](https://docs.astral.sh/uv/)
@@ -95,6 +118,7 @@ COMET 是三段判定：`≥ base` PASS；落在 `[base−0.5, base)` 判 **TIE?
 ├─ docs/
 │    ├─ REPORT.md               研究報告：v1→v5e 全紀錄、通用能力、量測方法論、收工判斷
 │    ├─ RESEARCH-v5.md          v5 逐項發現的原始紀錄（含被推翻的中間結論）
+│    ├─ INTEGRATION.md          **接入應用**：出貨解碼、已知坑、修復翻譯 app 提示詞
 │    └─ assets/loss_curve.png   v5e SFT train/eval loss 雙曲線
 │
 ├─ configs/                   訓練設定（每版一個檔，不改舊檔）
@@ -114,6 +138,7 @@ COMET 是三段判定：`≥ base` PASS；落在 `[base−0.5, base)` 判 **TIE?
 │    ├─ bench_step.py           量 VRAM/吞吐選 micro-batch（防 Windows 靜默 fallback）
 │    ├─ train_sft.py            LoRA / QLoRA 訓練（token 預算組批、可 resume）
 │    ├─ evaluate.py             六方向翻譯 + chrF++/BLEU/洩漏率；DECODE 是解碼唯一真相來源
+│    ├─ decode_search.py        v5e 解碼 grid／排名（lp、nrng、long-oral 硬閘）
 │    ├─ eval_capability.py      行為三軸：文件級完整度 / ifeval / 通用能力保留
 │    ├─ eval_bench.py           BELEBELE + TMMLU+/MMLU/MMMLU-JA（選項輪轉去偏）
 │    ├─ eval_gguf.py            量 GGUF 出貨路徑（llama-cli，greedy）

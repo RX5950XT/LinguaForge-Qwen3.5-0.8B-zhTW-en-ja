@@ -1,0 +1,73 @@
+{
+  "id": "b4_en_nrng0",
+  "tag": "v5e-decode-b4_en_nrng0",
+  "model": "Qwen/Qwen3.5-0.8B",
+  "adapter": "D:\\Workspace\\AI_training\\LinguaForge-Qwen3.5-0.8B-zhTW-en-ja\\outputs\\sft-v5e",
+  "n": 200,
+  "beams": 4,
+  "decode": {
+    "ja": {
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 4
+    },
+    "en": {
+      "repetition_penalty": 1.1
+    },
+    "zhtw": {
+      "no_repeat_ngram_size": 4
+    }
+  },
+  "length_penalty": null,
+  "gen_shared": {
+    "max_new_tokens": 256,
+    "do_sample": false,
+    "num_beams": 4,
+    "length_penalty": null
+  },
+  "notes": "historical en without nrng (F57 loop risk)",
+  "results": {
+    "en->zhtw": {
+      "chrf++": 20.48,
+      "bleu": 28.77,
+      "simplified_leak_pct": 1.5
+    },
+    "zhtw->en": {
+      "chrf++": 50.82,
+      "bleu": 24.51,
+      "simplified_leak_pct": null
+    },
+    "en->ja": {
+      "chrf++": 22.79,
+      "bleu": 21.45,
+      "simplified_leak_pct": null
+    },
+    "ja->en": {
+      "chrf++": 50.13,
+      "bleu": 22.72,
+      "simplified_leak_pct": null
+    },
+    "ja->zhtw": {
+      "chrf++": 16.85,
+      "bleu": 23.72,
+      "simplified_leak_pct": 0.5
+    },
+    "zhtw->ja": {
+      "chrf++": 18.29,
+      "bleu": 16.51,
+      "simplified_leak_pct": null
+    }
+  },
+  "chrf_avg": 29.8933,
+  "loop_flag_en": true,
+  "long_oral": {
+    "max_phrase_count": 32,
+    "worst_phrase": " about this vision. ",
+    "unique_line_ratio": 1.0,
+    "loop_flag": true,
+    "chars": 3128,
+    "max_sentence_count": 31,
+    "max_window20_count": 32,
+    "regex_multi_repeat": 1,
+    "hyp_chars": 3128
+  }
+}
